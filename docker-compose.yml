@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  ontrip_database:
+    container_name: ontrip_database
+    image: postgres:latest
+    env_file:
+      - .env
+    ports:
+      - 5050:5432
+    healthcheck:
+      # Mudar o usuário e o database no healthcheck para o usuário e database que cadastrou no arquivo .env
+      test: ["CMD-SHELL", "pg_isready -U <user> -d <database>"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - ontrip:/var/lib/postgresql/data:rw
+
+  ontrip_api:
+    container_name: ontrip_api
+    image: node:16.16.0
+    build: .
+    ports:
+      - 3001:3001
+    env_file:
+      - .env
+    depends_on:
+      ontrip_database:
+        condition: service_healthy
+    volumes:
+      - .:/app
+
+volumes:
+  ontrip:
+    external: true
+# IMPORTANTE: Siga o check list:
+
+# Crie um arquivo .env baseado no .env.example e preencha apenas as chaves vazias, ou seja, apenas o user, password, db e secret_key, se tiver dúvidas é só perguntar.
+# Execute no terminal: docker image create --name ontrip
+# Certifique-se de no healthcheck substituir o <user> pelo usuário que escreveu no .env e o <database> pelo database que escreveu também no .env
+# Execute no terminal somente na primeira vez: docker-compose up --build
+
+## Optei por criar um volume para o db pra não lotar o hd de vocês de volumes que com o tempo viram um peso morto só ocupando espaço.
+## Tomei a liberdade de colocar uma rota de boas vindas no app.ts para teste quando subir o container, basta fazer um get no insomnia no http://localhost:3001 para ver funcionar a api.
+## IMPORTANTE: para testes no beekeeper usar a porta 5050 (pra não dar conflito caso tenham o postgresinstalado na sua máquina).
+## IMPORTANTE: para testes no insomnia usar a porta 3001 (optei por isso porque provavelmente o front rodará na 3000).
