@@ -28,8 +28,7 @@ export const admValidationMiddleware = async (
     next();
   } catch (err) {
     if (err instanceof AppError) {
-      return res.status(err.statusCode).json({ message: err.message });
+      throw new AppError(err.statusCode, err.message);
     }
-    return res.status(500).json({ message: "Internal server error!" });
   }
 };

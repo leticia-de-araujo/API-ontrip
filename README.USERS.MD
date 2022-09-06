@@ -374,16 +374,19 @@ body:
 **Status - 201**
 
 ```
-body:
-{
-"id": "uuid"
-"name": "example",
-"email": "example@email.com",
-"dateOfBirth": "yyyy/mm/dd",
-"isAdm": false,
-"isActive": true,
-"photo": "string-base64",
+body: {
+    message: "Login sucessfull",
+    data: {
+        "id": "uuid"
+        "name": "example",
+        "email": "example@email.com",
+        "dateOfBirth": "yyyy/mm/dd",
+        "isAdm": false,
+        "isActive": true,
+        "photo": "string-base64",
+    }
 }
+
 ```
 
 <br>
