@@ -277,3 +277,100 @@ body:{
     "message": "User not found"
 }
 ```
+
+## POST /login
+
+<br>
+
+#### Request:
+
+```
+header: {
+authorization: "Bearer token"
+}
+```
+
+```
+body:
+{
+    "email": "example@email.com",
+    "password": "example123",
+}
+```
+
+<br>
+
+#### Expected Response:
+
+<br>
+
+**Status - 201**
+
+```
+body:
+{
+"id": "uuid"
+"name": "example",
+"email": "example@email.com",
+"dateOfBirth": "yyyy/mm/dd",
+"isAdm": false,
+"isActive": true,
+"photo": "string-base64",
+}
+```
+
+<br>
+
+#### Error Responses:
+
+<br>
+
+**Status - 400**
+
+```
+body: {
+"status": "Error",
+"code": 400,
+"message": "(any object key) is a required field"
+}
+```
+
+<br>
+
+**Status - 400**
+
+```
+body: {
+"status": "Error",
+"code": 400,
+"message": "(any object key) has an invalid type"
+}
+```
+
+<br>
+
+**Status - 413**
+
+```
+body: {
+"status": "Error",
+"code": 413,
+"message": "(object key) length too large"
+}
+```
+
+<br>
+
+**Status - 404**
+
+```
+body: {
+"status": "Error",
+"code": 404,
+"message": "User not found"
+}
+```
+
+<br>
+
+#
