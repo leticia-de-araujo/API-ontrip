@@ -6,10 +6,10 @@ export interface IPhoto {
 
 //id gerado automaticamente
 export interface IPhotoRequest {
-  name: string;
+  content: string;
   accommodationId: string;
 }
 
 export interface IPhotoRequestPatch {
-  name: string;
+  content: string;
 }
