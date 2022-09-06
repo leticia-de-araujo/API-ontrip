@@ -1,5 +1,5 @@
 import { IUserLogin, IUserRequest } from "../../interfaces/users";
-import { IBooking, IBookingRequest } from "../../interfaces/bookings";
+import { IBooking, IBookingRequest, IBookingRequestPatch } from "../../interfaces/bookings";
 
 export const mockedUser: IUserRequest = {
   username: "Hitalo",
@@ -79,4 +79,10 @@ export const mockedBooking: IBooking = {
   accommodationId: "1",
   status: "booked",
   userId: "1"
+}
+
+export const mockedUpdateBooking: IBookingRequestPatch = {
+  checkIn: "2022/16/12",
+  checkout: "2022/20/12",
+  status: "booked"
 }

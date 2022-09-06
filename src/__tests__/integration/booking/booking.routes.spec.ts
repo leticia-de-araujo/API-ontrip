@@ -6,12 +6,14 @@ import {
   mockedUser,
   mockedUserLogin,
   mockedBooking,
+  mockedUpdateBooking,
 } from "../../mocks";
 
 describe("Testing the booking routes", () => {
   let connection: DataSource;
-  let genericUser;
+  let genericUser: any;
   let genericToken: any;
+  let genericBooking: any;
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -21,9 +23,7 @@ describe("Testing the booking routes", () => {
       });
 
     genericUser = await request(app).post("/users").send(mockedUser);
-    genericToken = await request(app)
-      .post("/login")
-      .send(mockedUserLogin);
+    genericToken = await request(app).post("/login").send(mockedUserLogin);
   });
 
   afterAll(async () => {
@@ -31,19 +31,32 @@ describe("Testing the booking routes", () => {
   });
 
   test("POST /booking - Should be able to create a new booking", async () => {
-
-    const response = await request(app)
+    genericBooking = await request(app)
       .post("/booking")
       .send(mockedBooking)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
-    expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("id");
-    expect(response.body).toHaveProperty("userId");
-    expect(response.body).toHaveProperty("accommodationId");
-    expect(response.body).toHaveProperty("checkin");
-    expect(response.body).toHaveProperty("checkout");
-    expect(response.body).toHaveProperty("status");
+    expect(genericBooking.status).toBe(201);
+    expect(genericBooking.body.data).toHaveProperty("id");
+    expect(genericBooking.body.data).toHaveProperty("userId");
+    expect(genericBooking.body.data).toHaveProperty("accommodationId");
+    expect(genericBooking.body.data).toHaveProperty("checkin");
+    expect(genericBooking.body.data).toHaveProperty("checkout");
+    expect(genericBooking.body.data).toHaveProperty("status");
+    expect(genericBooking.body).toHaveProperty("message");
+  });
+
+  test("PATCH /booking:id - Should be able to update a booking being owner", async () => {
+
+    const response = await request(app)
+      .patch(`/booking/${genericBooking.body.data.id}`)
+      .send(mockedUpdateBooking)
+      .set("Authorization", `Brearer ${genericToken.body.token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.data).toHaveProperty("checkin");
+    expect(response.body.data).toHaveProperty("checkout");
+    expect(response.body.data).toHaveProperty("status");
     expect(response.body).toHaveProperty("message");
   });
 });
