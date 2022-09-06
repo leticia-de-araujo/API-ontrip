@@ -26,6 +26,7 @@ body:{
     "message": "Booking created",
 
     "data":{
+        "id": "string",
         "checkIn": "string",
         "checkout": "string",
         "accommodationId": "string",
