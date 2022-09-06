@@ -55,12 +55,12 @@ body:{
 }
 ```
 
-**Status - 403**
+**Status - 409**
 
 ```
 body:{
     "status": "Error",
-    "code": 403,
+    "code": 409,
     "message": "Email already exists, User Already exists..."
 }
 ```

@@ -3,7 +3,7 @@ import { Router } from "express";
 const routes = Router();
 
 const userRoutes = () => {
-    return routes
-}
+  return routes;
+};
 
-export default userRoutes
+export default userRoutes;
