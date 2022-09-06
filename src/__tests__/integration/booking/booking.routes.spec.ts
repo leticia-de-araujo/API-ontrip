@@ -37,6 +37,7 @@ describe("Testing the booking routes", () => {
   });
 
   test("POST /booking - Should be able to create a new booking", async () => {
+    
     genericBooking = await request(app)
       .post("/booking")
       .send(mockedBooking)
