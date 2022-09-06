@@ -46,6 +46,10 @@ export const authUserMiddleware = async (
       }
     );
   } catch (err) {
-    res.status(401).json({ message: "Invalid token!" });
+    if (err instanceof AppError) {
+      return res.status(err.statusCode).json({ message: err.message });
+    }
+
+    return res.status(401).json({ message: "Invalid token!" });
   }
 };
