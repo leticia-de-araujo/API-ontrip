@@ -9,7 +9,11 @@ services:
     ports:
       - 5050:5432
     healthcheck:
+<<<<<<< HEAD
       test: ["CMD-SHELL", "pg_isready -U naide -d ontrip"]
+=======
+      test: ["CMD-SHELL", "pg_isready -U theus -d ontrip"]
+>>>>>>> 0a1c8345307d7d7788aa61e50e767e4e03667e52
       interval: 10s
       timeout: 5s
       retries: 5
@@ -37,7 +41,7 @@ volumes:
 # IMPORTANTE: Siga o check list:
 
 # Crie um arquivo .env baseado no .env.example e preencha apenas as chaves vazias, ou seja, apenas o user, password, db e secret_key, se tiver dúvidas é só perguntar.
-# Execute no terminal: docker image create --name ontrip
+# Execute no terminal: docker volume create --name ontrip
 # Certifique-se de no healthcheck substituir o <user> pelo usuário que escreveu no .env e o <database> pelo database que escreveu também no .env
 # Execute no terminal somente na primeira vez: docker-compose up --build
 
