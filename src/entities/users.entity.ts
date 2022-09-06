@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { Exclude } from "class-transformer";
 
 @Entity("users")
 export class User {
@@ -13,10 +14,11 @@ export class User {
   email: string;
 
   @Column({ length: 50 })
+  @Exclude()
   password: string;
 
   @Column({ length: 10 })
-  DOB: string;
+  dateOfBirth: string;
 
   @Column({ default: false })
   isAdm: boolean;
