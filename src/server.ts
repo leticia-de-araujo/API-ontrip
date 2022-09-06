@@ -5,8 +5,6 @@ import AppDataSource from "./data-source";
 const init = async () => {
   const PORT = process.env.PORT || 3000;
 
-  // --> Precisamos definir as variáveis do .env para inicializar a conexão com o AppDataSource
-
   await AppDataSource.initialize()
     .then(() => {
       console.log("Data Source initialized");
