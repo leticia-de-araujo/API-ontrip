@@ -27,7 +27,7 @@ body:{
 body:{
     "message": "User created",
 
-    "data":{
+    "data": {
     "id": "string",
     "username": "string",
     "email": "string",
@@ -67,6 +67,73 @@ body:{
 
 #
 
+## GET /users
+
+<br>
+
+#### Request:
+
+```
+header: {
+    authorization: "Bearer Admin token"
+}
+```
+
+<br>
+
+#### Expected Response:
+
+<br>
+
+**Status - 200**
+
+```
+body:
+[
+    "message": "Success",
+
+  "data": {
+    "username": "string",
+    "email": "string",
+    "dateOfBirth": "string",
+    "photo": "string-base64",
+    "isAdm": "boolean",
+  },
+
+    ...
+]
+```
+
+<br>
+
+#### Error Responses:
+
+<br>
+
+**Status - 400**
+
+```
+body: {
+"status": "Error",
+"code": 400,
+"message": "Invalid token"
+}
+```
+
+<br>
+
+**Status - 401**
+
+```
+body: {
+"status": "Error",
+"code": 401,
+"message": "Missing authorization token"
+}
+```
+
+#
+
 ## GET /users/:id
 
 <br>
@@ -91,7 +158,7 @@ headers:{
 body:{
     "message": "Success",
 
-    "data":{
+    "data": {
     "id": "string",
     "username": "string",
     "email": "string",
@@ -166,7 +233,7 @@ body:{
 body:{
     "message": "User updated",
 
-    "data":{
+    "data": {
     "id": "string",
     "username": "string",
     "email": "string",

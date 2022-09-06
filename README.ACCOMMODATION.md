@@ -21,37 +21,41 @@ header: {
 ```
 body:
 [
-  {
-    "name": "example",
-    "description": "example description",
-    "dailyPrice": 1460,99,
-    "isActive": true,
-    "verifiedByAdm": false,
-    "specialOffer": false,
-    "type": {
+    "message": "success",
+    data: {
+      {
+      "name": "example",
+      "description": "example description",
+      "dailyPrice": 1460,99,
+      "isActive": true,
+      "verifiedByAdm": false,
+      "specialOffer": false,
+      "type": {
         "name": "type name"
-    }
-    "user": {
-    "userName": "Example Jr.",
-    "email": "example@email.com",
-    "password": "example123",
-    "dateOfBirth": "yyyy/mm/dd",
-    "isAdm": false,
-    "isActive": true,
-    "photo": "string-base64"
-    },
-    "capacity": {
+        }
+      "user": {
+        "userName": "Example Jr.",
+        "email": "example@email.com",
+        "password": "example123",
+        "dateOfBirth": "yyyy/mm/dd",
+        "isAdm": false,
+        "isActive": true,
+        "photo": "string-base64"
+        },
+      "capacity": {
         "rooms": 4,
         "beds": 6,
         "totalGuests": 7,
         "bathrooms": 3
-    },
-    "category": {
+        },
+      "category": {
         "name": "Apartment"
-    },
-  }
+        }
+      },
 
     ...
+  }
+
 ]
 ```
 
@@ -107,36 +111,39 @@ authorization: "Bearer token"
 
 ```
 body:
-{
-"name": "example",
-"description": "example description",
-"dailyPrice": 1460,99,
-"isActive": true,
-"verifiedByAdm": false,
-"specialOffer": false,
-"type": {
-"name": "type name"
-}
-"user": {
-"userName": "Example Jr.",
-"email": "example@email.com",
-"password": "example123",
-"dateOfBirth": "yyyy/mm/dd",
-"isAdm": false,
-"isActive": true,
-"photo": "string-base64"
-},
-"capacity": {
-"rooms": 4,
-"beds": 6,
-"totalGuests": 7,
-"bathrooms": 3
-},
-"category": {
-"name": "Apartment"
-},
-}
-}
+    "message": "success",
+    data: {
+    {
+      "name": "example",
+      "description": "example description",
+      "dailyPrice": 1460,99,
+      "isActive": true,
+      "verifiedByAdm": false,
+      "specialOffer": false,
+      "type": {
+        "name": "type name"
+        }
+      "user": {
+        "userName": "Example Jr.",
+        "email": "example@email.com",
+        "password": "example123",
+        "dateOfBirth": "yyyy/mm/dd",
+        "isAdm": false,
+        "isActive": true,
+        "photo": "string-base64"
+        },
+      "capacity": {
+        "rooms": 4,
+        "beds": 6,
+        "totalGuests": 7,
+        "bathrooms": 3
+        },
+      "category": {
+        "name": "Apartment"
+        },
+      }
+    }
+  }
 ```
 
 <br>
@@ -196,18 +203,18 @@ authorization: "Bearer token"
 ```
 body:
 {
-{
-"name": "example",
-"description": "example description",
-"dailyPrice": 1460,99,
-"isActive": true,
-"verifiedByAdm": false,
-"specialOffer": false,
-"typeId": "type Id",
-"userId": "user Id",
-"capacityId": "capacity Id",
-"categoryId": "category Id",
-}
+  {
+    "name": "example",
+    "description": "example description",
+    "dailyPrice": 1460,99,
+    "isActive": true,
+    "verifiedByAdm": false,
+    "specialOffer": false,
+    "typeId": "type Id",
+    "userId": "user Id",
+    "capacityId": "capacity Id",
+    "categoryId": "category Id",
+  }
 }
 ```
 
@@ -222,25 +229,28 @@ body:
 ```
 body:
 {
-"name": "example",
-"description": "example description",
-"dailyPrice": 1460,99,
-"isActive": true,
-"verifiedByAdm": false,
-"specialOffer": false,
-"type": {
-"name": "type name"
-}
-"user": {
-"userName": "Example Jr.",
-"email": "example@email.com",
-"password": "example123",
-"dateOfBirth": "yyyy/mm/dd",
-"isAdm": false,
-"isActive": true,
-"photo": "string-base64"
-}
-}
+    "message": "success",
+    "data": {
+      "name": "example",
+      "description": "example description",
+      "dailyPrice": 1460,99,
+      "isActive": true,
+      "verifiedByAdm": false,
+      "specialOffer": false,
+      "type": {
+        "name": "type name"
+        }
+      "user": {
+        "userName": "Example Jr.",
+        "email": "example@email.com",
+        "password": "example123",
+        "dateOfBirth": "yyyy/mm/dd",
+        "isAdm": false,
+        "isActive": true,
+        "photo": "string-base64"
+        }
+      }
+    }
 ```
 
 <br>
@@ -340,18 +350,18 @@ authorization: "Bearer token"
 ```
 body:
 {
-{
-"name": "example",
-"description": "example description",
-"dailyPrice": 1460,99,
-"isActive": true,
-"verifiedByAdm": false,
-"specialOffer": false,
-"typeId": "type Id",
-"userId": "user Id",
-"capacityId": "capacity Id",
-"categoryId": "category Id",
-}
+    {
+      "name": "example",
+      "description": "example description",
+      "dailyPrice": 1460,99,
+      "isActive": true,
+      "verifiedByAdm": false,
+      "specialOffer": false,
+      "typeId": "type Id",
+      "userId": "user Id",
+      "capacityId": "capacity Id",
+      "categoryId": "category Id",
+    }
 }
 ```
 
@@ -365,27 +375,28 @@ body:
 
 ```
 body:
-"message": "success",
-{
-"name": "example",
-"description": "example description",
-"dailyPrice": 1460,99,
-"isActive": true,
-"verifiedByAdm": false,
-"specialOffer": false,
-"type": {
-"name": "type name"
-}
-"user": {
-"userName": "Example Jr.",
-"email": "example@email.com",
-"password": "example123",
-"dateOfBirth": "yyyy/mm/dd",
-"isAdm": false,
-"isActive": true,
-"photo": "string-base64"
-}
-}
+    "message": "success",
+
+    "data": {
+      "name": "example",
+      "description": "example description",
+      "dailyPrice": 1460,99,
+      "isActive": true,
+      "verifiedByAdm": false,
+      "specialOffer": false,
+      "type": {
+        "name": "type name"
+        }
+      "user": {
+        "userName": "Example Jr.",
+        "email": "example@email.com",
+        "password": "example123",
+        "dateOfBirth": "yyyy/mm/dd",
+        "isAdm": false,
+        "isActive": true,
+        "photo": "string-base64"
+        }
+    }
 ```
 
 <br>
