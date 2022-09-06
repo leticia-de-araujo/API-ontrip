@@ -1,6 +1,9 @@
 import {
+  mockedBooking,
+  mockedBooking2,
   mockedBooking3,
   mockedBookingWithoutAllFields,
+  mockedUpdateBooking,
 } from "./../../mocks/bookingMocks/index";
 import { DataSource } from "typeorm";
 import AppDataSource from "../../../data-source";
@@ -9,10 +12,7 @@ import app from "../../../app";
 import {
   mockedUser,
   mockedUserLogin,
-  mockedAdminLogin,
-  mockedBooking,
-  mockedBooking2,
-  mockedUpdateBooking,
+  mockedAdminLogin
 } from "../../mocks/userMocks/index";
 
 describe("Testing the booking routes", () => {
