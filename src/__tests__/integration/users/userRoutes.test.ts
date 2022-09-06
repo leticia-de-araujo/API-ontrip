@@ -12,7 +12,7 @@ import {
   mockedUserLogin,
   mockedUserWithoutAllFields,
   mockedUserWrongType,
-} from "../../mocks";
+} from "../../mocks/userMocks";
 
 describe("/users", () => {
   let connection: DataSource;

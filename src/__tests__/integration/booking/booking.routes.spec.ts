@@ -1,7 +1,7 @@
 import {
   mockedBooking3,
   mockedBookingWithoutAllFields,
-} from "./../../mocks/index";
+} from "./../../mocks/bookingMocks/index";
 import { DataSource } from "typeorm";
 import AppDataSource from "../../../data-source";
 import request from "supertest";
@@ -13,7 +13,7 @@ import {
   mockedBooking,
   mockedBooking2,
   mockedUpdateBooking,
-} from "../../mocks";
+} from "../../mocks/userMocks/index";
 
 describe("Testing the booking routes", () => {
   let connection: DataSource;
