@@ -37,7 +37,7 @@ volumes:
 # IMPORTANTE: Siga o check list:
 
 # Crie um arquivo .env baseado no .env.example e preencha apenas as chaves vazias, ou seja, apenas o user, password, db e secret_key, se tiver dúvidas é só perguntar.
-# Execute no terminal: docker image create --name ontrip
+# Execute no terminal: docker volume create --name ontrip
 # Certifique-se de no healthcheck substituir o <user> pelo usuário que escreveu no .env e o <database> pelo database que escreveu também no .env
 # Execute no terminal somente na primeira vez: docker-compose up --build
 
