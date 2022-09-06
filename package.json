@@ -9,7 +9,7 @@
     "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "compose": "docker-compose up",
     "typeorm": "NODE_ENV=migration typeorm-ts-node-commonjs",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "jest"
   },
   "dependencies": {
     "class-transformer": "^0.5.1",
