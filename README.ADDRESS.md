@@ -22,7 +22,7 @@ header: {
 body:
 [
     "message": "success",
-    data: {
+    data: [
       {
       "id": "uuid",
       "country": "example",
@@ -34,8 +34,7 @@ body:
       "accommodation": "uuid accomodation"
       },
     ...
-  }
-
+  ]
 ]
 ```
 
@@ -231,6 +230,18 @@ body: {
 "status": "Error",
 "code": 401,
 "message": "Missing authorization token"
+}
+```
+
+<br>
+
+**Status - 404**
+
+```
+body: {
+"status": "Error",
+"code": 404,
+"message": "Accommodation not found"
 }
 ```
 

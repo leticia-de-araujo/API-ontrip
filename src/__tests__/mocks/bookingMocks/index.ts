@@ -57,6 +57,34 @@ export const mockedBooking6: IBookingRequest = {
   userId: "1"
 }
 
+export const mockedBooking7: IBookingRequest = {
+  checkIn: "2023/04/04",
+  checkout: "2023/05/05",
+  accommodationId: "1",
+  userId: "1"
+}
+
+export const mockedBooking8: IBookingRequest = {
+  checkIn: "2023/05/04",
+  checkout: "2023/05/05",
+  accommodationId: "1",
+  userId: "1"
+}
+
+export const mockedBooking9: IBookingRequest = {
+  checkIn: "2023/06/04",
+  checkout: "2023/06/05",
+  accommodationId: "1",
+  userId: "1"
+}
+
+export const mockedBooking10: IBookingRequest = {
+  checkIn: "2023/07/04",
+  checkout: "2023/07/05",
+  accommodationId: "1",
+  userId: "1"
+}
+
 export const mockedUpdateBooking: IBookingRequestPatch = {
   checkIn: "2022/16/12",
   checkout: "2022/20/12",

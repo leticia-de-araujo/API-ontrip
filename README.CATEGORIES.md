@@ -89,7 +89,6 @@ No body required
 ```
 body:{
     "message": "Request sucessful",
-
     "data": {
     "id": "string",
     "name": "string"
@@ -116,6 +115,7 @@ body: {
 <br>
 
 #
+
 
 ## PATCH /categories/:id
 
