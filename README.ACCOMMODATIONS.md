@@ -56,7 +56,6 @@ body: {
     "user": {
       "userName": "Example Jr.",
       "email": "example@email.com",
-      "password": "example123",
       "dateOfBirth": "yyyy/mm/dd",
       "isAdm": false,
       "isActive": true,
@@ -165,9 +164,10 @@ body: {
 **Status - 200**
 
 ```
-body: {
-  "message": "success",
-  "data": {
+body: [
+  {
+    "message": "success",
+    "data": {
       "name": "example",
       "description": "example description",
       "dailyPrice": 1460,99,
@@ -176,11 +176,10 @@ body: {
       "specialOffer": false,
       "type": {
         "name": "type name"
-      }
+      },
       "user": {
         "userName": "Example Jr.",
         "email": "example@email.com",
-        "password": "example123",
         "dateOfBirth": "yyyy/mm/dd",
         "isAdm": false,
         "isActive": true,
@@ -194,10 +193,11 @@ body: {
       },
       "category": {
         "name": "Apartment"
-      }
+      },
     },
+  }
   ...
-}
+]
 ```
 
 <br>
@@ -205,30 +205,6 @@ body: {
 #### Error Responses:
 
 - No error expected
-
-<!-- <br>
-
-**Status - 401 - Invalid token**
-
-```
-body: {
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
-**Status - 401 - Missing authorization token**
-
-```
-body: {
-  "status": "Error",
-  "code": 401,
-  "message": "Missing authorization token"
-}
-``` -->
 
 #
 
@@ -257,9 +233,9 @@ header: {
 **Status - 200**
 
 ```
-body:
+body: {
   "message": "success",
-  data: {
+  "data": {
     "name": "example",
     "description": "example description",
     "dailyPrice": 1460,99,
@@ -272,7 +248,6 @@ body:
     "user": {
       "userName": "Example Jr.",
       "email": "example@email.com",
-      "password": "example123",
       "dateOfBirth": "yyyy/mm/dd",
       "isAdm": false,
       "isActive": true,
@@ -391,7 +366,6 @@ body: {
     "user": {
       "userName": "Example Jr.",
       "email": "example@email.com",
-      "password": "example123",
       "dateOfBirth": "yyyy/mm/dd",
       "isAdm": false,
       "isActive": true,
