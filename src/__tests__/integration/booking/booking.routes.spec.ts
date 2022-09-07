@@ -5,6 +5,7 @@ import {
   mockedBooking4,
   mockedBooking5,
   mockedBooking6,
+  mockedBooking7,
   mockedBookingWithoutAllFields,
   mockedBookingWithoutAllFields2,
   mockedUpdateBooking,
@@ -160,4 +161,24 @@ describe("Testing the booking routes", () => {
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(401);
   });
+
+  test("/GET /booking - Should be able to list all bookings", async () => {
+
+    await request(app).post("/booking").send(mockedBooking7);
+
+    const response = await request(app).get("/booking").set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body).toHaveProperty("message");
+    expect(response.body).toHaveProperty("data");
+  });
+
+  test("GET /booking - Should not be able to list bookings without authentication", async () => {    
+    const response = await request(app).get("/booking");
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
 });
