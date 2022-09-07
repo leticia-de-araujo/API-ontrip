@@ -49,9 +49,9 @@ body:{
 
 ```
 body: {
-"status": "Error",
-"code": 409,
-"message": "Booking already exists"
+    "status": "Error",
+    "code": 409,
+    "message": "Booking already exists"
 }
 ```
 
@@ -61,9 +61,9 @@ body: {
 
 ```
 body: {
-"status": "Error",
-"code": 400,
-"message": "Please send all informations"
+    "status": "Error",
+    "code": 400,
+    "message": "Please send all informations"
 }
 ```
 
@@ -73,9 +73,9 @@ body: {
 
 ```
 body: {
-"status": "Error",
-"code": 403,
-"message": "User has no authorization"
+    "status": "Error",
+    "code": 403,
+    "message": "User has no authorization"
 }
 ```
 
@@ -85,15 +85,15 @@ body: {
 
 ```
 body: {
-"status": "Error",
-"code": 401,
-"message": "User has no authentication"
+    "status": "Error",
+    "code": 401,
+    "message": "User has no authentication"
 }
 ```
 
 #
 
-## POST /booking/:bookingId
+## PATCH /booking/:bookingId
 
 <br>
 
@@ -113,6 +113,10 @@ body:{
 
 <br>
 
+**Status - 201**
+
+<br>
+
 ```
 body:{
 
@@ -126,3 +130,57 @@ body:{
     }
 }
 ```
+
+<br>
+
+#### Error Responses:
+
+<br>
+
+**Status - 403**
+
+```
+body: {
+    "status": "Error",
+    "code": 403,
+    "message": "User has no authorization"
+}
+```
+
+<br>
+
+**Status - 400**
+
+```
+body: {
+    "status": "Error",
+    "code": 400,
+    "message": "Please send all informations"
+}
+```
+
+<br>
+
+**Status - 404**
+
+```
+body: {
+    "status": "Error",
+    "code": 403,
+    "message": "Booking not found"
+}
+```
+
+<br>
+
+**Status - 401**
+
+```
+body: {
+    "status": "Error",
+    "code": 401,
+    "message": "User has no authentication"
+}
+```
+
+#
