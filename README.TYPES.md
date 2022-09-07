@@ -1,4 +1,4 @@
-## POST /categories
+## POST /types
 
 <br>
 
@@ -28,7 +28,7 @@ body:{
 
 ```
 body:{
-    "message": "category created",
+    "message": "type created",
 
     "data": {
     "id": "string",
@@ -49,7 +49,7 @@ body:{
 body: {
 "status": "Error",
 "code": 403,
-"message": `Category named ${name used in object sent in Request body} already exists`
+"message": `Type named ${name used in object sent in Request body} already exists`
 }
 ```
 
@@ -67,7 +67,7 @@ body: {
 
 #
 
-## GET /categories/:id
+## GET /types/:id
 
 <br>
 
@@ -89,6 +89,7 @@ No body required
 ```
 body:{
     "message": "Request sucessful",
+
     "data": {
     "id": "string",
     "name": "string"
@@ -108,7 +109,7 @@ body:{
 body: {
 "status": "Error",
 "code": 400,
-"message": "There's no category associated with the Id used"
+"message": "There's no type associated with this ID"
 }
 ```
 
@@ -116,8 +117,7 @@ body: {
 
 #
 
-
-## PATCH /categories/:id
+## PATCH /types/:id
 
 <br>
 
@@ -145,7 +145,7 @@ body:{
 
 ```
 body:{
-    "message": "Category name updated",
+    "message": "Type name updated",
 
     "data": {
     "id": "string",
@@ -176,6 +176,6 @@ body:{
 body:{
     "status": "Error",
     "code": 403,
-    "message": "There's no category associated with this Id"
+    "message": "There's no type associated with this ID"
 }
 ```
