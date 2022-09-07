@@ -299,6 +299,18 @@ body: {
 
 <br>
 
+**Status - 404**
+
+```
+body: {
+    "status": "Error",
+    "code": 404,
+    "message": "Booking not found"
+}
+```
+
+<br>
+
 #
 
 ## DELETE /booking/:bookingId

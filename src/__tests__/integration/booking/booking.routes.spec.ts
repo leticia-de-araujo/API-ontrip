@@ -219,6 +219,14 @@ describe("Testing the booking routes", () => {
     expect(response.body).toHaveProperty("message");
   });
 
+  test("GET /booking:bookingId - Must not be able to list a non-existent booking", async () => {
+    
+    const response = await request(app).get("/booking/963").set("Authorization", `Bearer ${genericUser.body.data.token}`);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(404);
+  });
+
   test("DELETE /booking/:bookingId - Should be able to soft-delete booking as owner", async () => {
 
     const bookinResponse = await request(app).post("/booking").send(mockedBooking9);
