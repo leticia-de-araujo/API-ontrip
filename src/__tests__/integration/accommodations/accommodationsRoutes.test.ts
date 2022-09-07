@@ -11,7 +11,11 @@ import {
 import { mockedCategory, mockedType } from "../../mocks/otherMocks";
 import { mockedCapacity } from "../../mocks/capacityMocks";
 import { IAccommodationRequest } from "../../../interfaces/accommodations";
-import { mockedAccomodation } from "../../mocks/accommodationMocks";
+import {
+  mockedAccomodation,
+  mockedAccomodationInvalid,
+  mockedAccomodationTooLarge,
+} from "../../mocks/accommodationMocks";
 
 describe("/accommodations", () => {
   let connection: DataSource;
@@ -94,11 +98,31 @@ describe("/accommodations", () => {
     };
 
     const response = await request(app)
-    .post("/accommodations")
-    .send(genericAccommodation).set('Authorization', `Bearer ${genericToken}`)
+      .post("/accommodations")
+      .send(genericAccommodation)
+      .set("Authorization", `Bearer ${genericToken}`);
 
-    expect(response.status).toBe(201)
-    
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("data");
+    expect(response.body.data).toHaveProperty(
+      "name",
+      genericAccommodation.name
+    );
+    expect(response.body.data).toHaveProperty(
+      "description",
+      genericAccommodation.description
+    );
+    expect(response.body.data).toHaveProperty(
+      "dailyPrice",
+      genericAccommodation.dailyPrice
+    );
+    expect(response.body.data).toHaveProperty("isActive", true);
+    expect(response.body.data).toHaveProperty("verifiedByAdm", false);
+    expect(response.body.data).toHaveProperty("specialOffer", false);
+    expect(response.body.data).toHaveProperty("type");
+    expect(response.body.data).toHaveProperty("user");
+    expect(response.body.data).toHaveProperty("capacity");
+    expect(response.body.data).toHaveProperty("category");
   });
 
   test("POST /accommodations - Should not be able to create an accommodation without authentication", async () => {
@@ -117,21 +141,109 @@ describe("/accommodations", () => {
       .send(genericAccommodation);
 
     expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("status", "Error");
     expect(response.body).toHaveProperty(
       "message",
       "Missing authorization token"
     );
   });
 
-  test("POST /accommodations - Should not be able to create an accommodation with invalid token", async () => {});
+  test("POST /accommodations - Should not be able to create an accommodation with invalid token", async () => {
+    const genericAccommodation: IAccommodationRequest = {
+      name: mockedAccomodation.name,
+      description: mockedAccomodation.description,
+      dailyPrice: mockedAccomodation.dailyPrice,
+      userId: genericId,
+      categoryId,
+      capacityId,
+      typeId,
+    };
 
-  test("POST /accommodations - Should not be able to create an accommodation without all required fields", async () => {});
+    const response = await request(app)
+      .post("/accommodations")
+      .send(genericAccommodation)
+      .set("Authorization", `Bearer ${genericToken}7627636745`);
 
-  test("POST /accommodations - Should not be able to create an accommodation with a required field with invalid type", async () => {});
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("status", "Error");
+    expect(response.body).toHaveProperty("message", "Invalid token");
+  });
 
-  test("POST /accommodations - Should not be able to create an accommodation without a required field too large", async () => {});
+  test("POST /accommodations - Should not be able to create an accommodation without all required fields", async () => {
+    const invalidAccommodation = {
+      name: mockedAccomodation.name,
+      dailyPrice: mockedAccomodation.dailyPrice,
+      userId: genericId,
+      capacityId,
+      typeId,
+    };
 
-  test("POST /accommodations - Should not be able to create an accommodation that already exists", async () => {});
+    const response = await request(app)
+      .post("/accommodations")
+      .send(invalidAccommodation)
+      .set("Authorization", `Bearer ${genericToken}`);
 
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("status", "Error");
+  });
 
+  test("POST /accommodations - Should not be able to create an accommodation with a required field with invalid type", async () => {
+    const invalidAccommodation = {
+      name: mockedAccomodationInvalid.name,
+      description: mockedAccomodationInvalid.description,
+      dailyPrice: mockedAccomodationInvalid.dailyPrice,
+      userId: genericId,
+      categoryId,
+      capacityId,
+      typeId,
+    };
+
+    const response = await request(app)
+      .post("/accommodations")
+      .send(invalidAccommodation)
+      .set("Authorization", `Bearer ${genericToken}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("status", "Error");
+  });
+
+  test("POST /accommodations - Should not be able to create an accommodation without a required field too large", async () => {
+    const invalidAccommodation = {
+      name: mockedAccomodationTooLarge.name,
+      description: mockedAccomodationTooLarge.description,
+      dailyPrice: mockedAccomodationTooLarge.dailyPrice,
+      userId: genericId,
+      categoryId,
+      capacityId,
+      typeId,
+    };
+
+    const response = await request(app)
+      .post("/accommodations")
+      .send(invalidAccommodation)
+      .set("Authorization", `Bearer ${genericToken}`);
+
+    expect(response.status).toBe(413);
+    expect(response.body).toHaveProperty("status", "Error");
+  });
+
+  test("POST /accommodations - Should not be able to create an accommodation that already exists", async () => {
+    const genericAccommodation: IAccommodationRequest = {
+      name: mockedAccomodation.name,
+      description: mockedAccomodation.description,
+      dailyPrice: mockedAccomodation.dailyPrice,
+      userId: genericId,
+      categoryId,
+      capacityId,
+      typeId,
+    };
+
+    const response = await request(app)
+      .post("/accommodations")
+      .send(genericAccommodation)
+      .set("Authorization", `Bearer ${genericToken}`);
+
+    expect(response.status).toBe(409);
+    expect(response.body).toHaveProperty("status", "Error");
+  });
 });
