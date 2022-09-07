@@ -9,7 +9,11 @@ import {
   mockedUserLogin,
   mockedAdminLogin,
 } from "../../mocks/userMocks/index";
-import { mockedCategory, mockedCategory2 } from "../../mocks/otherMocks";
+import {
+  mockedCategory,
+  mockedCategory2,
+  mockedCategory3,
+} from "../../mocks/otherMocks";
 
 describe("Testing the category routes", () => {
   let connection: DataSource;
@@ -37,8 +41,7 @@ describe("Testing the category routes", () => {
     await connection.destroy();
   });
 
-
-  //se os testes falharem, pode have a necessidade de alterar a referenciacao de response.body.data... para response.body.data.data...
+  //se os testes falharem, pode haver a necessidade de alterar a referenciacao de response.body.data... para response.body.data.data...
 
   test("POST /categories - Should be able to create a new category", async () => {
     genericCategory = await request(app)
@@ -52,7 +55,6 @@ describe("Testing the category routes", () => {
     expect(genericCategory.body.data).toHaveProperty("message");
   });
 
-
   test("POST /categories - Should not be able to create a category that already exists (same name)", async () => {
     genericCategory = await request(app)
       .post("/categories")
@@ -62,7 +64,6 @@ describe("Testing the category routes", () => {
     expect(genericCategory.status).toBe(403);
     expect(genericCategory.body.data).toHaveProperty("message");
   });
-
 
   test("POST /categories - Should not be able to create a category without being an Admin", async () => {
     genericCategory = await request(app)
@@ -117,8 +118,48 @@ describe("Testing the category routes", () => {
 
     expect(listOne.status).toBe(400);
     expect(listOne.body.data).toHaveProperty("message");
-    //se o teste der erro pode ser a logica do not.toHaveProperty abaixo, seria so apagar a linha
+    //se o teste der erro pode ser a logica do not.toHaveProperty abaixo, seria so' apagar a linha (reports de 2019 na net que nao funciona, pode ja' nao ser o caso).
     expect(listOne.body.data).not.toHaveProperty("data");
   });
 
+  test("PATCH /categories/:id - Must be able to update a category", async () => {
+    const patchOne = await request(app)
+      .post(`/categories/${genericCategory.body.data.id}`)
+      .send(mockedCategory3)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(patchOne.status).toBe(200);
+    expect(patchOne.body.data).toHaveProperty("message");
+    expect(patchOne.body.data).toHaveProperty("data");
+    expect(patchOne.body.data).toEqual(
+      expect.objectContaining({
+        id: genericCategory.body.data.id,
+        name: mockedCategory3.name,
+      })
+    );
+  });
+
+  test("PATCH /categories/:id - Must not be able to update a category without being and admin", async () => {
+    const patchOne = await request(app)
+      .post(`/categories/${genericCategory.body.data.id}`)
+      .send(mockedCategory2)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    expect(patchOne.status).toBe(401);
+    expect(patchOne.body.data).toHaveProperty("message");
+    //se o teste der erro pode ser a logica do not.toHaveProperty abaixo, seria so' apagar a linha (reports de 2019 na net que nao funciona, pode ja' nao ser o caso).
+    expect(patchOne.body.data).not.toHaveProperty("data");
+  });
+
+  test("PATCH /categories/:id - Must not be able to update a category that doesn't exist", async () => {
+    const patchOne = await request(app)
+      .post(`/categories/this7is7an7invalid7token`)
+      .send(mockedCategory)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(patchOne.status).toBe(400);
+    expect(patchOne.body.data).toHaveProperty("message");
+    //se o teste der erro pode ser a logica do not.toHaveProperty abaixo, seria so' apagar a linha (reports de 2019 na net que nao funciona, pode ja' nao ser o caso).
+    expect(patchOne.body.data).not.toHaveProperty("data");
+  });
 });
