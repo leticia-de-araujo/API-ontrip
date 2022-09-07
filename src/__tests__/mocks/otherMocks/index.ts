@@ -26,3 +26,11 @@ export const mockedPhotoPatch: IPhotoRequestPatch = {
 export const mockedType: ITypeRequest = {
   name: "apartment",
 };
+
+export const mockedType2: ITypeRequest = {
+  name: "house",
+};
+
+export const mockedType3: ITypeRequest = {
+  name: "detached house",
+};
