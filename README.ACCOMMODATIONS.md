@@ -19,16 +19,13 @@ header: {
 
 ```
 body: {
-  "name": "example",
-  "description": "example description",
-  "dailyPrice": 1460,99,
-  "isActive": true,
-  "verifiedByAdm": false,
-  "specialOffer": false,
-  "typeId": "type Id",
-  "userId": "user Id",
-  "capacityId": "capacity Id",
-  "categoryId": "category Id",
+  "name": "string",
+  "description": "string",
+  "dailyPrice": number,
+  "typeId": "string",
+  "userId": "string",
+  "capacityId": "string",
+  "categoryId": "string",
 }
 ```
 
@@ -42,25 +39,34 @@ body: {
 
 ```
 body: {
-  "message": "success",
+  "message": "Accommodation Created",
   "data": {
-    "name": "example",
-    "description": "example description",
-    "dailyPrice": 1460,99,
+    "name": "string",
+    "description": "string",
+    "dailyPrice": number,
     "isActive": true,
     "verifiedByAdm": false,
     "specialOffer": false,
     "type": {
-      "name": "type name"
-      }
+      "name": "string"
+    }
     "user": {
-      "userName": "Example Jr.",
-      "email": "example@email.com",
+      "userName": "string",
+      "email": "string",
       "dateOfBirth": "yyyy/mm/dd",
       "isAdm": false,
       "isActive": true,
       "photo": "string-base64"
-    }
+    },
+    "capacity": {
+        "rooms": number,
+        "beds": number,
+        "totalGuests": number,
+        "bathrooms": number
+      },
+    "category": {
+      "name": "string"
+    },
   }
 }
 ```
@@ -71,18 +77,6 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid Token**
-
-```
-body: {
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
 **Status - 401 - Missing authorization token**
 
 ```
@@ -90,6 +84,18 @@ body: {
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
+}
+```
+
+<br>
+
+**Status - 401 - Invalid Token**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
 }
 ```
 
@@ -166,35 +172,35 @@ body: {
 ```
 body: [
   {
-    "message": "success",
+    "message": "Success",
     "data": {
-      "name": "example",
-      "description": "example description",
-      "dailyPrice": 1460,99,
+      "name": "string",
+      "description": "string",
+      "dailyPrice": number,
       "isActive": true,
       "verifiedByAdm": false,
       "specialOffer": false,
       "type": {
-        "name": "type name"
-      },
+        "name": "string"
+      }
       "user": {
-        "userName": "Example Jr.",
-        "email": "example@email.com",
+        "userName": "string",
+        "email": "string",
         "dateOfBirth": "yyyy/mm/dd",
         "isAdm": false,
         "isActive": true,
         "photo": "string-base64"
       },
       "capacity": {
-        "rooms": 4,
-        "beds": 6,
-        "totalGuests": 7,
-        "bathrooms": 3
+        "rooms": number,
+        "beds": number,
+        "totalGuests": number,
+        "bathrooms": number
       },
       "category": {
-        "name": "Apartment"
+        "name": "string"
       },
-    },
+    }
   }
   ...
 ]
@@ -234,33 +240,33 @@ header: {
 
 ```
 body: {
-  "message": "success",
+  "message": "Success",
   "data": {
-    "name": "example",
-    "description": "example description",
-    "dailyPrice": 1460,99,
+    "name": "string",
+    "description": "string",
+    "dailyPrice": number,
     "isActive": true,
     "verifiedByAdm": false,
     "specialOffer": false,
     "type": {
-      "name": "type name"
+      "name": "string"
     }
     "user": {
-      "userName": "Example Jr.",
-      "email": "example@email.com",
+      "userName": "string",
+      "email": "string",
       "dateOfBirth": "yyyy/mm/dd",
       "isAdm": false,
       "isActive": true,
       "photo": "string-base64"
     },
     "capacity": {
-      "rooms": 4,
-      "beds": 6,
-      "totalGuests": 7,
-      "bathrooms": 3
+      "rooms": number,
+      "beds": number,
+      "totalGuests": number,
+      "bathrooms": number
     },
     "category": {
-      "name": "Apartment"
+      "name": "string"
     },
   }
 }
@@ -329,16 +335,16 @@ header: {
 
 ```
 body: {
-  "name": "example",
-  "description": "example description",
-  "dailyPrice": 1460,99,
+  "name": "string",
+  "description": "string",
+  "dailyPrice": number,
   "isActive": true,
   "verifiedByAdm": false,
   "specialOffer": false,
-  "typeId": "type Id",
-  "userId": "user Id",
-  "capacityId": "capacity Id",
-  "categoryId": "category Id",
+  "typeId": "string",
+  "userId": "string",
+  "capacityId": "string",
+  "categoryId": "string",
 }
 ```
 
@@ -352,25 +358,34 @@ body: {
 
 ```
 body: {
-  "message": "success",
+  "message": "Success",
   "data": {
-    "name": "example",
-    "description": "example description",
-    "dailyPrice": 1460,99,
+    "name": "string",
+    "description": "string",
+    "dailyPrice": number,
     "isActive": true,
     "verifiedByAdm": false,
     "specialOffer": false,
     "type": {
-      "name": "type name"
+      "name": "string"
     }
     "user": {
-      "userName": "Example Jr.",
-      "email": "example@email.com",
+      "userName": "string",
+      "email": "string",
       "dateOfBirth": "yyyy/mm/dd",
       "isAdm": false,
       "isActive": true,
       "photo": "string-base64"
-    }
+    },
+    "capacity": {
+        "rooms": number,
+        "beds": number,
+        "totalGuests": number,
+        "bathrooms": number
+      },
+    "category": {
+      "name": "string"
+    },
   }
 }
 ```
