@@ -9,7 +9,6 @@ export interface IAddress {
   accommodationId: string;
 }
 
-//id gerado automaticamente
 export interface IAddressRequest {
   country: string;
   state: string;
