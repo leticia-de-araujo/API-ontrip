@@ -1,11 +1,14 @@
 import {
   mockedBooking,
+  mockedBooking10,
   mockedBooking2,
   mockedBooking3,
   mockedBooking4,
   mockedBooking5,
   mockedBooking6,
   mockedBooking7,
+  mockedBooking8,
+  mockedBooking9,
   mockedBookingWithoutAllFields,
   mockedBookingWithoutAllFields2,
   mockedUpdateBooking,
@@ -163,10 +166,11 @@ describe("Testing the booking routes", () => {
   });
 
   test("/GET /booking - Should be able to list all bookings", async () => {
-
     await request(app).post("/booking").send(mockedBooking7);
 
-    const response = await request(app).get("/booking").set("Authorization", `Bearer ${genericToken.body.token}`);
+    const response = await request(app)
+      .get("/booking")
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(response.status).toBe(200);
     expect(response.body.data.length).toBeGreaterThan(0);
@@ -174,11 +178,83 @@ describe("Testing the booking routes", () => {
     expect(response.body).toHaveProperty("data");
   });
 
-  test("GET /booking - Should not be able to list bookings without authentication", async () => {    
+  test("GET /booking - Should not be able to list bookings without authentication", async () => {
     const response = await request(app).get("/booking");
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(401);
   });
 
+  test("GET /booking/:bookingId - Should be able to list one booking", async () => {
+    const bookingResponse = await request(app)
+      .post("/booking")
+      .send(mockedBooking8)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    const response = await request(app).get(`/booking/${bookingResponse.body.id}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body).toHaveProperty("data");
+    expect(response.body).toHaveProperty("message");
+    expect(response.body.data).toEqual(
+      expect.objectContaining({
+        id: response.body.data.id,
+        checkIn: response.body.data.checkIn,
+        checkout: response.body.data.checkout,
+        accommodationId: response.body.data.accommodationId,
+        status: response.body.data.status,
+        userId: response.body.data.userId
+      })
+    );
+  });
+
+  test("GET /booking/:bookingId - Should no be able to list one booking without token", async() => {
+    const bookingResponse = await request(app).post("/booking").send(mockedBooking8);
+
+    const response = await request(app)
+      .get(`/booking/${bookingResponse.body.data.id}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("GET /booking:bookingId - Must not be able to list a non-existent booking", async () => {
+    
+    const response = await request(app).get("/booking/963").set("Authorization", `Bearer ${genericUser.body.data.token}`);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(404);
+  });
+
+  test("DELETE /booking/:bookingId - Should be able to soft-delete booking as owner", async () => {
+
+    const bookinResponse = await request(app).post("/booking").send(mockedBooking9);
+
+    const response = await request(app).delete(`/booking/${bookinResponse.body.data.id}`).set("Authorization", `Bearer ${genericUser.body.data.token}`);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(200);
+    expect(response.body.data.status).toBe("canceled");
+  });
+
+  test("DELETE /booking/:bookingId - Should no be able to delete a booking without authentication", async () => {
+
+    const bookinResponse = await request(app).post("/booking").send(mockedBooking10);
+
+    const response = await request(app).delete(`/booking/${bookinResponse.body.data.id}`);
+
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+
+  test("DELETE /booking/:bookingId - Should not be able to delete an inexistent booking", async () => {
+
+    const response = await request(app).delete("/booking/963").set("Authorization", `Bearer ${genericUser.body.data.token}`);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(404);
+  });
 });
