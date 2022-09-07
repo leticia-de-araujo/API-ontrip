@@ -1,5 +1,6 @@
 import {
   mockedBooking,
+  mockedBooking10,
   mockedBooking2,
   mockedBooking3,
   mockedBooking4,
@@ -7,6 +8,7 @@ import {
   mockedBooking6,
   mockedBooking7,
   mockedBooking8,
+  mockedBooking9,
   mockedBookingWithoutAllFields,
   mockedBookingWithoutAllFields2,
   mockedUpdateBooking,
@@ -215,5 +217,36 @@ describe("Testing the booking routes", () => {
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
-  })
+  });
+
+  test("DELETE /booking/:bookingId - Should be able to soft-delete booking as owner", async () => {
+
+    const bookinResponse = await request(app).post("/booking").send(mockedBooking9);
+
+    const response = await request(app).delete(`/booking/${bookinResponse.body.data.id}`).set("Authorization", `Bearer ${genericUser.body.data.token}`);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(200);
+    expect(response.body.data.status).toBe("canceled");
+  });
+
+  test("DELETE /booking/:bookingId - Should no be able to delete a booking without authentication", async () => {
+
+    const bookinResponse = await request(app).post("/booking").send(mockedBooking10);
+
+    const response = await request(app).delete(`/booking/${bookinResponse.body.data.id}`);
+
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+
+  test("DELETE /booking/:bookingId - Should not be able to delete an inexistent booking", async () => {
+
+    const response = await request(app).delete("/booking/963").set("Authorization", `Bearer ${genericUser.body.data.token}`);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(404);
+  });
 });
