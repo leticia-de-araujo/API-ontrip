@@ -1,3 +1,10 @@
+import {
+  mockedBooking,
+  mockedBooking2,
+  mockedBooking3,
+  mockedBookingWithoutAllFields,
+  mockedUpdateBooking,
+} from "./../../mocks/bookingMocks/index";
 import { DataSource } from "typeorm";
 import AppDataSource from "../../../data-source";
 import request from "supertest";
@@ -5,9 +12,8 @@ import app from "../../../app";
 import {
   mockedUser,
   mockedUserLogin,
-  mockedBooking,
-  mockedUpdateBooking,
-} from "../../mocks";
+  mockedAdminLogin
+} from "../../mocks/userMocks/index";
 
 describe("Testing the booking routes", () => {
   let connection: DataSource;
@@ -31,6 +37,7 @@ describe("Testing the booking routes", () => {
   });
 
   test("POST /booking - Should be able to create a new booking", async () => {
+    
     genericBooking = await request(app)
       .post("/booking")
       .send(mockedBooking)
@@ -46,8 +53,43 @@ describe("Testing the booking routes", () => {
     expect(genericBooking.body).toHaveProperty("message");
   });
 
-  test("PATCH /booking:id - Should be able to update a booking being owner", async () => {
+  test("POST /booking - Should not be able to create a booking that already exists", async () => {
+    const response = await request(app).post("/booking").send(mockedBooking);
 
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(409);
+  });
+
+  test("POST /booking - should not be able to create a booking without all the information", async () => {
+    const response = await request(app)
+      .post("/booking")
+      .send(mockedBookingWithoutAllFields);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(400);
+  });
+
+  test("POST /booking - should not be able to create a booking if isAdm", async () => {
+    const genericAdmUser = await request(app)
+      .post("/login")
+      .send(mockedAdminLogin);
+    const response = await request(app)
+      .post("/booking")
+      .send(mockedBooking2)
+      .set("Authorization", `Bearer ${genericAdmUser.body.token}`);
+
+    expect(response.status).toBe(403);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("POST /booking - should not be able to create a booking without authentication", async () => {
+    const response = await request(app).post("/booking").send(mockedBooking3);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+  });
+
+  test("PATCH /booking:id - Should be able to update a booking being owner", async () => {
     const response = await request(app)
       .patch(`/booking/${genericBooking.body.data.id}`)
       .send(mockedUpdateBooking)
