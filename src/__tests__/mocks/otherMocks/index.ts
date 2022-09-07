@@ -5,6 +5,11 @@ import { IPhotoRequest, IPhotoRequestPatch } from "../../../interfaces/photos";
 export const mockedCategory: ICategoryRequest = {
   name: "bedroom",
 };
+
+export const mockedCategory2: ICategoryRequest = {
+  name: "entire accommodation",
+};
+
 export const mockedPhoto: IPhotoRequest = {
   content: "thisIsAStringBase64",
   accommodationId: "",
