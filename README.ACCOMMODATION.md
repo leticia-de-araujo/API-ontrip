@@ -2,16 +2,6 @@
 
 <br>
 
-#### Request:
-
-```
-header: {
-    authorization: "Bearer token"
-}
-```
-
-<br>
-
 #### Expected Response:
 
 <br>
@@ -57,34 +47,6 @@ body:
   }
 
 ]
-```
-
-<br>
-
-#### Error Responses:
-
-<br>
-
-**Status - 400**
-
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "Invalid token"
-}
-```
-
-<br>
-
-**Status - 401**
-
-```
-body: {
-"status": "Error",
-"code": 401,
-"message": "Missing authorization token"
-}
 ```
 
 #
