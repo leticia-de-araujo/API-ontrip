@@ -37,6 +37,7 @@ describe("Testing the category routes", () => {
     await connection.destroy();
   });
 
+
   //se os testes falharem, pode have a necessidade de alterar a referenciacao de response.body.data... para response.body.data.data...
 
   test("POST /categories - Should be able to create a new category", async () => {
@@ -51,6 +52,7 @@ describe("Testing the category routes", () => {
     expect(genericCategory.body.data).toHaveProperty("message");
   });
 
+
   test("POST /categories - Should not be able to create a category that already exists (same name)", async () => {
     genericCategory = await request(app)
       .post("/categories")
@@ -60,6 +62,7 @@ describe("Testing the category routes", () => {
     expect(genericCategory.status).toBe(403);
     expect(genericCategory.body.data).toHaveProperty("message");
   });
+
 
   test("POST /categories - Should not be able to create a category without being an Admin", async () => {
     genericCategory = await request(app)
@@ -117,4 +120,5 @@ describe("Testing the category routes", () => {
     //se o teste der erro pode ser a logica do not.toHaveProperty abaixo, seria so apagar a linha
     expect(listOne.body.data).not.toHaveProperty("data");
   });
+
 });
