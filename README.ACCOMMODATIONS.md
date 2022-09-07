@@ -22,9 +22,6 @@ body: {
   "name": "example",
   "description": "example description",
   "dailyPrice": 1460,99,
-  "isActive": true,
-  "verifiedByAdm": false,
-  "specialOffer": false,
   "typeId": "type Id",
   "userId": "user Id",
   "capacityId": "capacity Id",
@@ -71,18 +68,6 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid Token**
-
-```
-body: {
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
 **Status - 401 - Missing authorization token**
 
 ```
@@ -90,6 +75,18 @@ body: {
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
+}
+```
+
+<br>
+
+**Status - 401 - Invalid Token**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
 }
 ```
 
