@@ -64,6 +64,13 @@ export const mockedBooking7: IBookingRequest = {
   userId: "1"
 }
 
+export const mockedBooking8: IBookingRequest = {
+  checkIn: "2023/05/04",
+  checkout: "2023/05/05",
+  accommodationId: "1",
+  userId: "1"
+}
+
 export const mockedUpdateBooking: IBookingRequestPatch = {
   checkIn: "2022/16/12",
   checkout: "2022/20/12",

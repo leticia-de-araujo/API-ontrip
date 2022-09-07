@@ -6,6 +6,7 @@ import {
   mockedBooking5,
   mockedBooking6,
   mockedBooking7,
+  mockedBooking8,
   mockedBookingWithoutAllFields,
   mockedBookingWithoutAllFields2,
   mockedUpdateBooking,
@@ -163,10 +164,11 @@ describe("Testing the booking routes", () => {
   });
 
   test("/GET /booking - Should be able to list all bookings", async () => {
-
     await request(app).post("/booking").send(mockedBooking7);
 
-    const response = await request(app).get("/booking").set("Authorization", `Bearer ${genericToken.body.token}`);
+    const response = await request(app)
+      .get("/booking")
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(response.status).toBe(200);
     expect(response.body.data.length).toBeGreaterThan(0);
@@ -174,11 +176,44 @@ describe("Testing the booking routes", () => {
     expect(response.body).toHaveProperty("data");
   });
 
-  test("GET /booking - Should not be able to list bookings without authentication", async () => {    
+  test("GET /booking - Should not be able to list bookings without authentication", async () => {
     const response = await request(app).get("/booking");
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(401);
   });
 
+  test("GET /booking/:bookingId - Should be able to list one booking", async () => {
+    const bookingResponse = await request(app)
+      .post("/booking")
+      .send(mockedBooking8)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    const response = await request(app).get(`/booking/${bookingResponse.body.id}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.length).toBeGreaterThan(0);
+    expect(response.body).toHaveProperty("data");
+    expect(response.body).toHaveProperty("message");
+    expect(response.body.data).toEqual(
+      expect.objectContaining({
+        id: response.body.data.id,
+        checkIn: response.body.data.checkIn,
+        checkout: response.body.data.checkout,
+        accommodationId: response.body.data.accommodationId,
+        status: response.body.data.status,
+        userId: response.body.data.userId
+      })
+    );
+  });
+
+  test("GET /booking/:bookingId - Should no be able to list one booking without token", async() => {
+    const bookingResponse = await request(app).post("/booking").send(mockedBooking8);
+
+    const response = await request(app)
+      .get(`/booking/${bookingResponse.body.data.id}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message");
+  })
 });

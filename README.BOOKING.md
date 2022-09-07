@@ -240,3 +240,61 @@ body: {
 ```
 
 <br>
+
+#
+
+## GET /booking/:bookingId
+
+<br>
+
+#### Request:
+
+```
+header: {
+    authorization: "Bearer Admin Token or owner Token"
+}
+```
+
+<br>
+
+#### Expected Response:
+
+<br>
+
+**Status - 200**
+
+```
+body:
+[
+    "message": "Success",
+
+  "data": {
+    "id": "string",
+    "checkIn": "string",
+    "checkout": "string",
+    "accommodationId": "string",
+    "status": "string",
+    "userId": "string"
+  },
+
+    ...
+]
+```
+
+<br>
+
+#### Error Responses:
+
+<br>
+
+**Status - 401**
+
+```
+body: {
+    "status": "Error",
+    "code": 401,
+    "message": "Invalid token"
+}
+```
+
+<br>
