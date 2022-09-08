@@ -1,4 +1,4 @@
-## POST /categories
+## POST /capabilities
 
 <br>
 
