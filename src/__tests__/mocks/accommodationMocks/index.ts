@@ -18,7 +18,7 @@ export const mockedAccommodation2: IAccommodationRequest = {
   name: "Complete apartment to work",
   description:
     "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
-  dailyPrice: 459.54,
+  dailyPrice: 450,
   categoryId: "",
   capacityId: "",
   userId: "",
@@ -58,5 +58,14 @@ export const mockedAccommodationTooLarge: IAccommodationRequest = {
 };
 
 export const mockedAccommodationPatch: IAccommodationRequestPatch = {
-  dailyPrice: 350,
+  dailyPrice: 420,
+};
+
+export const mockedAccommodationInvalidPatch = {
+  description: "text",
+  dailyPrice: "300",
+};
+
+export const mockedAccommodationTooLargePatch = {
+  name: "Marolargo Marolargo Marolargo Marolargo Marolargo",
 };

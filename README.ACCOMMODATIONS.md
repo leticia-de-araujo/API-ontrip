@@ -425,6 +425,18 @@ body: {
 
 <br>
 
+**Status - 401 - User is not the accommodation owner or an admin**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Not possible to non-admin users to update an accommodation without being the owner"
+}
+```
+
+<br>
+
 **Status - 400 - Field with invalid type**
 
 ```
@@ -449,13 +461,13 @@ body: {
 
 <br>
 
-**Status - 409 - Accommodation already registered**
+**Status - 400 - No changes in the accommodation**
 
 ```
 body: {
   "status": "Error",
-  "code": 409,
-  "message": "This accommodation is already registered"
+  "code": 400,
+  "message": "Not possible to update an accommodation without having any changes in any field"
 }
 ```
 
@@ -528,6 +540,18 @@ body: {
   "status": "Error",
   "code": 401,
   "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status - 401 - User is not the accommodation owner or an admin**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Not possible to non-admin users to delete an accommodation without being the owner"
 }
 ```
 

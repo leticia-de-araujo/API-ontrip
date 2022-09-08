@@ -5,7 +5,7 @@ export interface IAccommodation {
   dailyPrice: number;
   isActive: boolean;
   verifiedByAdm: boolean;
-  specialOffer: String;
+  specialOffer: string;
   typeId: string;
   userId: string;
   capacityId: string;
@@ -23,11 +23,43 @@ export interface IAccommodationRequest {
   categoryId: string;
 }
 
+export interface IAccommodationCreated {
+  id: string;
+  name: string;
+  description: string;
+  dailyPrice: number;
+  isActive: true;
+  verifiedByAdm: false;
+  specialOffer: false;
+  type: {
+    name: string;
+  };
+  user: {
+    userName: string;
+    email: string;
+    dateOfBirth: Date;
+    isAdm: false;
+    isActive: true;
+    photo: string;
+  };
+  capacity: {
+    rooms: number;
+    beds: number;
+    totalGuests: number;
+    bathrooms: number;
+  };
+  category: {
+    name: string;
+  };
+}
+
 export interface IAccommodationRequestPatch {
   name?: string;
   description?: string;
   dailyPrice?: number;
   isActive?: boolean;
   verifiedByAdm?: boolean;
-  specialOffer?: String;
+  specialOffer?: string;
+  capacityId?: string;
+  typeId?: string;
 }
