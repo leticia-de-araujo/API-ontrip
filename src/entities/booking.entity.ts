@@ -1,3 +1,4 @@
+import { Exclude } from "class-transformer";
 import { Column, Entity, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 import { Accommodation } from "./accommodation.entity";
@@ -18,10 +19,12 @@ export class Booking {
   status: string;
 
   @ManyToOne(() => Accommodation, { eager: true })
+  @Exclude()
   @JoinColumn()
   accommodation: Accommodation;
 
   @ManyToOne(() => User, { eager: true })
+  @Exclude()
   @JoinColumn()
   user: User;
 

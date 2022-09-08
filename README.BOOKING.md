@@ -22,7 +22,6 @@ body:{
 
 **Status - 201**
 
-
 ```
 body:{
 
@@ -127,6 +126,8 @@ body:{
         "checkIn": "string",
         "checkout": "string",
         "status": "string",
+        "accommodationId": "string",
+        "userId": "string"
     }
 }
 ```
@@ -149,13 +150,13 @@ body: {
 
 <br>
 
-**Status - 400**
+**Status - 401**
 
 ```
 body: {
     "status": "Error",
-    "code": 400,
-    "message": "Please send all informations"
+    "code": 401,
+    "message": "User has no authentication"
 }
 ```
 
@@ -168,18 +169,6 @@ body: {
     "status": "Error",
     "code": 403,
     "message": "Booking not found"
-}
-```
-
-<br>
-
-**Status - 401**
-
-```
-body: {
-    "status": "Error",
-    "code": 401,
-    "message": "User has no authentication"
 }
 ```
 
