@@ -12,7 +12,7 @@
 <br>
 
 ```
-header: {
+headers: {
   "authorization": "Bearer token"
 }
 ```
@@ -39,7 +39,7 @@ body: {
 
 ```
 body: {
-  "message": "Accommodation Created",
+  "message": "Accommodation created with success",
   "data": {
     "id": "string",
     "name": "string",
@@ -171,10 +171,10 @@ body: {
 **Status - 200**
 
 ```
-body: [
-  {
-    "message": "Success",
-    "data": {
+body: {
+  "message": "Successful request",
+  "data": [
+    {
       "id": "string",
       "name": "string",
       "description": "string",
@@ -202,10 +202,12 @@ body: [
       "category": {
         "name": "string"
       },
-    }
-  }
-  ...
-]
+    },
+    ...
+  ]
+}
+
+
 ```
 
 <br>
@@ -229,7 +231,7 @@ body: [
 <br>
 
 ```
-header: {
+headers: {
   "authorization": "Bearer token"
 }
 ```
@@ -242,7 +244,7 @@ header: {
 
 ```
 body: {
-  "message": "Success",
+  "message": "Successful request",
   "data": {
     "id": "string",
     "name": "string",
@@ -331,7 +333,7 @@ body: {
 <br>
 
 ```
-header: {
+headers: {
   "authorization": "Bearer token"
 }
 ```
@@ -362,7 +364,7 @@ body: {
 
 ```
 body: {
-  "message": "Success",
+  "message": "Accommodation updated with success",
   "data": {
     "id": "string",
     "name": "string",
@@ -461,7 +463,7 @@ body: {
 
 <br>
 
-**Status - 400 - No changes in the accommodation**
+**Status - 400 - No changes in accommodation data**
 
 ```
 body: {
@@ -496,7 +498,7 @@ body: {
 - Empty body
 
 ```
-header: {
+headers: {
   "authorization": "Bearer token"
 }
 ```
