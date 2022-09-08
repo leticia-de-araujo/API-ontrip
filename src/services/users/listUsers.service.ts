@@ -5,7 +5,7 @@ import AppDataSource from "../../data-source";
 const listUsersService = async():Promise<User[]> => {
     const userRepository = AppDataSource.getRepository(User);
 
-    const users = userRepository.find();
+    const users = await userRepository.find();
 
     return users;
 }
