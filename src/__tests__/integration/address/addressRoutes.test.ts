@@ -9,7 +9,7 @@ import {
   mockedAdressPatch,
 } from "../../mocks/addressMocks";
 import { mockedUser } from "../../mocks/userMocks";
-import { mockedAccomodation } from "../../mocks/accommodationMocks";
+import { mockedAccommodation } from "../../mocks/accommodationMocks";
 
 describe("Testing address routes", () => {
   let connection: DataSource;
@@ -25,7 +25,7 @@ describe("Testing address routes", () => {
     await request(app)
       .post("/accommodation")
       .set("Authorization", `Bearer ${userLogin.body.token}`)
-      .send(mockedAccomodation);
+      .send(mockedAccommodation);
   });
   afterAll(async () => {
     await connection.destroy();

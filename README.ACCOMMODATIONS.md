@@ -41,6 +41,7 @@ body: {
 body: {
   "message": "Accommodation Created",
   "data": {
+    "id": "string",
     "name": "string",
     "description": "string",
     "dailyPrice": number,
@@ -174,6 +175,7 @@ body: [
   {
     "message": "Success",
     "data": {
+      "id": "string",
       "name": "string",
       "description": "string",
       "dailyPrice": number,
@@ -242,6 +244,7 @@ header: {
 body: {
   "message": "Success",
   "data": {
+    "id": "string",
     "name": "string",
     "description": "string",
     "dailyPrice": number,
@@ -278,18 +281,6 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid token**
-
-```
-body: {
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
 **Status - 401 - Missing authorization token**
 
 ```
@@ -297,6 +288,18 @@ body: {
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
+}
+```
+
+<br>
+
+**Status - 401 - Invalid token**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
 }
 ```
 
@@ -335,6 +338,7 @@ header: {
 
 ```
 body: {
+  "id": "string",
   "name": "string",
   "description": "string",
   "dailyPrice": number,
@@ -360,6 +364,7 @@ body: {
 body: {
   "message": "Success",
   "data": {
+    "id": "string",
     "name": "string",
     "description": "string",
     "dailyPrice": number,
@@ -396,18 +401,6 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid Token**
-
-```
-body: {
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
 **Status - 401 - Missing authorization token**
 
 ```
@@ -415,6 +408,18 @@ body: {
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
+}
+```
+
+<br>
+
+**Status - 401 - Invalid Token**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
 }
 ```
 
@@ -504,18 +509,6 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid token**
-
-```
-body: {
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
 **Status - 401 - Missing authorization token**
 
 ```
@@ -523,6 +516,18 @@ body: {
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
+}
+```
+
+<br>
+
+**Status - 401 - Invalid token**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
 }
 ```
 
