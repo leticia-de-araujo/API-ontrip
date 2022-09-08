@@ -471,4 +471,95 @@ describe("/accommodations", () => {
     expect(response.body).toHaveProperty("status", "Error");
     expect(response.body).toHaveProperty("message", "Accommodation not found");
   });
+
+  test("DELETE /accommodations/:id - Should be able to delete an accommodation", async () => {
+    const accommodations = await request(app).get("/accommodations");
+
+    const accommodationId = accommodations.body[0].data.id;
+
+    const response = await request(app)
+      .delete(`/accommodations/${accommodationId}`)
+      .set("Authorization", `Bearer ${genericUserToken}`);
+
+    expect(response.status).toBe(204);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Accommodation deleted with success"
+    );
+  });
+
+  test("DELETE /accommodations/:id - Should not be able to delete an accommodation without authentication", async () => {
+    const accommodations = await request(app).get("/accommodations");
+
+    const accommodationId = accommodations.body[0].data.id;
+
+    const response = await request(app).delete(
+      `/accommodations/${accommodationId}`
+    );
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("status", "Error");
+    expect(response.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
+  });
+
+  test("DELETE /accommodations/:id - Should not be able to delete an accommodation with invalid token", async () => {
+    const accommodations = await request(app).get("/accommodations");
+
+    const accommodationId = accommodations.body[0].data.id;
+
+    const response = await request(app)
+      .delete(`/accommodations/${accommodationId}`)
+      .set("Authorization", `Bearer ${genericUserToken}8783sgyd6725ad`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("status", "Error");
+    expect(response.body).toHaveProperty("message", "Invalid token");
+  });
+
+  test("DELETE /accommodations/:id - Should not be able to delete an accommodation if the user is not the owner and is not an admin", async () => {
+    const accommodations = await request(app).get("/accommodations");
+
+    const accommodationId = accommodations.body[0].data.id;
+
+    const response = await request(app)
+      .delete(`/accommodations/${accommodationId}`)
+      .set("Authorization", `Bearer ${genericUserToken2}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("status", "Error");
+    expect(response.body).toHaveProperty(
+      "message",
+      "Not possible to non-admin users to delete an accommodation without being the owner"
+    );
+  });
+
+  test("DELETE /accommodations/:id - Should not be able to delete an accommodation that is already deleted", async () => {
+    const accommodations = await request(app).get("/accommodations");
+
+    const accommodationId = accommodations.body[0].data.id;
+
+    const response = await request(app)
+      .delete(`/accommodations/${accommodationId}`)
+      .set("Authorization", `Bearer ${genericUserToken}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("status", "Error");
+    expect(response.body).toHaveProperty(
+      "message",
+      "Accommodation already deleted"
+    );
+  });
+
+  test("DELETE /accommodations/:id - Should not be able to delete an accommodation that does not exist", async () => {
+    const response = await request(app)
+      .delete("/accommodations/7632hg76v73ft67f3r9985rsd")
+      .set("Authorization", `Bearer ${genericUserToken}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body).toHaveProperty("status", "Error");
+    expect(response.body).toHaveProperty("message", "Accommodation not found");
+  });
 });
