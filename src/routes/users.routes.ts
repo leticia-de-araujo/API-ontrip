@@ -1,5 +1,6 @@
 import { Router } from "express";
 import fileUpload from "express-fileupload";
+import listUsersController from "../controllers/users/listUsers.controller";
 import userCreateController from "../controllers/users/userCreate.controller";
 import upload from "../utils/multer.middleware";
 import {
