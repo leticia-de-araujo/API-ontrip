@@ -167,12 +167,12 @@ body:{
 
 <br>
 
-**Status - 400 - Can't list a field that doesn't exist**
+**Status - 404 - Can't list a field that doesn't exist**
 
 ```
 body: {
     "status": "Error",
-    "code": 400,
+    "code": 404,
     "message": "There's no capacity associated with the Id used"
 }
 ```
