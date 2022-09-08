@@ -13,11 +13,11 @@ export class User {
   @Column({ length: 30, unique: true })
   email: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 500 })
   @Exclude()
   password: string;
 
-  @Column({ length: 10 })
+  @Column({ length: 20 })
   dateOfBirth: string;
 
   @Column({ default: false })
@@ -26,7 +26,7 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column()
+  @Column({ length: 5000 })
   photo: string;
 
   constructor() {

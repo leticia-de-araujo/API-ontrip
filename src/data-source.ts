@@ -15,7 +15,7 @@ const AppDataSource = new DataSource(
     ? {
         type: "postgres",
         host: "localhost",
-        port: 5050,
+        port: 5432,
         username: process.env.POSTGRES_USER,
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DB,
@@ -32,7 +32,7 @@ const AppDataSource = new DataSource(
         password: process.env.POSTGRES_PASSWORD,
         database: process.env.POSTGRES_DB,
         logging: true,
-        synchronize: false,
+        synchronize: true,
         entities: ["src/entities/*.ts"],
         migrations: ["src/migrations/*.ts"],
       }

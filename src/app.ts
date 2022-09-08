@@ -2,6 +2,7 @@ import "reflect-metadata";
 import express, { Request, Response } from "express";
 import appRoutes from "./routes";
 import handleErrorMiddleware from "./middlewares/handleError.middleware";
+import fileupload from "express-fileupload";
 
 const app = express();
 
@@ -14,8 +15,8 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-appRoutes(app);
-
 app.use(handleErrorMiddleware);
+app.use(fileupload());
+appRoutes(app);
 
 export default app;

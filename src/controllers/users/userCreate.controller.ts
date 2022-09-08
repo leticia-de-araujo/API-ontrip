@@ -1,15 +1,26 @@
 import { instanceToPlain } from "class-transformer";
 import { Request, Response } from "express";
+import path from "path";
 import { AppError } from "../../errors/AppError";
 import { IUserRequest } from "../../interfaces/users";
 import handleErrorMiddleware from "../../middlewares/handleError.middleware";
 import userCreateService from "../../services/users/userCreate.services";
+import { v4 as uuid } from "uuid";
 
 const userCreateController = async (req: Request, res: Response) => {
-  const { username, email, password, dateOfBirth, isAdm, photo }: IUserRequest =
-    req.body;
-
   try {
+    const { username, email, password, dateOfBirth, isAdm }: IUserRequest =
+      req.body;
+    const files: any = req.files;
+    let photo!: string;
+    Object.keys(files).forEach((key) => {
+      photo = path.join(__dirname, "profilePictures", uuid() + files[key].name);
+      files[key].mv(photo, (err: any) => {
+        if (err) {
+          throw new AppError(500, err);
+        }
+      });
+    });
     const user = await userCreateService({
       username,
       email,
