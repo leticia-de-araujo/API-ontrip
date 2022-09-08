@@ -77,6 +77,16 @@ describe("Testing the type routes", () => {
     expect(genericCapacity.body.data).toHaveProperty("message");
   });
 
+  test("POST /capacities - Should not be able to create a capacity with invalid token", async () => {
+    genericCapacity = await request(app)
+      .post("/capacities")
+      .send(mockedCapacity2)
+      .set("Authorization", `Bearer ${adminToken.body.token}67asdtgs67v2g`);
+
+    expect(genericCapacity.status).toBe(401);
+    expect(genericCapacity.body.data).toHaveProperty("message");
+  });
+
   test("POST /capacities - Should not be able to create a capacity with invalid data", async () => {
     genericCapacity = await request(app)
       .post("/capacities")
@@ -107,15 +117,19 @@ describe("Testing the type routes", () => {
     );
   });
 
-  test("GET /capacities/:id -  Must be able to list one capacity", async () => {
+  test("GET /capacities/:id -  Should be able to list one capacity", async () => {
     genericCapacity = await request(app)
       .post("/capacities")
-      .send(mockedCapacity2);
-    const listOne = await request(app).get(
-      `/capacities/${
-        genericCapacity.body.data[genericCapacity.body.data.length - 1].id
-      }`
-    );
+      .send(mockedCapacity2)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    const listOne = await request(app)
+      .get(
+        `/capacities/${
+          genericCapacity.body.data[genericCapacity.body.data.length - 1].id
+        }`
+      )
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(listOne.status).toBe(200);
     expect(listOne.body.data).toHaveProperty("message");
@@ -131,19 +145,21 @@ describe("Testing the type routes", () => {
     );
   });
 
-  test("GET /capacities/:id -  Must not be able to list a capacity that doesn't exist", async () => {
-    const listOne = await request(app).get("/capacities/this7is7an7invalid7id");
+  test("GET /capacities/:id -  Should not be able to list a capacity that doesn't exist", async () => {
+    const listOne = await request(app)
+      .get("/capacities/this7is7an7invalid7id")
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(listOne.status).toBe(400);
     expect(listOne.body.data).toHaveProperty("message");
     expect(listOne.body.data).toMatchObject({
-      message: "There's no capacity associated with this ID",
+      message: "Capacity not found",
     });
   });
 
-  test("PATCH /capacities/:id - Must be able to update a capacity", async () => {
+  test("PATCH /capacities/:id - Should be able to update a capacity", async () => {
     const patchOne = await request(app)
-      .post(`/capacities/${genericCapacity.body.data.id}`)
+      .patch(`/capacities/${genericCapacity.body.data.id}`)
       .send(mockedCapacity3)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
@@ -161,35 +177,35 @@ describe("Testing the type routes", () => {
     );
   });
 
-  test("PATCH /capacities/:id - Must not be able to update a capacity without being and admin", async () => {
+  test("PATCH /capacities/:id - Should not be able to update a capacity without being an admin", async () => {
     const patchOne = await request(app)
-      .post(`/capacities/${genericCapacity.body.data.id}`)
+      .patch(`/capacities/${genericCapacity.body.data.id}`)
       .send(mockedCapacity2)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body.data).toHaveProperty("message");
     expect(patchOne.body.data).toStrictEqual({
-      message: "Not authorized to update a capacity not being admin",
+      message: "Missing admin token",
     });
   });
 
-  test("PATCH /capacities/:id - Must not be able to update a capacity that doesn't exist", async () => {
+  test("PATCH /capacities/:id - Should not be able to update a capacity that doesn't exist", async () => {
     const patchOne = await request(app)
-      .post(`/capacities/this7is7an7invalid7token`)
+      .patch(`/capacities/this7is7an7invalid7token`)
       .send(mockedCapacity)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(400);
     expect(patchOne.body.data).toHaveProperty("message");
     expect(patchOne.body.data).toStrictEqual({
-      message: "There's no capacity associated with this ID",
+      message: "Capacity not found",
     });
   });
 
-  test("PATCH /capacities/:id - Must not be able to update a capacity with invalid data", async () => {
+  test("PATCH /capacities/:id - Should not be able to update a capacity with invalid data", async () => {
     const patchOne = await request(app)
-      .post(`/capacities/${genericCapacity.body.data.id}`)
+      .patch(`/capacities/${genericCapacity.body.data.id}`)
       .send(mockedCapacityInvalidPatch)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
@@ -197,7 +213,23 @@ describe("Testing the type routes", () => {
     expect(patchOne.body.data).toHaveProperty("message");
     expect(patchOne.body.data).toStrictEqual({
       message:
-        "The changes to a capacity need to make sense (no negative values, at least able to host 1 guest)",
+        "Invalid capacity data (negative values or unreasonable guest capacity)",
     });
   });
+
+  test("PATCH /capacities/:id - Should not be able to update a capacity with the same data", async () => {
+    const patchOne = await request(app)
+      .patch(`/capacities/${genericCapacity.body.data.id}`)
+      .send(mockedCapacity)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(patchOne.status).toBe(400);
+    expect(patchOne.body.data).toHaveProperty("message");
+    expect(patchOne.body.data).toStrictEqual({
+      message:
+        "Not possible to update a capacity without having any changes in any field",
+    });
+  });
+
+  // delete tests ?
 });
