@@ -6,21 +6,18 @@ import { IUserRequest } from "../../interfaces/users";
 import handleErrorMiddleware from "../../middlewares/handleError.middleware";
 import userCreateService from "../../services/users/userCreate.services";
 import { v4 as uuid } from "uuid";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
 const userCreateController = async (req: Request, res: Response) => {
   try {
     const { username, email, password, dateOfBirth, isAdm }: IUserRequest =
       req.body;
-    const files: any = req.files;
-    let photo!: string;
-    Object.keys(files).forEach((key) => {
-      photo = path.join(__dirname, "profilePictures", uuid() + files[key].name);
-      files[key].mv(photo, (err: any) => {
-        if (err) {
-          throw new AppError(500, err.message);
-        }
-      });
-    });
+
+    if (!req.file) {
+      throw new AppError(400, "Manda foto");
+    }
+    let photo = req.file;
     const user = await userCreateService({
       username,
       email,
