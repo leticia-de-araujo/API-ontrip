@@ -3,10 +3,10 @@ import {
   IAccommodationRequestPatch,
 } from "../../../interfaces/accommodations";
 
-export const mockedAccomodation: IAccommodationRequest = {
+export const mockedAccommodation: IAccommodationRequest = {
   name: "Marolargo",
   description:
-    "A stunning apartment, modern furnishings, an incredible view of the nearby beach",
+    "A stunning apartment, modern furnishings, an incredible view of the nearby beach.",
   dailyPrice: 300,
   categoryId: "",
   capacityId: "",
@@ -14,7 +14,29 @@ export const mockedAccomodation: IAccommodationRequest = {
   typeId: "",
 };
 
-export const mockedAccomodationInvalid = {
+export const mockedAccommodation2: IAccommodationRequest = {
+  name: "Complete apartment to work",
+  description:
+    "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
+  dailyPrice: 459.54,
+  categoryId: "",
+  capacityId: "",
+  userId: "",
+  typeId: "",
+};
+
+export const mockedAccommodation3: IAccommodationRequest = {
+  name: "Apartament to Work Remotely",
+  description:
+    "Beautiful apartment nearby to the beach. Combining work and travel has never been so easy. We wait for you!.",
+  dailyPrice: 500,
+  categoryId: "",
+  capacityId: "",
+  userId: "",
+  typeId: "",
+};
+
+export const mockedAccommodationInvalid = {
   name: "Marolargo",
   description: "text",
   dailyPrice: "300",
@@ -24,7 +46,7 @@ export const mockedAccomodationInvalid = {
   typeId: "",
 };
 
-export const mockedAccomodationTooLarge: IAccommodationRequest = {
+export const mockedAccommodationTooLarge: IAccommodationRequest = {
   name: "Marolargo Marolargo Marolargo Marolargo Marolargo",
   description:
     "A stunning apartment, modern furnishings, an incredible view of the nearby beach",
@@ -35,6 +57,6 @@ export const mockedAccomodationTooLarge: IAccommodationRequest = {
   typeId: "",
 };
 
-export const mockedAccomodationPatch: IAccommodationRequestPatch = {
+export const mockedAccommodationPatch: IAccommodationRequestPatch = {
   dailyPrice: 350,
 };
