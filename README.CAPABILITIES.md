@@ -1,4 +1,4 @@
-## POST /categories
+## POST /capabilities
 
 <br>
 
@@ -167,12 +167,12 @@ body:{
 
 <br>
 
-**Status - 400 - Can't list a field that doesn't exist**
+**Status - 404 - Can't list a field that doesn't exist**
 
 ```
 body: {
     "status": "Error",
-    "code": 400,
+    "code": 404,
     "message": "There's no capacity associated with the Id used"
 }
 ```
@@ -212,7 +212,7 @@ body:{
 
 ```
 body:{
-    "message": "Category name updated",
+    "message": "Capacity updated",
 
     "data": {
         "id": "string",
@@ -240,12 +240,12 @@ body:{
 }
 ```
 
-**Status - 400 - Can't edit a field that doesn't exist**
+**Status - 404 - Can't edit a field that doesn't exist**
 
 ```
 body:{
     "status": "Error",
-    "code": 403,
+    "code": 404,
     "message": "There's no capacity associated with this Id"
 }
 ```
@@ -257,5 +257,17 @@ body:{
     "status": "Error",
     "code": 403,
     "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
+}
+```
+
+<br>
+
+**Status - 403 - There's already a capacity with the same exact data**
+
+```
+body: {
+    "status": "Error",
+    "code": 403,
+    "message": `There's already a capacity with the intended data in the database`
 }
 ```
