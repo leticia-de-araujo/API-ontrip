@@ -1,4 +1,4 @@
-## POST /capabilities
+## POST /capacities
 
 <br>
 
