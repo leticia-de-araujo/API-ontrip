@@ -15,13 +15,7 @@ export const userCreateSchema: SchemaOf<IUserRequest> = yup.object().shape({
       "Format should be yyyy-mm-dd"
     ),
   isAdm: yup.boolean(),
-  photo: yup
-    .string()
-    .required()
-    .matches(
-      /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/,
-      "Invalid base64 string"
-    ),
+  photo: yup.string().required(),
 });
 
 export const validateUserCreate =
@@ -40,6 +34,8 @@ export const validateUserCreate =
       } catch (err: any) {
         return res.status(400).json({
           message: err.errors?.join(", "),
+          status: "Error",
+          code: 400,
         });
       }
     } catch (err) {
