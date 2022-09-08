@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import appRoutes from "./routes";
 import handleErrorMiddleware from "./middlewares/handleError.middleware";
 import fileupload from "express-fileupload";
+import "express-async-errors";
 
 const app = express();
 
@@ -15,8 +16,8 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use(handleErrorMiddleware);
 app.use(fileupload());
 appRoutes(app);
+app.use(handleErrorMiddleware);
 
 export default app;
