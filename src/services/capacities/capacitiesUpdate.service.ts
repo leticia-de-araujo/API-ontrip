@@ -3,18 +3,19 @@ import { Capacity } from "../../entities/capacity.entity";
 import { AppError } from "../../errors/AppError";
 import { ICapacityRequestPatch } from "../../interfaces/capacities";
 
-const updateCapacityService = async (
+const capacitiesUpdateService = async (
   id: string,
   { rooms, beds, totalGuests, bathrooms }: ICapacityRequestPatch
 ): Promise<Capacity> => {
   const capacityRepository = AppDataSource.getRepository(Capacity);
 
   const capacity = await capacityRepository.findOneBy({ id: id });
+
   if (!capacity) {
-    throw new AppError(404, "There's no capacity associated with this Id");
+    throw new AppError(404, "There's no capacity associated with this id");
   }
 
-  const newCapacity = capacityRepository.create({
+  const capacityUpdayed = capacityRepository.create({
     rooms: rooms ? rooms : capacity.rooms,
     beds: beds ? beds : capacity.beds,
     totalGuests: totalGuests ? totalGuests : capacity.totalGuests,
@@ -23,12 +24,13 @@ const updateCapacityService = async (
 
   const capacityCheck = await capacityRepository.findOne({
     where: {
-      rooms: newCapacity.rooms,
-      beds: newCapacity.beds,
-      totalGuests: newCapacity.totalGuests,
-      bathrooms: newCapacity.bathrooms,
+      rooms: capacityUpdayed.rooms,
+      beds: capacityUpdayed.beds,
+      totalGuests: capacityUpdayed.totalGuests,
+      bathrooms: capacityUpdayed.bathrooms,
     },
   });
+
   if (capacityCheck) {
     throw new AppError(
       403,
@@ -36,9 +38,9 @@ const updateCapacityService = async (
     );
   }
 
-  await capacityRepository.update(id, newCapacity);
+  await capacityRepository.update(id, capacityUpdayed);
 
-  return newCapacity;
+  return capacityUpdayed;
 };
 
-export default updateCapacityService;
+export default capacitiesUpdateService;
