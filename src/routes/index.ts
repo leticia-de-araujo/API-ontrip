@@ -8,7 +8,7 @@ const appRoutes = (app: Express) => {
   app.use("/users", userRoutes());
   app.use("/accommodations", accommodationsRoutes());
   app.use("/booking", bookingsRoutes());
-  app.use("/capabilities", capabilitiesRoutes());
+  app.use("/capacities", capabilitiesRoutes());
 };
 
 export default appRoutes;
