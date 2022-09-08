@@ -3,7 +3,7 @@ import { Capacity } from "../../entities/capacity.entity";
 import { AppError } from "../../errors/AppError";
 import { ICapacityRequest } from "../../interfaces/capacities";
 
-const createCapacityService = async ({
+const capacitiesCreateService = async ({
   rooms,
   beds,
   totalGuests,
@@ -38,4 +38,4 @@ const createCapacityService = async ({
   return newCapacity;
 };
 
-export default createCapacityService;
+export default capacitiesCreateService;

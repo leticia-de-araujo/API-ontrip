@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
-import deleteCapacityService from "../../services/capabilities/deleteCapacity.service";
+import capacitiesDeleteService from "../../services/capacities/capacitiesDelete.service";
 
-const deleteCapacityController = async (req: Request, res: Response) => {
+const capacitiesDeleteController = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
 
-    const deleteCapacity = await deleteCapacityService(id);
+    const deleteCapacity = await capacitiesDeleteService(id);
 
     return res.status(204).json({ message: deleteCapacity });
   } catch (error) {
@@ -16,4 +16,4 @@ const deleteCapacityController = async (req: Request, res: Response) => {
   }
 };
 
-export default deleteCapacityController;
+export default capacitiesDeleteController;

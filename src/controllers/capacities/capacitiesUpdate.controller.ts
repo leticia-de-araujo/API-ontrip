@@ -1,20 +1,24 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
-import updateCapacityService from "../../services/capabilities/updateCapacity.service";
+import capacitiesUpdateService from "../../services/capacities/capacitiesUpdate.service";
 
-const updateCapacityController = async (req: Request, res: Response) => {
+const capacitiesUpdateController = async (req: Request, res: Response) => {
   try {
     const { rooms, beds, totalGuests, bathrooms } = req.body;
+
     const id = req.params.id;
 
-    const updateCapacity = await updateCapacityService(id, {
+    const updatedCapacity = await capacitiesUpdateService(id, {
       rooms,
       beds,
       totalGuests,
       bathrooms,
     });
 
-    return res.json({ message: "Capacity updated", data: updateCapacity });
+    return res.json({
+      message: "Capacity updated with success",
+      data: updatedCapacity,
+    });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
@@ -22,4 +26,4 @@ const updateCapacityController = async (req: Request, res: Response) => {
   }
 };
 
-export default updateCapacityController;
+export default capacitiesUpdateController;

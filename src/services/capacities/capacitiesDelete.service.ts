@@ -2,7 +2,7 @@ import AppDataSource from "../../data-source";
 import { Capacity } from "../../entities/capacity.entity";
 import { AppError } from "../../errors/AppError";
 
-const deleteCapacityService = async (id: string): Promise<string> => {
+const capacitiesDeleteService = async (id: string): Promise<string> => {
   const capacityRepository = AppDataSource.getRepository(Capacity);
 
   const capacity = await capacityRepository.findOneBy({ id: id });
@@ -15,4 +15,4 @@ const deleteCapacityService = async (id: string): Promise<string> => {
   return "Capacity deleted";
 };
 
-export default deleteCapacityService;
+export default capacitiesDeleteService;
