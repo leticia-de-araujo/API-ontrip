@@ -1,4 +1,4 @@
-## POST /types
+## POST /categories
 
 <br>
 
@@ -14,7 +14,10 @@ header: {
 ```
 
 body:{
-    "name":"room"
+    "rooms": 1
+    "beds": 1
+    "totalGuests": 1
+    "bathrooms": 1
 }
 ```
 
@@ -28,11 +31,14 @@ body:{
 
 ```
 body:{
-    "message": "type created",
+    "message": "capacity created",
 
     "data": {
-        "id": "uuid string",
-        "name": "room",
+        "id": " uuid string",
+        "rooms": 1
+        "beds": 1
+        "totalGuests": 1
+        "bathrooms": 1
     }
 }
 ```
@@ -43,13 +49,13 @@ body:{
 
 <br>
 
-**Status - 403 - There's already a type with the same name**
+**Status - 403 - There's already a capacity with the same exact data**
 
 ```
 body: {
     "status": "Error",
     "code": 403,
-    "message": `Type named ${name used in object sent in Request body} already exists`
+    "message": `There's already a capacity with the intended data in the database`
 }
 ```
 
@@ -65,9 +71,21 @@ body: {
 }
 ```
 
+<br>
+
+**Status - 400 - The request data must make sense (no negative values, at least 1 guest capacity)**
+
+```
+body: {
+    "status": "Error",
+    "code": 400,
+    "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
+}
+```
+
 #
 
-## GET /types
+## GET /capacities
 
 <br>
 
@@ -90,8 +108,11 @@ No body required
 body:{
     "message": "Request sucessful",
     "data": [{
-        "id": "uuid string",
-        "name": "room"
+        "id": " uuid string",
+        "rooms": 1
+        "beds": 1
+        "totalGuests": 1
+        "bathrooms": 1
     },
     ...
     ]
@@ -108,7 +129,7 @@ body:{
 
 #
 
-## GET /types/:id
+## GET /capacities/:id
 
 <br>
 
@@ -130,10 +151,12 @@ No body required
 ```
 body:{
     "message": "Request sucessful",
-
     "data": {
-    "id": "uuid string",
-    "name": "room"
+        "id": " uuid string",
+        "rooms": 1
+        "beds": 1
+        "totalGuests": 1
+        "bathrooms": 1
     }
 }
 ```
@@ -150,7 +173,7 @@ body:{
 body: {
     "status": "Error",
     "code": 400,
-    "message": "There's no type associated with this ID"
+    "message": "There's no capacity associated with the Id used"
 }
 ```
 
@@ -158,7 +181,7 @@ body: {
 
 #
 
-## PATCH /types/:id
+## PATCH /capacities/:id
 
 <br>
 
@@ -172,7 +195,10 @@ headers:{
 
 ```
 body:{
-    "name": "string",
+    "rooms": 1
+    "beds": 1
+    "totalGuests": 1
+    "bathrooms": 1,
 }
 ```
 
@@ -186,11 +212,14 @@ body:{
 
 ```
 body:{
-    "message": "Type name updated",
+    "message": "Category name updated",
 
     "data": {
-    "id": "uuid string",
-    "name": "room",
+        "id": "string",
+        "rooms": 1
+        "beds": 1
+        "totalGuests": 1
+        "bathrooms": 1,
     }
 }
 ```
@@ -217,6 +246,16 @@ body:{
 body:{
     "status": "Error",
     "code": 403,
-    "message": "There's no type associated with this ID"
+    "message": "There's no capacity associated with this Id"
+}
+```
+
+**Status - 400 - The request data must make sense (no negative values, at least 1 guest capacity)**
+
+```
+body:{
+    "status": "Error",
+    "code": 403,
+    "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
 }
 ```
