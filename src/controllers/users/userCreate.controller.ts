@@ -17,7 +17,7 @@ const userCreateController = async (req: Request, res: Response) => {
       photo = path.join(__dirname, "profilePictures", uuid() + files[key].name);
       files[key].mv(photo, (err: any) => {
         if (err) {
-          throw new AppError(500, err);
+          throw new AppError(500, err.message);
         }
       });
     });
