@@ -6,7 +6,6 @@ export interface IBooking {
   accommodationId: string;
 }
 
-//id criado automaticamente, status tem valor padrao
 export interface IBookingRequest {
   checkIn: string;
   checkout: string;
