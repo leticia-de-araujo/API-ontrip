@@ -35,12 +35,12 @@ const AppDataSource = new DataSource(
         logging: true,
         entities:
           process.env.NODE_ENV === "production"
-            ? ["dist/entities/.js"]
-            : ["src/entities/.ts"],
+            ? ["dist/entities/*.js"]
+            : ["src/entities/*.ts"],
         migrations:
           process.env.NODE_ENV === "production"
-            ? ["dist/migrations/.js"]
-            : ["src/migrations/.ts"],
+            ? ["dist/migrations/*.js"]
+            : ["src/migrations/*.ts"],
       }
 );
 
