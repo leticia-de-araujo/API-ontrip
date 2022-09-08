@@ -9,11 +9,11 @@
     "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "compose": "docker-compose up",
     "typeorm": "NODE_ENV=migration typeorm-ts-node-commonjs",
-    "test": "cross-env NODE_ENV=test jest"
+    "test": "cross-env NODE_ENV=test jest",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "dependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "@types/express-fileupload": "^1.4.1",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "cross-env": "^7.0.3",
@@ -30,7 +30,9 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
+    "@types/express-fileupload": "^1.4.1",
     "@types/jest": "^29.0.0",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^18.7.15",
