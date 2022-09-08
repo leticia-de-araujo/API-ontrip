@@ -14,7 +14,7 @@ header: {
 ```
 
 body:{
-    "name":"string"
+    "name":"apartment"
 }
 ```
 
@@ -31,8 +31,8 @@ body:{
     "message": "category created",
 
     "data": {
-    "id": "string",
-    "name": "string",
+        "id": " uuid string",
+    "name": "apartment",
     }
 }
 ```
@@ -43,27 +43,68 @@ body:{
 
 <br>
 
-**Status - 403**
+**Status - 403 - There's already a category with the same name**
 
 ```
 body: {
-"status": "Error",
-"code": 403,
-"message": `Category named ${name used in object sent in Request body} already exists`
+    "status": "Error",
+    "code": 403,
+    "message": `Category named ${name used in object sent in Request body} already exists`
 }
 ```
 
 <br>
 
-**Status - 401**
+**Status - 401 - Must have an Admin token in request's header**
 
 ```
 body: {
-"status": "Error",
-"code": 401,
-"message": "Missing admin token"
+    "status": "Error",
+    "code": 401,
+    "message": "Missing admin token"
 }
 ```
+
+#
+
+## GET /categories
+
+<br>
+
+#### Request:
+
+```
+No body required
+```
+
+<br>
+<br>
+
+#### Expected Responses:
+
+<br>
+
+**Status - 200**
+
+```
+body:{
+    "message": "Request sucessful",
+    "data": [{
+        "id": "uuid string",
+        "name": "apartment"
+    },
+    ...
+    ]
+}
+```
+
+<br>
+
+#### Error Responses:
+
+<br>
+
+**No errors expected**
 
 #
 
@@ -90,8 +131,8 @@ No body required
 body:{
     "message": "Request sucessful",
     "data": {
-    "id": "string",
-    "name": "string"
+        "id": "uuid string",
+        "name": "apartment"
     }
 }
 ```
@@ -102,20 +143,19 @@ body:{
 
 <br>
 
-**Status - 400**
+**Status - 400 - Can't list a field that doesn't exist**
 
 ```
 body: {
-"status": "Error",
-"code": 400,
-"message": "There's no category associated with the Id used"
+    "status": "Error",
+    "code": 400,
+    "message": "There's no category associated with the Id used"
 }
 ```
 
 <br>
 
 #
-
 
 ## PATCH /categories/:id
 
@@ -131,7 +171,7 @@ headers:{
 
 ```
 body:{
-    "name": "string",
+    "name": "apartment",
 }
 ```
 
@@ -160,7 +200,7 @@ body:{
 
 <br>
 
-**Status - 401**
+**Status - 401 - Must have an Admin token in request's header**
 
 ```
 body:{
@@ -170,7 +210,7 @@ body:{
 }
 ```
 
-**Status - 400**
+**Status - 400 - Can't edit a field that doesn't exist**
 
 ```
 body:{
