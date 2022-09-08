@@ -1,0 +1,20 @@
+1 - heroku login
+2 - heroku create api-ontrip
+2 - heroku git:remote -a api-ontrip
+3 - package.json -> script:{"build": "tsc",
+    "start": "node dist/app.js"}
+4 - .env ->  DATABASE_URL="postgres://naide:1234@localhost:5432/ontrip" -> apagar outras variáveis
+5 - .env.Ex ->  DATABASE_URL="postgres://user:password@localhost:5432/db"
+6 - data-souce -> {type: "postgres",
+        url: process.env.DATABASE_URL,
+        ssl: process.env.NODE_ENV === "production"?
+        {rejectUnauthorized: false}
+        :false,
+        synchronize: false,
+        logging: true,
+        entities: process.env.NODE_ENV === "production"?["dist/entities/.js"] :["src/entities/.ts"],
+        migrations: process.env.NODE_ENV === "production"?["dist/migrations/.js"] :["src/migrations/.ts"]}
+7 - heroku addons:create heroku-postgresql:hobby-dev
+8 - git push --set-upstream heroku main (ou master)
+9 - caso de erro -> heroku logs --tail
+10 - heroku run typeorm migration:run -d dist/data-source.js
