@@ -12,7 +12,7 @@ export const authUserMiddleware = async (
 
     // Throwing an error if you don't send the token.
     if (!authorization) {
-      throw new AppError(400, "Missing authorization token");
+      throw new AppError(401, "Missing authorization token");
     }
 
     // Splitting the token regardless of whether it comes with the Bearer or not.
@@ -39,6 +39,9 @@ export const authUserMiddleware = async (
       token as string,
       process.env.SECRET_KEY as string,
       (err: any, decoded: any) => {
+        if (err) {
+          throw new AppError(401, "Invalid token");
+        }
         // If you want to extract more things from the decoded to add to the request, just assign them in the lines below.
         req.userEmail = decoded.email;
         req.userId = decoded.id;
