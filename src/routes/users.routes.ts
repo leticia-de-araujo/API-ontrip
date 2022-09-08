@@ -1,5 +1,6 @@
 import { Router } from "express";
 import fileUpload from "express-fileupload";
+import listUsersController from "../controllers/users/listUsers.controller";
 import userCreateController from "../controllers/users/userCreate.controller";
 import fileExistsHandlerMiddleware from "../middlewares/fileExistsHandler.middleware";
 import fileExtensionHandlerMiddleware from "../middlewares/fileExtensionHandler.middleware";
@@ -19,6 +20,7 @@ const userRoutes = () => {
     fileLimiterHandlerMiddleware,
     userCreateController
   );
+  routes.get("", listUsersController);
   return routes;
 };
 
