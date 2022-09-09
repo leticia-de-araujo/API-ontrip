@@ -14,7 +14,7 @@ const categoryCreateService = async ({
     },
   });
   if (categoryCheck) {
-    throw new AppError(403, `Category named ${name} already exists`);
+    throw new AppError(409, `Category named ${name} already exists`);
   }
 
   const newCategory = categoryRepository.create({
