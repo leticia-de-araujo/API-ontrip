@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { createPhotoController } from "../controllers/photo/createPhoto.controller";
+import { listAllPhotoAccommodationController } from "../controllers/photo/listAllPhotoAccommodation.controller";
 import { lisOnePhotoController } from "../controllers/photo/listOnePhoto.controller";
 import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
 import { authUserMiddleware } from "../middlewares/authUser.middleware";
@@ -16,6 +17,7 @@ const photosRoutes = () => {
     createPhotoController
   ); // ajustar o middleware admOrOwnerAuthMiddleware para a rota de photos
   routes.get("/:photoId", lisOnePhotoController);
+  routes.get("/:accommodationId", listAllPhotoAccommodationController);
 
   return routes;
 };
