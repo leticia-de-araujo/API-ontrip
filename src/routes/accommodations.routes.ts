@@ -11,7 +11,7 @@ const routes = Router();
 const accommodationsRoutes = () => {
   routes.post("", authUserMiddleware, accommodationCreateController);
   routes.get("", accommodationReadAllController);
-  routes.get("/:id", authUserMiddleware, accommodationReadOneController);
+  routes.get("/:id", accommodationReadOneController);
   routes.patch("/:id", authUserMiddleware, accommodationUpdateController);
   routes.delete("/:id", authUserMiddleware, accommodationDeleteController);
   return routes;

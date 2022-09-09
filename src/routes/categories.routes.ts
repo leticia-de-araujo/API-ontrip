@@ -5,14 +5,15 @@ import categoryReadAllController from "../controllers/categories/categoryReadAll
 import categoryReadOneController from "../controllers/categories/categoryReadOne.controller";
 import categoryUpdateController from "../controllers/categories/categoryUpdate.controller";
 import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
+import { authUserMiddleware } from "../middlewares/authUser.middleware";
 
 const routes = Router();
 
 const categoriesRouter = () => {
   routes.post("", admValidationMiddleware, categoryCreateController);
   routes.delete("/:id", admValidationMiddleware, categoryDeleteController);
-  routes.get("", admValidationMiddleware, categoryReadAllController);
-  routes.get("/:id", admValidationMiddleware, categoryReadOneController);
+  routes.get("", authUserMiddleware, categoryReadAllController);
+  routes.get("/:id", authUserMiddleware, categoryReadOneController);
   routes.patch("/:id", admValidationMiddleware, categoryUpdateController);
   return routes;
 };
