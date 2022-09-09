@@ -39,7 +39,7 @@ const userCreateService = async ({
         throw new AppError(500, `Internal server error ${error}`);
       }
     });
-    photo = cloudinaryFile.public_id;
+    photo = cloudinaryFile.url;
   }
 
   if (!photo) {
