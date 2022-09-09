@@ -1,31 +1,68 @@
 # Accommodations
 
+The Accommodation object is defined as:
+
+| **Field**     | **Type** | **Description**                                                          |
+| ------------- | -------- | ------------------------------------------------------------------------ |
+| id            | string   | Accommodation's unique identifier                                        |
+| name          | string   | Accommodation name                                                       |
+| description   | string   | Accommodation description                                                |
+| dailyPrice    | number   | Daily price for accommodation                                            |
+| isActive      | boolean  | Defines whether the accommodation is active or not                       |
+| verifiedByAdm | boolean  | Defines whether the accommodation is verified by an administrator or not |
+| specialOffer  | boolean  | Defines whether the accommodation has a special offer or not             |
+| user          | object   | User who owns the accommodation                                          |
+| type          | object   | Accommodation type                                                       |
+| capacity      | object   | Accommodation capacity                                                   |
+| category      | object   | Accommodation category                                                   |
+
+<br>
+
+### **Endpoints**
+
+| **Method** | **Route**           | **Description**                                           |
+| ---------- | ------------------- | --------------------------------------------------------- |
+| POST       | /accommodations     | Creates an accommodation                                  |
+| GET        | /accommodations     | List all accommodations                                   |
+| GET        | /accommodations/:id | Lists an accommodation using its ID as a parameter        |
+| PATCH      | /accommodations/:id | Updates an accommodation using its ID as a parameter      |
+| DELETE     | /accommodations/:id | Soft-deletes an accommodation using its ID as a parameter |
+
+<br>
+
 ## POST /accommodations
 
 <br>
 
 #### Request:
 
+- Host: http://suaapi.com/v1
 - Authorization: Bearer Token
 - Content-type: application/json
 
 <br>
 
-```
-headers: {
-  "authorization": "Bearer token"
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
-```
-body: {
-  "name": "string",
-  "description": "string",
-  "dailyPrice": number,
-  "typeId": "string",
-  "userId": "string",
-  "capacityId": "string",
-  "categoryId": "string",
+<br>
+
+**Request body example**
+
+```json
+{
+  "name": "Complete apartment to work",
+  "description": "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
+  "dailyPrice": 450,
+  "typeId": "6e79c2b7-c479-46e3-aeac-b9f62739799e",
+  "userId": "04506439-de18-4700-9175-1876e0ed8c34",
+  "capacityId": "0b327321-603d-45a7-b4cd-525c11c14b04",
+  "categoryId": "d3b5f8db-a292-46b4-ae69-7821c2789dcd"
 }
 ```
 
@@ -35,39 +72,40 @@ body: {
 
 <br>
 
-**Status - 201**
+**Status 201 - Created**
 
-```
-body: {
+```json
+{
   "message": "Accommodation created with success",
-  "data": {
-    "id": "string",
-    "name": "string",
-    "description": "string",
-    "dailyPrice": number,
+  "accommodation": {
+    "id": "90ee8282-af60-4570-9847-fb99d5555355",
+    "name": "Complete apartment to work",
+    "description": "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
+    "dailyPrice": 450,
     "isActive": true,
     "verifiedByAdm": false,
     "specialOffer": false,
     "type": {
-      "name": "string"
-    }
+      "name": "A whole place"
+    },
     "user": {
-      "userName": "string",
-      "email": "string",
-      "dateOfBirth": "yyyy/mm/dd",
+      "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+      "username": "Bob Spencer",
+      "email": "bobspencer@email.com",
+      "dateOfBirth": "14/03/1993",
+      "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
       "isAdm": false,
-      "isActive": true,
-      "photo": "string-base64"
+      "isActive": true
     },
     "capacity": {
-        "rooms": number,
-        "beds": number,
-        "totalGuests": number,
-        "bathrooms": number
-      },
-    "category": {
-      "name": "string"
+      "rooms": 2,
+      "beds": 2,
+      "totalGuests": 4,
+      "bathrooms": 2
     },
+    "category": {
+      "name": "Apartment"
+    }
   }
 }
 ```
@@ -78,10 +116,10 @@ body: {
 
 <br>
 
-**Status - 401 - Missing authorization token**
+**Status 401 - Missing authorization token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
@@ -90,10 +128,10 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid Token**
+**Status 401 - Invalid Token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Invalid token"
@@ -102,10 +140,10 @@ body: {
 
 <br>
 
-**Status - 400 - Missing required field**
+**Status 400 - Missing required field**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 400,
   "message": "(any object key) is a required field"
@@ -114,10 +152,10 @@ body: {
 
 <br>
 
-**Status - 400 - Required field with invalid type**
+**Status 400 - Required field with invalid type**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 400,
   "message": "(any object key) has an invalid type"
@@ -126,10 +164,10 @@ body: {
 
 <br>
 
-**Status - 413 - Required field length too large**
+**Status 413 - Required field length too large**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 413,
   "message": "(object key) length too large"
@@ -138,10 +176,10 @@ body: {
 
 <br>
 
-**Status - 409 - Accommodation already registered**
+**Status 409 - Accommodation already registered**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 409,
   "message": "This accommodation is already registered"
@@ -168,40 +206,41 @@ body: {
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body: {
+```json
+{
   "message": "Successful request",
-  "data": [
+  "accommodations": [
     {
-      "id": "string",
-      "name": "string",
-      "description": "string",
-      "dailyPrice": number,
+      "id": "90ee8282-af60-4570-9847-fb99d5555355",
+      "name": "Complete apartment to work",
+      "description": "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
+      "dailyPrice": 450,
       "isActive": true,
       "verifiedByAdm": false,
       "specialOffer": false,
       "type": {
-        "name": "string"
-      }
+        "name": "A whole place"
+      },
       "user": {
-        "userName": "string",
-        "email": "string",
-        "dateOfBirth": "yyyy/mm/dd",
+        "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+        "username": "Bob Spencer",
+        "email": "bobspencer@email.com",
+        "dateOfBirth": "14/03/1993",
+        "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
         "isAdm": false,
-        "isActive": true,
-        "photo": "string-base64"
+        "isActive": true
       },
       "capacity": {
-        "rooms": number,
-        "beds": number,
-        "totalGuests": number,
-        "bathrooms": number
+        "rooms": 2,
+        "beds": 2,
+        "totalGuests": 4,
+        "bathrooms": 2
       },
       "category": {
-        "name": "string"
-      },
+        "name": "Apartment"
+      }
     },
     ...
   ]
@@ -230,9 +269,11 @@ body: {
 
 <br>
 
-```
-headers: {
-  "authorization": "Bearer token"
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -240,39 +281,40 @@ headers: {
 
 #### Expected Response:
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body: {
+```json
+{
   "message": "Successful request",
-  "data": {
-    "id": "string",
-    "name": "string",
-    "description": "string",
-    "dailyPrice": number,
+  "accommodation": {
+    "id": "90ee8282-af60-4570-9847-fb99d5555355",
+    "name": "Complete apartment to work",
+    "description": "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
+    "dailyPrice": 450,
     "isActive": true,
     "verifiedByAdm": false,
     "specialOffer": false,
     "type": {
-      "name": "string"
-    }
+      "name": "A whole place"
+    },
     "user": {
-      "userName": "string",
-      "email": "string",
-      "dateOfBirth": "yyyy/mm/dd",
+      "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+      "username": "Bob Spencer",
+      "email": "bobspencer@email.com",
+      "dateOfBirth": "14/03/1993",
+      "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
       "isAdm": false,
-      "isActive": true,
-      "photo": "string-base64"
+      "isActive": true
     },
     "capacity": {
-      "rooms": number,
-      "beds": number,
-      "totalGuests": number,
-      "bathrooms": number
+      "rooms": 2,
+      "beds": 2,
+      "totalGuests": 4,
+      "bathrooms": 2
     },
     "category": {
-      "name": "string"
-    },
+      "name": "Apartment"
+    }
   }
 }
 ```
@@ -283,10 +325,10 @@ body: {
 
 <br>
 
-**Status - 401 - Missing authorization token**
+**Status 401 - Missing authorization token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
@@ -295,10 +337,10 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid token**
+**Status 401 - Invalid token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Invalid token"
@@ -309,8 +351,8 @@ body: {
 
 **Status - 404 - Accommodation not found**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 404,
   "message": "Accommodation not found"
@@ -332,25 +374,22 @@ body: {
 
 <br>
 
-```
-headers: {
-  "authorization": "Bearer token"
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
-```
-body: {
-  "id": "string",
-  "name": "string",
-  "description": "string",
-  "dailyPrice": number,
-  "isActive": true,
-  "verifiedByAdm": false,
-  "specialOffer": false,
-  "typeId": "string",
-  "userId": "string",
-  "capacityId": "string",
-  "categoryId": "string",
+<br>
+
+**Request body example**
+
+```json
+{
+  "dailyPrice": 300,
+  "specialOffer": true
 }
 ```
 
@@ -360,39 +399,40 @@ body: {
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body: {
+```json
+{
   "message": "Accommodation updated with success",
-  "data": {
-    "id": "string",
-    "name": "string",
-    "description": "string",
-    "dailyPrice": number,
+  "accommodation": {
+    "id": "90ee8282-af60-4570-9847-fb99d5555355",
+    "name": "Complete apartment to work",
+    "description": "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
+    "dailyPrice": 300,
     "isActive": true,
     "verifiedByAdm": false,
-    "specialOffer": false,
+    "specialOffer": true,
     "type": {
-      "name": "string"
-    }
+      "name": "A whole place"
+    },
     "user": {
-      "userName": "string",
-      "email": "string",
-      "dateOfBirth": "yyyy/mm/dd",
+      "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+      "username": "Bob Spencer",
+      "email": "bobspencer@email.com",
+      "dateOfBirth": "14/03/1993",
+      "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
       "isAdm": false,
-      "isActive": true,
-      "photo": "string-base64"
+      "isActive": true
     },
     "capacity": {
-        "rooms": number,
-        "beds": number,
-        "totalGuests": number,
-        "bathrooms": number
-      },
-    "category": {
-      "name": "string"
+      "rooms": 2,
+      "beds": 2,
+      "totalGuests": 4,
+      "bathrooms": 2
     },
+    "category": {
+      "name": "Apartment"
+    }
   }
 }
 ```
@@ -403,10 +443,10 @@ body: {
 
 <br>
 
-**Status - 401 - Missing authorization token**
+**Status 401 - Missing authorization token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
@@ -415,10 +455,10 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid Token**
+**Status 401 - Invalid Token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Invalid token"
@@ -427,10 +467,10 @@ body: {
 
 <br>
 
-**Status - 401 - User is not the accommodation owner or an admin**
+**Status 401 - User is not the accommodation owner or an admin**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Not possible to non-admin users to update an accommodation without being the owner"
@@ -439,10 +479,10 @@ body: {
 
 <br>
 
-**Status - 400 - Field with invalid type**
+**Status 400 - Field with invalid type**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 400,
   "message": "(any object key) has an invalid type"
@@ -451,10 +491,10 @@ body: {
 
 <br>
 
-**Status - 413 - Field length too large**
+**Status 413 - Field length too large**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 413,
   "message": "(object key) length too large"
@@ -463,10 +503,10 @@ body: {
 
 <br>
 
-**Status - 400 - No changes in accommodation data**
+**Status 400 - No changes in accommodation data**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 400,
   "message": "Not possible to update an accommodation without having any changes in any field"
@@ -475,10 +515,10 @@ body: {
 
 <br>
 
-**Status - 404 - Accommodation not found**
+**Status 404 - Accommodation not found**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 404,
   "message": "Accommodation not found"
@@ -497,9 +537,13 @@ body: {
 - Content-type: application/json
 - Empty body
 
-```
-headers: {
-  "authorization": "Bearer token"
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -509,10 +553,10 @@ headers: {
 
 <br>
 
-**Status - 204**
+**Status 204 - No Content**
 
-```
-body: {
+```json
+{
   "message": "Accommodation deleted with success"
 }
 ```
@@ -523,10 +567,10 @@ body: {
 
 <br>
 
-**Status - 401 - Missing authorization token**
+**Status 401 - Missing authorization token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Missing authorization token"
@@ -535,10 +579,10 @@ body: {
 
 <br>
 
-**Status - 401 - Invalid token**
+**Status 401 - Invalid token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Invalid token"
@@ -547,10 +591,10 @@ body: {
 
 <br>
 
-**Status - 401 - User is not the accommodation owner or an admin**
+**Status 401 - User is not the accommodation owner or an admin**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Not possible to non-admin users to delete an accommodation without being the owner"
@@ -559,10 +603,10 @@ body: {
 
 <br>
 
-**Status - 400 - Accommodation already deleted**
+**Status 400 - Accommodation already deleted**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 400,
   "message": "Accommodation already deleted"
@@ -571,12 +615,16 @@ body: {
 
 <br>
 
-**Status - 404 - Accommodation not found**
+**Status 404 - Accommodation not found**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 404,
   "message": "Accommodation not found"
 }
 ```
+
+<br>
+
+#
