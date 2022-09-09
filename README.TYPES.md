@@ -210,7 +210,7 @@ body:{
 }
 ```
 
-**Status - 403 - Can't edit a field that doesn't exist**
+**Status - 400 - Can't edit a field that doesn't exist**
 
 ```
 body:{
