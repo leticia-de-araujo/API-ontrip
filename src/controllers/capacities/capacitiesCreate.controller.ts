@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
-import createCapacityService from "../../services/capabilities/createCapacity.service";
+import capacitiesCreateService from "../../services/capacities/capacitiesCreate.service";
 
-const createCapacityController = async (req: Request, res: Response) => {
+const capacitiesCreateController = async (req: Request, res: Response) => {
   try {
     const { rooms, beds, totalGuests, bathrooms } = req.body;
 
-    const createCapacity = await createCapacityService({
+    const createCapacity = await capacitiesCreateService({
       rooms,
       beds,
       totalGuests,
@@ -15,7 +15,7 @@ const createCapacityController = async (req: Request, res: Response) => {
 
     return res
       .status(201)
-      .json({ message: "capacity created", data: createCapacity });
+      .json({ message: "Capacity created with success", data: createCapacity });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
@@ -23,4 +23,4 @@ const createCapacityController = async (req: Request, res: Response) => {
   }
 };
 
-export default createCapacityController;
+export default capacitiesCreateController;
