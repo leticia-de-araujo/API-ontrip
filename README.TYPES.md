@@ -43,12 +43,12 @@ body:{
 
 <br>
 
-**Status - 403 - There's already a type with the same name**
+**Status - 409 - There's already a type with the same name**
 
 ```
 body: {
     "status": "Error",
-    "code": 403,
+    "code": 409,
     "message": `Type named ${name used in object sent in Request body} already exists`
 }
 ```
@@ -211,7 +211,7 @@ body:{
 }
 ```
 
-**Status - 400 - Can't edit a field that doesn't exist**
+**Status - 403 - Can't edit a field that doesn't exist**
 
 ```
 body:{

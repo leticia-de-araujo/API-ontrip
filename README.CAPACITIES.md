@@ -77,12 +77,12 @@ body: {
 
 <br>
 
-**Status - 403 - There's already a capacity with the same exact data**
+**Status - 409 - There's already a capacity with the same exact data**
 
 ```
 body: {
   "status": "Error",
-  "code": 403,
+  "code": 409,
   "message": "There's already a capacity with the intended data in the database"
 }
 ```
