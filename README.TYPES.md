@@ -130,7 +130,6 @@ No body required
 ```
 body:{
     "message": "Request sucessful",
-
     "data": {
     "id": "uuid string",
     "name": "room"
@@ -216,7 +215,7 @@ body:{
 ```
 body:{
     "status": "Error",
-    "code": 403,
+    "code": 400,
     "message": "There's no type associated with this ID"
 }
 ```
