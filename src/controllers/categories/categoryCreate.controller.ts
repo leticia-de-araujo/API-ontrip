@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
-import createCategoryService from "../../services/categories/createCategory.service";
+import categoryCreateService from "../../services/categories/categoryCreate.service";
 
-const createCategoryController = async (req: Request, res: Response) => {
+const categoryCreateController = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
 
-    const createCategory = await createCategoryService({ name });
+    const createCategory = await categoryCreateService({ name });
 
     return res
       .status(201)
@@ -18,4 +18,4 @@ const createCategoryController = async (req: Request, res: Response) => {
   }
 };
 
-export default createCategoryController;
+export default categoryCreateController;

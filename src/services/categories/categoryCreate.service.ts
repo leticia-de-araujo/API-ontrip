@@ -3,7 +3,7 @@ import { Category } from "../../entities/category.entity";
 import { AppError } from "../../errors/AppError";
 import { ICategoryRequest } from "../../interfaces/categories";
 
-const createCategoryService = async ({
+const categoryCreateService = async ({
   name,
 }: ICategoryRequest): Promise<Category> => {
   const categoryRepository = AppDataSource.getRepository(Category);
@@ -26,4 +26,4 @@ const createCategoryService = async ({
   return newCategory;
 };
 
-export default createCategoryService;
+export default categoryCreateService;
