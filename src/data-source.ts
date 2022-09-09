@@ -31,7 +31,7 @@ const AppDataSource = new DataSource(
           process.env.NODE_ENV === "production"
             ? { rejectUnauthorized: false }
             : false,
-        synchronize: false,
+        synchronize: true,
         logging: true,
         entities:
           process.env.NODE_ENV === "production"

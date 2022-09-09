@@ -3,6 +3,7 @@ import categoryCreateController from "../controllers/categories/categoryCreate.c
 import categoryDeleteController from "../controllers/categories/categoryDelete.controller";
 import categoryReadAllController from "../controllers/categories/categoryReadAll.controller";
 import categoryReadOneController from "../controllers/categories/categoryReadOne.controller";
+import categoryUpdateController from "../controllers/categories/categoryUpdate.controller";
 import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
 
 const routes = Router();
@@ -12,6 +13,7 @@ const categoriesRouter = () => {
   routes.delete("/:id", admValidationMiddleware, categoryDeleteController);
   routes.get("", admValidationMiddleware, categoryReadAllController);
   routes.get("/:id", admValidationMiddleware, categoryReadOneController);
+  routes.patch("/:id", admValidationMiddleware, categoryUpdateController);
   return routes;
 };
 
