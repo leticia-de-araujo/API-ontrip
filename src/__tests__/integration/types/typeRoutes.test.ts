@@ -46,9 +46,10 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(genericType.status).toBe(201);
+    expect(genericType.body).toHaveProperty("message");
+    expect(genericType.body).toHaveProperty("data");
     expect(genericType.body.data).toHaveProperty("id");
     expect(genericType.body.data).toHaveProperty("name");
-    expect(genericType.body.data).toHaveProperty("message");
   });
 
   test("POST /types - Should not be able to create a type that already exists (same name)", async () => {
@@ -58,7 +59,7 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(genericType.status).toBe(403);
-    expect(genericType.body.data).toHaveProperty("message");
+    expect(genericType.body).toHaveProperty("message");
   });
 
   test("POST /types - Should not be able to create a type without being an Admin", async () => {
@@ -68,15 +69,15 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(genericType.status).toBe(401);
-    expect(genericType.body.data).toHaveProperty("message");
+    expect(genericType.body).toHaveProperty("message");
   });
 
   test("GET /types - Should be able to list types", async () => {
     genericType = await request(app).get("/types");
 
     expect(genericType.status).toBe(200);
-    expect(genericType.body.data).toHaveProperty("message");
-    expect(genericType.body.data).toHaveProperty("data");
+    expect(genericType.body).toHaveProperty("message");
+    expect(genericType.body).toHaveProperty("data");
     expect(genericType.body.data.length).toBeGreaterThanOrEqual(1);
     expect(genericType.body.data).toEqual(
       expect.arrayContaining([
@@ -95,8 +96,8 @@ describe("Testing the type routes", () => {
     );
 
     expect(listOne.status).toBe(200);
-    expect(listOne.body.data).toHaveProperty("message");
-    expect(listOne.body.data).toHaveProperty("data");
+    expect(listOne.body).toHaveProperty("message");
+    expect(listOne.body).toHaveProperty("data");
     expect(listOne.body.data).toEqual(
       expect.objectContaining({
         id: genericType.body.data.id,
@@ -109,8 +110,8 @@ describe("Testing the type routes", () => {
     const listOne = await request(app).get("/types/this7is7an7invalid7id");
 
     expect(listOne.status).toBe(400);
-    expect(listOne.body.data).toHaveProperty("message");
-    expect(listOne.body.data).toMatchObject({
+    expect(listOne.body).toHaveProperty("message");
+    expect(listOne.body).toMatchObject({
       message: "There's no type associated with this ID",
     });
   });
@@ -122,8 +123,8 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(200);
-    expect(patchOne.body.data).toHaveProperty("message");
-    expect(patchOne.body.data).toHaveProperty("data");
+    expect(patchOne.body).toHaveProperty("message");
+    expect(patchOne.body).toHaveProperty("data");
     expect(patchOne.body.data).toEqual(
       expect.objectContaining({
         id: genericType.body.data.id,
@@ -139,7 +140,7 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(patchOne.status).toBe(401);
-    expect(patchOne.body.data).toHaveProperty("message");
+    expect(patchOne.body).toHaveProperty("message");
     expect(patchOne.body.data).toStrictEqual({
       message: "Not authorized to update a type not being admin",
     });
@@ -152,7 +153,7 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(400);
-    expect(patchOne.body.data).toHaveProperty("message");
+    expect(patchOne.body).toHaveProperty("message");
     expect(patchOne.body.data).toStrictEqual({
       message: "There's no type associated with this ID",
     });

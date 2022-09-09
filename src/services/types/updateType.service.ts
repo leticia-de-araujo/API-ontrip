@@ -1,9 +1,9 @@
 import AppDataSource from "../../data-source";
 import { Type } from "../../entities/type.entity";
 import { AppError } from "../../errors/AppError";
-import { ITypeRequest } from "../../interfaces/types";
+import { IType } from "../../interfaces/types";
 
-const createTypeService = async ({ name }: ITypeRequest) => {
+const updateTypeService = async ({ name, id }: IType) => {
   const typeRepository = AppDataSource.getRepository(Type);
 
   const typeAlreadyExists = await typeRepository.findOneBy({ name: name });
@@ -11,9 +11,12 @@ const createTypeService = async ({ name }: ITypeRequest) => {
     throw new AppError(403, "There's already a type with the same name");
   }
 
-  const newType = typeRepository.create({ name: name });
-  await typeRepository.save(newType);
-  return newType;
+  const typeUpdated = typeRepository.create({
+    name: name,
+  });
+
+  await typeRepository.update(id, typeUpdated);
+  return typeUpdated;
 };
 
-export default createTypeService;
+export default updateTypeService;

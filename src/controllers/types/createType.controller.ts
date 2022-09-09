@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
+
 import createTypeService from "../../services/types/createType.service";
 
 const createTypeController = async (req: Request, res: Response) => {
