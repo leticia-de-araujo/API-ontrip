@@ -9,7 +9,7 @@ services:
     ports:
       - 5050:5432
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U naide -d ontrip"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d projetom4"]
       interval: 10s
       timeout: 5s
       retries: 5
