@@ -9,7 +9,7 @@ const init = async () => {
     .then(() => {
       console.log("Data Source initialized");
     })
-    .catch((err) => {
+    .catch((err: any) => {
       console.error("Error during Data Source initialization", err);
     });
 
