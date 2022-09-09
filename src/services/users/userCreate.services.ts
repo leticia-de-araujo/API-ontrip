@@ -22,7 +22,7 @@ const userCreateService = async ({
     throw new AppError(403, "This email already exists");
   }
 
-  if (photo.path) {
+  if (photo) {
     const cloudinaryFile: any = await cloudinary.uploader.upload(
       photo.path,
       (error: any, result: any) => {
@@ -40,6 +40,10 @@ const userCreateService = async ({
       }
     });
     photo = cloudinaryFile.public_id;
+  }
+
+  if (!photo) {
+    photo = "Imagem padrão";
   }
 
   const hashedPassword = await hash(password, 10);
