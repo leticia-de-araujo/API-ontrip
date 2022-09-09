@@ -130,7 +130,6 @@ No body required
 ```
 body:{
     "message": "Request sucessful",
-
     "data": {
     "id": "uuid string",
     "name": "room"
@@ -211,12 +210,12 @@ body:{
 }
 ```
 
-**Status - 403 - Can't edit a field that doesn't exist**
+**Status - 400 - Can't edit a field that doesn't exist**
 
 ```
 body:{
     "status": "Error",
-    "code": 403,
+    "code": 400,
     "message": "There's no type associated with this ID"
 }
 ```
