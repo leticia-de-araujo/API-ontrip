@@ -26,7 +26,7 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column({ length: 5000 })
+  @Column({ length: 5000, nullable: true })
   photo: string;
 
   constructor() {
