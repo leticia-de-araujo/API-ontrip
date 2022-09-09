@@ -7,7 +7,6 @@ import {
   userCreateSchema,
   validateUserCreate,
 } from "../middlewares/validateUserCreate.middleware";
-import { photoVerifyMiddleware } from "../middlewares/photoVerify.middleware";
 
 const routes = Router();
 //validateUserCreate(userCreateSchema),
