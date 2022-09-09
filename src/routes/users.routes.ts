@@ -7,11 +7,12 @@ import {
   userCreateSchema,
   validateUserCreate,
 } from "../middlewares/validateUserCreate.middleware";
+import { photoVerifyMiddleware } from "../middlewares/photoVerify.middleware";
 
 const routes = Router();
 //validateUserCreate(userCreateSchema),
 const userRoutes = () => {
-  routes.post("", upload.single("files"), userCreateController);
+  routes.post("", photoVerifyMiddleware, userCreateController);
   routes.get("", listUsersController);
   return routes;
 };

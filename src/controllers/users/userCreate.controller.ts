@@ -14,9 +14,6 @@ const userCreateController = async (req: Request, res: Response) => {
     const { username, email, password, dateOfBirth, isAdm }: IUserRequest =
       req.body;
 
-    if (!req.file) {
-      throw new AppError(400, "Manda foto");
-    }
     let photo = req.file;
     const user = await userCreateService({
       username,
