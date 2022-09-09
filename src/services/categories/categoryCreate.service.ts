@@ -3,7 +3,7 @@ import { Category } from "../../entities/category.entity";
 import { AppError } from "../../errors/AppError";
 import { ICategoryRequest } from "../../interfaces/categories";
 
-const createCategoryService = async ({
+const categoryCreateService = async ({
   name,
 }: ICategoryRequest): Promise<Category> => {
   const categoryRepository = AppDataSource.getRepository(Category);
@@ -14,7 +14,7 @@ const createCategoryService = async ({
     },
   });
   if (categoryCheck) {
-    throw new AppError(403, `Category named ${name} already exists`);
+    throw new AppError(409, `Category named ${name} already exists`);
   }
 
   const newCategory = categoryRepository.create({
@@ -26,4 +26,4 @@ const createCategoryService = async ({
   return newCategory;
 };
 
-export default createCategoryService;
+export default categoryCreateService;

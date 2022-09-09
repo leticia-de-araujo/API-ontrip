@@ -19,7 +19,7 @@ const userCreateService = async ({
     email: email,
   });
   if (emailAlreadyExists) {
-    throw new AppError(403, "This email already exists");
+    throw new AppError(409, "This email already exists");
   }
 
   if (photo) {

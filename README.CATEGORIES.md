@@ -43,12 +43,12 @@ body:{
 
 <br>
 
-**Status - 403 - There's already a category with the same name**
+**Status - 409 - There's already a category with the same name**
 
 ```
 body: {
     "status": "Error",
-    "code": 403,
+    "code": 409,
     "message": `Category named ${name used in object sent in Request body} already exists`
 }
 ```
