@@ -388,10 +388,18 @@ The Accommodation object is defined as:
 
 ```json
 {
-  "dailyPrice": 300,
-  "specialOffer": true
+  "name"?: "Complete apartment to work",
+  "description"?: "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
+  "dailyPrice"?: 300,
+  "specialOffer"?: true,
+  "verifiedByAdm"?: true*,
+  "typeId"?: "6e79c2b7-c479-46e3-aeac-b9f62739799e",
+  "capacityId"?: "0b327321-603d-45a7-b4cd-525c11c14b04"
 }
 ```
+
+- **verifiedByAdm can only be updated by adm**
+- **At least one field is required**
 
 <br>
 
