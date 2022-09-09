@@ -3,6 +3,7 @@ import AppDataSource from "../data-source";
 import { Accommodation } from "../entities/accommodation.entity";
 import { Address } from "../entities/address.entity";
 import { Booking } from "../entities/booking.entity";
+import { Photo } from "../entities/photo.entity";
 import { User } from "../entities/users.entity";
 import { AppError } from "../errors/AppError";
 
@@ -147,6 +148,42 @@ export const admOrOwnerAuthMiddleware = async (
       throw new AppError(
         400,
         "There's no valid accommodation associated with the address id used(route params)"
+      );
+    }
+
+    //checking if Accommodation belongs to owner of the token
+    const notAccommodationOwner = accommodation.owner.id != userFromToken.id;
+    if (notAccommodationOwner) {
+      throw new AppError(
+        401,
+        "Must be the owner of the accommodation set at this address or an admin to make any changes"
+      );
+    }
+    req.isOwner = true;
+    next();
+  }
+
+  if (route[1] === "photos") {
+    //finding the photo
+    const photoRepo = AppDataSource.getRepository(Photo);
+    const photo = await photoRepo.findOneBy({ id: id });
+    if (!photo) {
+      throw new AppError(
+        400,
+        "There's no photo associated with the id used(route params)"
+      );
+    }
+
+    //finding the accommodation that is the owner of the photo
+    const accommodationId = photo.accommodation.id;
+    const accommodationRepo = AppDataSource.getRepository(Accommodation);
+    const accommodation = await accommodationRepo.findOneBy({
+      id: accommodationId,
+    });
+    if (!accommodation) {
+      throw new AppError(
+        400,
+        "There's no valid accommodation associated with the photo id used(route params)"
       );
     }
 
