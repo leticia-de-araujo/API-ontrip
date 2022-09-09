@@ -9,7 +9,7 @@
     "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "compose": "docker-compose up",
     "typeorm": "typeorm-ts-node-commonjs",
-    "test": "cross-env NODE_ENV=test jest",
+    "test": "cross-env NODE_ENV=test SECRET_KEY=SECRET jest",
     "build": "tsc",
     "start": "node dist/server.js"
   },
