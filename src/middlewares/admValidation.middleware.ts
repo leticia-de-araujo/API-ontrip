@@ -4,6 +4,7 @@ import { User } from "../entities/users.entity";
 import { AppError } from "../errors/AppError";
 
 // rota de validação de adm deve vir sempre depois da de autenticação pois ela usa o userEmail do request que é provido pelo authUserMiddleware
+// atencao este middleware so' deve ser usado nas rotas exclusivas a' admins (nao admin ou owner)
 export const admValidationMiddleware = async (
   req: Request,
   res: Response,
@@ -25,6 +26,7 @@ export const admValidationMiddleware = async (
       );
     }
 
+    req.isAdm = true;
     next();
   } catch (err) {
     if (err instanceof AppError) {

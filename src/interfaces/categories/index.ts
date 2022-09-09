@@ -7,3 +7,7 @@ export interface ICategory {
 export interface ICategoryRequest {
   name: string;
 }
+
+export interface ICategoryRequestPatch {
+  name?: string;
+}
