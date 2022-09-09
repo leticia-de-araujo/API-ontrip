@@ -9,14 +9,19 @@ import { authUserMiddleware } from "../middlewares/authUser.middleware";
 const routes = Router();
 
 const typesRoutes = () => {
+  routes.get("", listTypesController);
   routes.post(
     "",
-    /*     authUserMiddleware,
-    admValidationMiddleware, */
+    authUserMiddleware,
+    admValidationMiddleware,
     createTypeController
   );
-  routes.get("", listTypesController);
-  routes.patch("/:id", updateTypeController);
+  routes.patch(
+    "/:id",
+    authUserMiddleware,
+    admValidationMiddleware,
+    updateTypeController
+  );
 
   return routes;
 };
