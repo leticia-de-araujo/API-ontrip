@@ -43,12 +43,12 @@ body:{
 
 <br>
 
-**Status - 403 - There's already a type with the same name**
+**Status - 409 - There's already a type with the same name**
 
 ```
 body: {
     "status": "Error",
-    "code": 403,
+    "code": 409,
     "message": `Type named ${name used in object sent in Request body} already exists`
 }
 ```
@@ -130,7 +130,6 @@ No body required
 ```
 body:{
     "message": "Request sucessful",
-
     "data": {
     "id": "uuid string",
     "name": "room"
@@ -216,7 +215,7 @@ body:{
 ```
 body:{
     "status": "Error",
-    "code": 403,
+    "code": 400,
     "message": "There's no type associated with this ID"
 }
 ```

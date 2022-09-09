@@ -21,7 +21,7 @@ const capacitiesCreateService = async ({
   });
   if (capacityCheck) {
     throw new AppError(
-      403,
+      409,
       "There's already a capacity with the same exact data"
     );
   }

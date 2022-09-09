@@ -167,7 +167,7 @@ body: {
 ```
 body: {
     "status": "Error",
-    "code": 403,
+    "code": 404,
     "message": "Booking not found"
 }
 ```
