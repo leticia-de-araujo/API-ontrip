@@ -5,6 +5,8 @@ declare global {
     interface Request {
       userEmail?: string;
       userId?: string;
+      isAdm: boolean = false;
+      isOwner: boolean = false;
     }
   }
 }
