@@ -27,7 +27,7 @@ export interface IUserRequest {
   password: string;
   dateOfBirth: string;
   isAdm?: boolean;
-  photo: string;
+  photo: any;
 }
 
 export interface IUserLogin {

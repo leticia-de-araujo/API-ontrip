@@ -3,15 +3,23 @@ import { ITypeRequest } from "../../../interfaces/types";
 import { IPhotoRequest, IPhotoRequestPatch } from "../../../interfaces/photos";
 
 export const mockedCategory: ICategoryRequest = {
-  name: "bedroom",
+  name: "Apartment",
 };
 
 export const mockedCategory2: ICategoryRequest = {
-  name: "entire accommodation",
+  name: "House",
 };
 
 export const mockedCategory3: ICategoryRequest = {
-  name: "upper floor of detached house",
+  name: "Flat",
+};
+
+export const mockedCategory4: ICategoryRequest = {
+  name: "Inn",
+};
+
+export const mockedCategory5: ICategoryRequest = {
+  name: "Boutique Hotel",
 };
 
 export const mockedPhoto: IPhotoRequest = {
@@ -24,13 +32,13 @@ export const mockedPhotoPatch: IPhotoRequestPatch = {
 };
 
 export const mockedType: ITypeRequest = {
-  name: "apartment",
+  name: "A whole place",
 };
 
 export const mockedType2: ITypeRequest = {
-  name: "house",
+  name: "A whole room",
 };
 
 export const mockedType3: ITypeRequest = {
-  name: "detached house",
+  name: "A shared room",
 };

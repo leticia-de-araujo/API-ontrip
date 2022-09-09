@@ -1,23 +1,28 @@
-## POST /categories
+# Capacities
+
+## POST /capacities
 
 <br>
 
 #### Request:
 
+- Authorization: Bearer Token
+- Content-type: application/json
+
+<br>
+
 ```
-header: {
-    authorization: "Bearer Admin token"
+headers: {
+  "authorization": "Bearer token"
 }
-
 ```
 
 ```
-
-body:{
-    "rooms": 1
-    "beds": 1
-    "totalGuests": 1
-    "bathrooms": 1
+body: {
+    "rooms": number,
+    "beds": number,
+    "totalGuests": number,
+    "bathrooms": number,
 }
 ```
 
@@ -31,15 +36,14 @@ body:{
 
 ```
 body:{
-    "message": "capacity created",
-
-    "data": {
-        "id": " uuid string",
-        "rooms": 1
-        "beds": 1
-        "totalGuests": 1
-        "bathrooms": 1
-    }
+  "message": "Capacity created with success",
+  "data": {
+    "id": "string",
+    "rooms": number
+    "beds": number
+    "totalGuests": number
+    "bathrooms": number
+  }
 }
 ```
 
@@ -49,37 +53,49 @@ body:{
 
 <br>
 
+**Status - 401 - Missing admin token**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Missing admin token"
+}
+```
+
+<br>
+
+**Status - 401 - Invalid Token**
+
+```
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
+}
+```
+
+<br>
+
 **Status - 403 - There's already a capacity with the same exact data**
 
 ```
 body: {
-    "status": "Error",
-    "code": 403,
-    "message": `There's already a capacity with the intended data in the database`
+  "status": "Error",
+  "code": 403,
+  "message": "There's already a capacity with the intended data in the database"
 }
 ```
 
 <br>
 
-**Status - 401 - Must have an Admin token in request's header**
+**Status - 400 - Invalid capacity data (negative values or unreasonable guest capacity)**
 
 ```
 body: {
-    "status": "Error",
-    "code": 401,
-    "message": "Missing admin token"
-}
-```
-
-<br>
-
-**Status - 400 - The request data must make sense (no negative values, at least 1 guest capacity)**
-
-```
-body: {
-    "status": "Error",
-    "code": 400,
-    "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
+  "status": "Error",
+  "code": 400,
+  "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
 }
 ```
 
@@ -91,31 +107,31 @@ body: {
 
 #### Request:
 
-```
-No body required
-```
+- Authorization: None
+- Content-type: application/json
+- Empty body
 
 <br>
-<br>
 
-#### Expected Responses:
+#### Expected Response:
 
 <br>
 
 **Status - 200**
 
 ```
-body:{
-    "message": "Request sucessful",
-    "data": [{
-        "id": " uuid string",
-        "rooms": 1
-        "beds": 1
-        "totalGuests": 1
-        "bathrooms": 1
+body: {
+  "message": "Successful request",
+  "data": [
+    {
+      "id": "string",
+      "rooms": number,
+      "beds": number,
+      "totalGuests": number,
+      "bathrooms": number,
     },
     ...
-    ]
+  ]
 }
 ```
 
@@ -135,29 +151,36 @@ body:{
 
 #### Request:
 
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty body
+
+<br>
+
 ```
-No body required
+headers: {
+  "authorization": "Bearer token"
+}
 ```
 
 <br>
-<br>
 
-#### Expected Responses:
+#### Expected Response:
 
 <br>
 
 **Status - 200**
 
 ```
-body:{
-    "message": "Request sucessful",
-    "data": {
-        "id": " uuid string",
-        "rooms": 1
-        "beds": 1
-        "totalGuests": 1
-        "bathrooms": 1
-    }
+body: {
+  "message": "Successful request",
+  "data": {
+    "id": "string",
+    "rooms": number,
+    "beds": number,
+    "totalGuests": number,
+    "bathrooms": number,
+  }
 }
 ```
 
@@ -167,13 +190,13 @@ body:{
 
 <br>
 
-**Status - 400 - Can't list a field that doesn't exist**
+**Status - 404 - Capacity not found**
 
 ```
 body: {
-    "status": "Error",
-    "code": 400,
-    "message": "There's no capacity associated with the Id used"
+  "status": "Error",
+  "code": 404,
+  "message": "Capacity not found"
 }
 ```
 
@@ -187,40 +210,44 @@ body: {
 
 #### Request:
 
+- Authorization: Bearer Token
+- Content-type: application/json
+
+<br>
+
 ```
-headers:{
-    "authorization": "Bearer Admin Token",
+headers: {
+  "authorization": "Bearer token"
 }
 ```
 
 ```
-body:{
-    "rooms": 1
-    "beds": 1
-    "totalGuests": 1
-    "bathrooms": 1,
+body: {
+  "rooms": number
+  "beds": number
+  "totalGuests": number
+  "bathrooms": number,
 }
 ```
 
 <br>
 
-#### Expected Responses:
+#### Expected Response:
 
 <br>
 
 **Status - 200**
 
 ```
-body:{
-    "message": "Category name updated",
-
-    "data": {
-        "id": "string",
-        "rooms": 1
-        "beds": 1
-        "totalGuests": 1
-        "bathrooms": 1,
-    }
+body: {
+  "message": "Capacity updated with success",
+  "data": {
+    "id": "string",
+    "rooms": number,
+    "beds": number,
+    "totalGuests": number,
+    "bathrooms": number,
+  }
 }
 ```
 
@@ -230,32 +257,44 @@ body:{
 
 <br>
 
-**Status - 401 - Must have an Admin token in request's header**
+**Status - 401 - Missing admin token**
 
 ```
-body:{
-    "status": "Error",
-    "code": 401,
-    "message": "Admin token required"
+body: {
+  "status": "Error",
+  "code": 401,
+  "message": "Missing admin token",
 }
 ```
 
-**Status - 400 - Can't edit a field that doesn't exist**
+**Status - 404 - Capacity not found**
 
 ```
-body:{
-    "status": "Error",
-    "code": 403,
-    "message": "There's no capacity associated with this Id"
+body: {
+  "status": "Error",
+  "code": 404,
+  "message": "Capacity not found",
 }
 ```
 
 **Status - 400 - The request data must make sense (no negative values, at least 1 guest capacity)**
 
 ```
-body:{
-    "status": "Error",
-    "code": 403,
-    "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
+body: {
+  "status": "Error",
+  "code": 403,
+  "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
+}
+```
+
+<br>
+
+**Status - 400 - No changes in capacity data**
+
+```
+body: {
+  "status": "Error",
+  "code": 400,
+  "message": "Not possible to update a capacity without having any changes in any field",
 }
 ```
