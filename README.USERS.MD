@@ -1,17 +1,54 @@
+# Users
+
+The User object is defined as:
+
+| **Field**   | **Type** | **Description**                                   |
+| ----------- | -------- | ------------------------------------------------- |
+| id          | string   | User's unique identifier                          |
+| username    | string   | User name                                         |
+| email       | string   | User email                                        |
+| password    | string   | User password                                     |
+| dateOfBirth | Date     | User's date of birth                              |
+| isAdm       | boolean  | Defines whether a user is an administrator or not |
+| isActive    | boolean  | Defines whether a user is active or not           |
+| photo       | File     | Specifies the file of the user's profile image    |
+
+<br>
+
+### **Endpoints**
+
+| **Method** | **Route**  | **Description**                                 |
+| ---------- | ---------- | ----------------------------------------------- |
+| POST       | /users     | Creates a user                                  |
+| GET        | /users     | List all users                                  |
+| GET        | /users/:id | Lists a user using its id as a parameter        |
+| PATCH      | /users/:id | Updates a user using its ID as a parameter      |
+| DELETE     | /users/:id | Soft-deletes a user using its ID as a parameter |
+
+<br>
+
 ## POST /users
 
 <br>
 
 #### Request:
 
-```
-body:{
-    "username": "string",
-    "email": "string",
-    "password": "string",
-    "dateOfBirth": "string",
-    "photo": "string-base64",
-    "isAdm": "boolean",
+- Host: http://suaapi.com/v1
+- Authorization: none
+- Content-type: application/json
+
+<br>
+
+**Request body example**
+
+```json
+{
+  "username": "Bob Spencer",
+  "email": "bobspencer@email.com",
+  "password": "874aS4A6F65i",
+  "dateOfBirth": "14/03/1993",
+  "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
+  "isAdm": false
 }
 ```
 
@@ -21,21 +58,20 @@ body:{
 
 <br>
 
-**Status - 201**
+**Status 201 - Created**
 
-```
-body:{
-    "message": "User created",
-
-    "data": {
-    "id": "string",
-    "username": "string",
-    "email": "string",
-    "dateOfBirth": "string",
-    "isAdm": "false",
-    "isActive": "true",
-    "photo": "string-base64"
-    }
+```json
+{
+  "message": "User created with success",
+  "user": {
+    "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+    "username": "Bob Spencer",
+    "email": "bobspencer@email.com",
+    "dateOfBirth": "14/03/1993",
+    "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
+    "isAdm": false,
+    "isActive": true
+  }
 }
 ```
 
@@ -45,23 +81,23 @@ body:{
 
 <br>
 
-**Status - 400**
+**Status 400 - Bad request**
 
-```
-body:{
-    "status": "Error",
-    "code": 400,
-    "message": "Bad request, check if you sent all neccessary info and the spelling"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Bad request, please make sure you have sent all the required information"
 }
 ```
 
-**Status - 409**
+**Status 409 - Email already exists**
 
-```
-body:{
-    "status": "Error",
-    "code": 409,
-    "message": "Email already exists, User Already exists..."
+```json
+{
+  "status": "Error",
+  "code": 409,
+  "message": "This email already exists"
 }
 ```
 
@@ -73,9 +109,18 @@ body:{
 
 #### Request:
 
-```
-header: {
-    authorization: "Bearer Admin token"
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty Body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Admin Token"
 }
 ```
 
@@ -85,23 +130,24 @@ header: {
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body:
-[
-    "message": "Success",
-
-  "data": {
-    "username": "string",
-    "email": "string",
-    "dateOfBirth": "string",
-    "photo": "string-base64",
-    "isAdm": "boolean",
-  },
-
+```json
+{
+  "message": "Successful request",
+  "users": [
+    {
+    "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+    "username": "Bob Spencer",
+    "email": "bobspencer@email.com",
+    "dateOfBirth": "14/03/1993",
+    "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
+    "isAdm": false,
+    "isActive": true
+    },
     ...
-]
+  ]
+}
 ```
 
 <br>
@@ -110,25 +156,25 @@ body:
 
 <br>
 
-**Status - 400**
+**Status 401 - Invalid Token**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "Invalid token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid Token"
 }
 ```
 
 <br>
 
-**Status - 401**
+**Status 401 - Missing Admin Token**
 
-```
-body: {
-"status": "Error",
-"code": 401,
-"message": "Missing authorization token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing Admin Token"
 }
 ```
 
@@ -140,9 +186,18 @@ body: {
 
 #### Request:
 
-```
-headers:{
-    "authorization": "Bearer Admin Token or owner Token",
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty Body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Admin Token or Owner Token"
 }
 ```
 
@@ -152,21 +207,20 @@ headers:{
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body:{
-    "message": "Success",
-
-    "data": {
-    "id": "string",
-    "username": "string",
-    "email": "string",
-    "dateOfBirth": "string",
-    "isAdm": "false",
-    "isActive": "true",
-    "photo": "string-base64"
-    }
+```json
+{
+  "message": "Successful request",
+  "user": {
+    "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+    "username": "Bob Spencer",
+    "email": "bobspencer@email.com",
+    "dateOfBirth": "14/03/1993",
+    "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
+    "isAdm": false,
+    "isActive": true
+  }
 }
 ```
 
@@ -176,23 +230,23 @@ body:{
 
 <br>
 
-**Status - 401**
+**Status 401 - Missing Admin or Owner Token**
 
-```
-body:{
-    "status": "Error",
-    "code": 401,
-    "message": "Admin token required or you must be the owner"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing Admin or Owner Token"
 }
 ```
 
-**Status - 404**
+**Status 404 - User not found**
 
-```
-body:{
-    "status": "Error",
-    "code": 404,
-    "message": "User not found"
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "User not found"
 }
 ```
 
@@ -204,20 +258,26 @@ body:{
 
 #### Request:
 
-```
-headers:{
-    "authorization": "Bearer Admin Token or owner Token",
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Admin Token or Owner Token"
 }
 ```
 
-```
-body:{
-    "username": "string",
-    "email": "string",
-    "password": "string",
-    "dateOfBirth": "string",
-    "photo": "string-base64",
-    "isAdm": "boolean",
+**Request body example**
+
+```json
+{
+  "email": "bob_spencer45@email.com",
+  "photo": "gbW9yZJ65652gfhgShu54j98vgSD79"
 }
 ```
 
@@ -227,21 +287,20 @@ body:{
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body:{
-    "message": "User updated",
-
-    "data": {
-    "id": "string",
-    "username": "string",
-    "email": "string",
-    "dateOfBirth": "string",
-    "isAdm": "false",
-    "isActive": "true",
-    "photo": "string-base64"
-    }
+```json
+{
+  "message": "User updated with success",
+  "user": {
+    "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+    "username": "Bob Spencer",
+    "email": "bob_spencer45@email.com",
+    "dateOfBirth": "14/03/1993",
+    "photo": "gbW9yZJ65652gfhgShu54j98vgSD79",
+    "isAdm": false,
+    "isActive": true
+  }
 }
 ```
 
@@ -251,43 +310,43 @@ body:{
 
 <br>
 
-**Status - 401**
+**Status 401 - Missing Admin Token or Owner Token**
 
-```
-body:{
-    "status": "Error",
-    "code": 401,
-    "message": "Admin token required or you must be the owner"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing Admin Token or Owner Token"
 }
 ```
 
-**Status - 403**
+**Status 409 - Email already exists**
 
-```
-body:{
-    "status": "Error",
-    "code": 403,
-    "message": "Email already exists"
+```json
+{
+  "status": "Error",
+  "code": 409,
+  "message": "Email already exists"
 }
 ```
 
-**Status - 404**
+**Status 404 - User not found**
 
-```
-body:{
-    "status": "Error",
-    "code": 404,
-    "message": "User not found"
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "User not found"
 }
 ```
 
-**Status - 400**
+**Status 400 - Bad request**
 
-```
-body:{
-    "status": "Error",
-    "code": 400,
-    "message": "Bad request, check if you sent all neccessary info and the spelling"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Bad request, please make sure you have sent all the required information"
 }
 ```
 
@@ -299,9 +358,16 @@ body:{
 
 #### Request:
 
-```
-headers:{
-    "authorization": "Bearer Admin Token or owner Token",
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty Body
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Admin Token or Owner Token"
 }
 ```
 
@@ -311,11 +377,11 @@ headers:{
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
+```json
 {
-    "message": "user deleted with success!"
+  "message": "User deleted with success"
 }
 ```
 
@@ -325,119 +391,23 @@ headers:{
 
 <br>
 
-**Status - 401**
+**Status 401 - Missing Admin Token or Owner Token**
 
-```
-body:{
-    "status": "Error",
-    "code": 401,
-    "message": "Admin token required or you must be the owner"
-}
-```
-
-**Status - 404**
-
-```
-body:{
-    "status": "Error",
-    "code": 404,
-    "message": "User not found"
-}
-```
-
-## POST /login
-
-<br>
-
-#### Request:
-
-```
-header: {
-authorization: "Bearer token"
-}
-```
-
-```
-body:
+```json
 {
-    "email": "example@email.com",
-    "password": "example123",
+  "status": "Error",
+  "code": 401,
+  "message": "Missing Admin Token or Owner Token"
 }
 ```
 
-<br>
+**Status 404 - User not found**
 
-#### Expected Response:
-
-<br>
-
-**Status - 201**
-
-```
-body: {
-    message: "Login sucessfull",
-    data: {
-        "id": "uuid"
-        "name": "example",
-        "email": "example@email.com",
-        "dateOfBirth": "yyyy/mm/dd",
-        "isAdm": false,
-        "isActive": true,
-        "photo": "string-base64",
-    }
-}
-
-```
-
-<br>
-
-#### Error Responses:
-
-<br>
-
-**Status - 400**
-
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "(any object key) is a required field"
-}
-```
-
-<br>
-
-**Status - 400**
-
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status - 413**
-
-```
-body: {
-"status": "Error",
-"code": 413,
-"message": "(object key) length too large"
-}
-```
-
-<br>
-
-**Status - 404**
-
-```
-body: {
-"status": "Error",
-"code": 404,
-"message": "User not found"
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "User not found"
 }
 ```
 
