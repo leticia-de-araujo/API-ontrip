@@ -87,13 +87,15 @@ The Capacity object is defined as:
 
 <br>
 
-**Status 401 - Missing admin token**
+<br>
+
+**Status 401 - Missing authorization token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Missing admin token"
+  "message": "Missing authorization token"
 }
 ```
 
@@ -105,7 +107,19 @@ The Capacity object is defined as:
 {
   "status": "Error",
   "code": 401,
-  "message": "Invalid Token"
+  "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status 401 - User is not an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not an admin"
 }
 ```
 
@@ -323,13 +337,15 @@ The Capacity object is defined as:
 
 <br>
 
-**Status 401 - Missing admin token**
+<br>
+
+**Status 401 - Missing authorization token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Missing Admin Token"
+  "message": "Missing authorization token"
 }
 ```
 
@@ -341,7 +357,19 @@ The Capacity object is defined as:
 {
   "status": "Error",
   "code": 401,
-  "message": "Invalid Token"
+  "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status 401 - User is not an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not an admin"
 }
 ```
 
@@ -437,13 +465,15 @@ The Capacity object is defined as:
 
 <br>
 
-**Status 401 - Missing admin token**
+<br>
+
+**Status 401 - Missing authorization token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Missing Admin Token"
+  "message": "Missing authorization token"
 }
 ```
 
@@ -455,7 +485,19 @@ The Capacity object is defined as:
 {
   "status": "Error",
   "code": 401,
-  "message": "Invalid Token"
+  "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status 401 - User is not an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not an admin"
 }
 ```
 
