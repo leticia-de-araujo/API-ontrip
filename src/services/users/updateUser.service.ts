@@ -1,25 +1,26 @@
 import AppDataSource from "../../data-source";
-import { hash } from "bcryptjs";
+import { User } from "../../entities/users.entity";
 import { AppError } from "../../errors/AppError";
 import { IUserRequest } from "../../interfaces/users";
-import { User } from "../../entities/users.entity";
+import { hash } from "bcryptjs";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
-const userCreateService = async ({
-  username,
-  email,
-  password,
-  dateOfBirth,
-  isAdm,
-  photo,
-}: IUserRequest): Promise<User> => {
+const updateUserService = async (
+  id: string,
+  { username, email, password, dateOfBirth, isAdm, photo }: IUserRequest
+): Promise<User> => {
   const userRepository = AppDataSource.getRepository(User);
-  const emailAlreadyExists = await userRepository.findOneBy({
-    email: email,
-  });
-  if (emailAlreadyExists) {
-    throw new AppError(409, "This email already exists");
+
+  const user = await userRepository.findOne({ where: { id: id } });
+
+  if (!user) {
+    throw new AppError(404, "User not found");
+  }
+
+  let hashedPassword;
+  if (password) {
+    hashedPassword = await hash(password, 10);
   }
 
   if (photo) {
@@ -46,19 +47,17 @@ const userCreateService = async ({
     photo = "Imagem padrão";
   }
 
-  const hashedPassword = await hash(password, 10);
-
-  const user = userRepository.create({
+  const newUser = userRepository.save({
+    id: id,
     username,
     email,
     dateOfBirth,
+    password: hashedPassword,
     isAdm,
     photo,
-    password: hashedPassword,
   });
-  await userRepository.save(user);
 
-  return user;
+  return newUser;
 };
 
-export default userCreateService;
+export default updateUserService;
