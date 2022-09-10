@@ -11,7 +11,7 @@ const updateTypeController = async (req: Request, res: Response) => {
 
     return res
       .status(200)
-      .send({ message: "Successful request", type: updatedType });
+      .send({ message: "Type updated with success", type: updatedType });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);

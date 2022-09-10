@@ -180,7 +180,7 @@ describe("Testing the type routes", () => {
     expect(listOne.status).toBe(404);
     expect(listOne.body).toHaveProperty("status", "Error");
     expect(listOne.body).toHaveProperty("code", 404);
-    expect(listOne.body).toHaveProperty("message", "Error");
+    expect(listOne.body).toHaveProperty("message", "Type not found");
   });
 
   test("PATCH /types/:id - Must be able to update a type", async () => {
@@ -287,9 +287,9 @@ describe("Testing the type routes", () => {
     expect(patchOne.body).toHaveProperty("code", 400);
   });
 
-  test("DELETE /type/:id - Must be able to soft-delete a type", async () => {
+  test("DELETE /types/:id - Must be able to soft-delete a type", async () => {
     const deleteOne = await request(app)
-      .delete(`/type/${genericType.body.type.id}`)
+      .delete(`/types/${genericType.body.type.id}`)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(deleteOne.status).toBe(200);
@@ -332,13 +332,15 @@ describe("Testing the type routes", () => {
     expect(deleteOne.status).toBe(401);
     expect(deleteOne.body).toHaveProperty("code", 401);
     expect(deleteOne.body).toHaveProperty("status", "Error");
-    expect(deleteOne.body).toHaveProperty("message", "User not admin");
+    expect(deleteOne.body).toHaveProperty("message", "User is not an admin");
   });
 
   test("DELETE /types/:id - Must not be able to soft-delete a type that doesn't exists", async () => {
     const deleteOne = await request(app)
       .delete(`/types/this7is7invalid7id`)
-      .set("Authorization", `Bearer ${genericToken.body.token}`);
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    console.log(deleteOne.body);
 
     expect(deleteOne.status).toBe(404);
     expect(deleteOne.body).toHaveProperty("code", 404);
