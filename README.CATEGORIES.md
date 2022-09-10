@@ -1,20 +1,55 @@
+# Categories
+
+The Category object is defined as:
+
+| **Field** | **Type** | **Description**                             |
+| --------- | -------- | ------------------------------------------- |
+| id        | string   | Category's unique identifier                |
+| name      | string   | Category name                               |
+| isActive  | boolean  | Defines whether a category is active or not |
+
+<br>
+
+### **Endpoints**
+
+| **Method** | **Route**               | **Description**                                     |
+| ---------- | ----------------------- | --------------------------------------------------- |
+| POST       | /categories             | Creates a category                                  |
+| GET        | /categories             | List all categories                                 |
+| GET        | /categories/:categoryId | Lists a category using its ID as a parameter        |
+| PATCH      | /categories/:categoryId | Updates a category using its ID as a parameter      |
+| DELETE     | /categories/:categoryId | Soft-deletes a category using its ID as a parameter |
+
+<br>
+
 ## POST /categories
 
 <br>
 
 #### Request:
 
-```
-header: {
-    authorization: "Bearer Admin token"
+- Host: http://suaapi.com/v1
+- Authorization: Admin Bearer Token
+- User must be an admin to create a category
+- Content-type: application/json
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
-
 ```
 
-```
+<br>
 
-body:{
-    "name":"apartment"
+**Request body example**
+
+```json
+{
+  "name": "Apartment"
 }
 ```
 
@@ -24,16 +59,16 @@ body:{
 
 <br>
 
-**Status - 201**
+**Status 201 - Created**
 
-```
-body:{
-    "message": "category created",
-
-    "data": {
-        "id": " uuid string",
-    "name": "apartment",
-    }
+```json
+{
+  "message": "Category created with success",
+  "category": {
+    "id": "fc540668-a80c-4690-8889-1c89c5a51b5c",
+    "name": "Apartment",
+    "isActive": true
+  }
 }
 ```
 
@@ -43,27 +78,77 @@ body:{
 
 <br>
 
-**Status - 409 - There's already a category with the same name**
+**Status 401 - Missing admin token**
 
-```
-body: {
-    "status": "Error",
-    "code": 409,
-    "message": `Category named ${name used in object sent in Request body} already exists`
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing admin token"
 }
 ```
 
 <br>
 
-**Status - 401 - Must have an Admin token in request's header**
+**Status 401 - Invalid token**
 
-```
-body: {
-    "status": "Error",
-    "code": 401,
-    "message": "Missing admin token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid Token"
 }
 ```
+
+<br>
+
+**Status 400 - Missing required field**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) is a required field"
+}
+```
+
+<br>
+
+**Status 400 - Invalid data type**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
+}
+```
+
+<br>
+
+**Status 413 - Data length too large**
+
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
+}
+```
+
+<br>
+
+**Status 409 - This category already exists**
+
+```json
+{
+  "status": "Error",
+  "code": 409,
+  "message": "This category already exists"
+}
+```
+
+<br>
 
 #
 
@@ -73,28 +158,69 @@ body: {
 
 #### Request:
 
-```
-No body required
-```
+- Host: http://suaapi.com/v1
+- Authorization: None
+- Content-type: application/json
+- Empty body
 
-<br>
 <br>
 
 #### Expected Responses:
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body:{
-    "message": "Request sucessful",
-    "data": [{
-        "id": "uuid string",
-        "name": "apartment"
+```json
+{
+  "message": "Successful request",
+  "categories":
+  [
+    {
+      "id": "fc540668-a80c-4690-8889-1c89c5a51b5c",
+      "name": "Apartment",
+      "isActive": true
     },
-    ...
-    ]
+  ...
+  ]
+}
+```
+
+<br>
+
+#### Error Responses:
+
+- No errors expected
+
+#
+
+## GET /categories/:categoryId
+
+<br>
+
+#### Request:
+
+- Host: http://suaapi.com/v1
+- Authorization: None
+- Content-type: application/json
+- Empty body
+
+<br>
+
+#### Expected Responses:
+
+<br>
+
+**Status 200 - OK**
+
+```json
+{
+  "message": "Successful request",
+  "category": {
+    "id": "fc540668-a80c-4690-8889-1c89c5a51b5c",
+    "name": "Apartment",
+    "isActive": true
+  }
 }
 ```
 
@@ -104,21 +230,51 @@ body:{
 
 <br>
 
-**No errors expected**
+**Status - 404 - Category not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Category not found"
+}
+```
+
+<br>
 
 #
 
-## GET /categories/:id
+## PATCH /categories/:categoryId
 
 <br>
 
 #### Request:
 
-```
-No body required
+- Host: http://suaapi.com/v1
+- Authorization: Admin Bearer Token
+- User must be an admin to update a category
+- Content-type: application/json
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
+}
 ```
 
 <br>
+
+**Request body example**
+
+```json
+{
+  "name": "apartment"
+}
+```
+
 <br>
 
 #### Expected Responses:
@@ -127,70 +283,14 @@ No body required
 
 **Status - 200**
 
-```
-body:{
-    "message": "Request sucessful",
-    "data": {
-        "id": "uuid string",
-        "name": "apartment"
-    }
-}
-```
-
-<br>
-
-#### Error Responses:
-
-<br>
-
-**Status - 400 - Can't list a field that doesn't exist**
-
-```
-body: {
-    "status": "Error",
-    "code": 400,
-    "message": "There's no category associated with the Id used"
-}
-```
-
-<br>
-
-#
-
-## PATCH /categories/:id
-
-<br>
-
-#### Request:
-
-```
-headers:{
-    "authorization": "Bearer Admin Token",
-}
-```
-
-```
-body:{
+```json
+{
+  "message": "Category updated with success",
+  "category": {
+    "id": "fc540668-a80c-4690-8889-1c89c5a51b5c",
     "name": "apartment",
-}
-```
-
-<br>
-
-#### Expected Responses:
-
-<br>
-
-**Status - 200**
-
-```
-body:{
-    "message": "Category name updated",
-
-    "data": {
-    "id": "string",
-    "name": "string",
-    }
+    "isActive": true
+  }
 }
 ```
 
@@ -200,22 +300,159 @@ body:{
 
 <br>
 
-**Status - 401 - Must have an Admin token in request's header**
+**Status 401 - Missing admin token**
 
-```
-body:{
-    "status": "Error",
-    "code": 401,
-    "message": "Admin token required"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing Admin Token"
 }
 ```
 
-**Status - 400 - Can't edit a field that doesn't exist**
+<br>
 
-```
-body:{
-    "status": "Error",
-    "code": 403,
-    "message": "There's no category associated with this Id"
+**Status 401 - Invalid token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid Token"
 }
 ```
+
+<br>
+
+**Status 400 - Invalid data type**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
+}
+```
+
+<br>
+
+**Status 413 - Data length too large**
+
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
+}
+```
+
+<br>
+
+**Status 404 - Category not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Category not found"
+}
+```
+
+<br>
+
+**Status 400 - No changes in category data**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Not possible to update a category without having any changes in any field"
+}
+```
+
+<br>
+
+#
+
+## DELETE /categories/:categoryId
+
+<br>
+
+#### Request:
+
+- Host: http://suaapi.com/v1
+- Authorization: Admin Bearer Token
+- User must be an admin to delete a category
+- Content-type: application/json
+- Empty body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
+}
+```
+
+#### Expected Responses:
+
+<br>
+
+**Status 200 - OK**
+
+```json
+{
+  "message": "Category deleted with success",
+  "category": {
+    "id": "fc540668-a80c-4690-8889-1c89c5a51b5c",
+    "name": "Apartment",
+    "isActive": false
+  }
+}
+```
+
+<br>
+
+#### Expected Errors:
+
+<br>
+
+**Status 401 - Missing admin token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing Admin Token"
+}
+```
+
+<br>
+
+**Status 401 - Invalid token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid Token"
+}
+```
+
+<br>
+
+**Status 404 - Category not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Category not found"
+}
+```
+
+<br>
+
+#
