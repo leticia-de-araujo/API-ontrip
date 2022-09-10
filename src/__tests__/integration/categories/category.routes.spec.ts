@@ -99,7 +99,7 @@ describe("Testing the category routes", () => {
     expect(genericCategory.status).toBe(401);
     expect(genericCategory.body).toHaveProperty("status", "Error");
     expect(genericCategory.body).toHaveProperty("code", 401);
-    expect(genericCategory.body).toHaveProperty("message", "User not admin");
+    expect(genericCategory.body).toHaveProperty("message", "User is not an admin");
   });
 
   test("POST /categories - Should not be able to create a category with invalid key values", async () => {
@@ -207,7 +207,7 @@ describe("Testing the category routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(200);
-    expect(patchOne.body).toHaveProperty("message", "Sucessful reequest");
+    expect(patchOne.body).toHaveProperty("message", "Category updated with success");
     expect(patchOne.body).toHaveProperty("category");
     expect(patchOne.body.category).toEqual(
       expect.objectContaining({
@@ -252,7 +252,7 @@ describe("Testing the category routes", () => {
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body).toHaveProperty("status", "Error");
-    expect(patchOne.body).toHaveProperty("message", "User is not admin");
+    expect(patchOne.body).toHaveProperty("message", "User is not an admin");
     expect(patchOne.body).toHaveProperty("code", 401);
   });
 
@@ -355,7 +355,7 @@ describe("Testing the category routes", () => {
     expect(deleteOne.body).toHaveProperty("message", "User is not an admin");
   });
 
-  test("DELETE /categories/:id - Must not be able to soft-delete a category without being an admin", async () => {
+  test("DELETE /categories/:id - Must not be able to soft-delete a category that does not exists", async () => {
     const deleteOne = await request(app)
       .delete(`/categories/this7is7invalid7id`)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
