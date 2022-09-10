@@ -91,7 +91,7 @@ describe("Testing the type routes", () => {
     expect(genericType.status).toBe(401);
     expect(genericType.body).toHaveProperty("status", "Error");
     expect(genericType.body).toHaveProperty("code", 401);
-    expect(genericType.body).toHaveProperty("message", "User not admin");
+    expect(genericType.body).toHaveProperty("message", "User is not an admin");
   });
 
   test("POST /types - Should not be able to create a type with invalid key values", async () => {
@@ -180,7 +180,7 @@ describe("Testing the type routes", () => {
     expect(listOne.status).toBe(404);
     expect(listOne.body).toHaveProperty("status", "Error");
     expect(listOne.body).toHaveProperty("code", 404);
-    expect(listOne.body).toHaveProperty("message", "Type not found");
+    expect(listOne.body).toHaveProperty("message", "Error");
   });
 
   test("PATCH /types/:id - Must be able to update a type", async () => {
@@ -190,7 +190,10 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(200);
-    expect(patchOne.body).toHaveProperty("message", "Successful request");
+    expect(patchOne.body).toHaveProperty(
+      "message",
+      "Type updated with success"
+    );
     expect(patchOne.body).toHaveProperty("type");
     expect(patchOne.body.type).toHaveProperty("name", mockedType3.name);
   });
@@ -229,7 +232,7 @@ describe("Testing the type routes", () => {
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body).toHaveProperty("status", "Error");
-    expect(patchOne.body).toHaveProperty("message", "User not admin");
+    expect(patchOne.body).toHaveProperty("message", "User is not an admin");
     expect(patchOne.body).toHaveProperty("code", 401);
   });
 
