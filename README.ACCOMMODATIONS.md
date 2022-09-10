@@ -152,7 +152,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 400 - Required field with invalid type**
+**Status 400 - Invalid data type**
 
 ```json
 {
@@ -164,7 +164,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 413 - Required field length too large**
+**Status 413 - Data length too larger**
 
 ```json
 {
@@ -253,7 +253,7 @@ The Accommodation object is defined as:
 
 #### Error Responses:
 
-- No error expected
+- No errors expected
 
 #
 
@@ -479,25 +479,25 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 400 - Field with invalid type**
+**Status 400 - Invalid data**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
+  "message": "Invalid data"
 }
 ```
 
 <br>
 
-**Status 413 - Field length too large**
+**Status 413 - Data length too large**
 
 ```json
 {
   "status": "Error",
   "code": 413,
-  "message": "(object key) length too large"
+  "message": "Data length too large"
 }
 ```
 
