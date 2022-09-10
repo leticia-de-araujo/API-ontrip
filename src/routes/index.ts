@@ -4,6 +4,7 @@ import bookingsRoutes from "./bookings.routes";
 import sessionRoutes from "./session.routes";
 import capacitiesRoutes from "./capacities.routes";
 import userRoutes from "./users.routes";
+import photosRoutes from "./photos.routes";
 
 const appRoutes = (app: Express) => {
   app.use("/users", userRoutes());
@@ -11,6 +12,7 @@ const appRoutes = (app: Express) => {
   app.use("/booking", bookingsRoutes());
   app.use("/login", sessionRoutes());
   app.use("/capacities", capacitiesRoutes());
+  app.use("/photos", photosRoutes());
 };
 
 export default appRoutes;

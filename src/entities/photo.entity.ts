@@ -13,7 +13,7 @@ export class Photo {
 
   @ManyToOne(() => Accommodation, { eager: true })
   @JoinColumn()
-  accommodation: Accommodation;
+  accommodation: Accommodation | null;
 
   constructor() {
     if (!this.id) {

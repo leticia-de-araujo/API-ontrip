@@ -57,9 +57,8 @@ export interface IAccommodationRequestPatch {
   name?: string;
   description?: string;
   dailyPrice?: number;
-  isActive?: boolean;
+  specialOffer?: boolean;
   verifiedByAdm?: boolean;
-  specialOffer?: string;
-  capacityId?: string;
   typeId?: string;
+  capacityId?: string;
 }
