@@ -1,16 +1,59 @@
+# Booking
+
+The Booking object is defined as:
+
+| **Field**      | **Type** | **Description**                                 |
+| -------------- | -------- | ----------------------------------------------- |
+| id             | string   | Booking's unique identifier                     |
+| checkIn        | string   | Defines the data and time for a chekin          |
+| checkout       | string   | Defines the data and time for a checkout        |
+| accommodationId | string   | Accommodation's unique identifier                 |
+| status         | string   | Defines if the booking is "booked" or "canceled" |
+| userId         | string   | User's unique idetifier                           |
+
+<br>
+
+### **Endpoints**
+
+| **Method** | **Route**               | **Description**                                     |
+| ---------- | ----------------------- | --------------------------------------------------- |
+| POST       | /booking                | Creates a new booking                               |
+| GET        | /booking                | List all bookings                                   |
+| GET        | /booking/:bookingId     | Lists a booking using its ID as a parameter          |
+| DELETE     | /booking/:bookingId     | Soft-deletes a booking using its ID as a parameter  |
+
+<br>
+
 ## POST /booking
 
 <br>
 
 #### Request:
 
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
+}
 ```
-body:{
-    "checkIn": "string",
-    "checkout": "string",
-    "accommodationId": "string",
-    "status": "string",
-    "userId": "string"
+
+<br>
+
+**Request body example**
+
+```json
+{
+    "checkIn": "2023/01/12",
+    "checkout": "2023/05/12",
+    "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
+    "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
 }
 ```
 
@@ -20,20 +63,19 @@ body:{
 
 <br>
 
-**Status - 201**
+**Status 201 - Created**
 
-```
-body:{
+```json
+{
 
-    "message": "Booking created",
-
-    "data":{
-        "id": "string",
-        "checkIn": "string",
-        "checkout": "string",
-        "accommodationId": "string",
-        "status": "string",
-        "userId": "string"
+    "message": "Booking created with success",
+    "booking": {
+        "id": "f4939be7-3790-4f67-97d0-f2c17739d807",
+        "checkIn": "2023/01/12",
+        "checkout": "2023/05/12",
+        "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
+        "status": "booked",
+        "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
     }
 }
 ```
@@ -44,51 +86,77 @@ body:{
 
 <br>
 
-**Status - 409**
+**Status 401 - Missing authorization token**
 
-```
-body: {
-    "status": "Error",
-    "code": 409,
-    "message": "Booking already exists"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status - 400**
+**Status 401 - Invalid token**
 
-```
-body: {
-    "status": "Error",
-    "code": 400,
-    "message": "Please send all informations"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
 }
 ```
 
 <br>
 
-**Status - 403**
+**Status 400 - Missing required field**
 
-```
-body: {
-    "status": "Error",
-    "code": 403,
-    "message": "User has no authorization"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) is a required field"
 }
 ```
 
 <br>
 
-**Status - 401**
+**Status 400 - Invalid data type**
 
-```
-body: {
-    "status": "Error",
-    "code": 401,
-    "message": "User has no authentication"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
 }
 ```
+
+<br>
+
+**Status 413 - Data length too large**
+
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
+}
+```
+
+<br>
+
+**Status 409 - Booking already registered**
+
+```json
+{
+  "status": "Error",
+  "code": 409,
+  "message": "This booking is already registered"
+}
+```
+
+<br>
 
 #
 
@@ -98,9 +166,18 @@ body: {
 
 #### Request:
 
-```
-header: {
-    authorization: "Bearer Admin token"
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -110,24 +187,23 @@ header: {
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body:
-[
-    "message": "Success",
-
-  "data": {
-    "id": "string",
-    "checkIn": "string",
-    "checkout": "string",
-    "accommodationId": "string",
-    "status": "string",
-    "userId": "string"
-  },
-
+```json
+{
+    "message": "Successful request",
+    "bookings": [
+      {
+          "id": "f4939be7-3790-4f67-97d0-f2c17739d807",
+          "checkIn": "2023/01/12",
+          "checkout": "2023/05/12",
+          "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
+          "status": "booked",
+          "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
+      },
     ...
-]
+    ]
+}
 ```
 
 <br>
@@ -136,13 +212,25 @@ body:
 
 <br>
 
-**Status - 401**
+**Status 401 - Missing authorization token**
 
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
+}
 ```
-body: {
-    "status": "Error",
-    "code": 401,
-    "message": "Invalid token"
+
+<br>
+
+**Status 401 - Invalid token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
 }
 ```
 
@@ -156,36 +244,42 @@ body: {
 
 #### Request:
 
-```
-header: {
-    authorization: "Bearer Admin Token or owner Token"
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
 <br>
 
+
 #### Expected Response:
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body:
-[
-    "message": "Success",
-
-  "data": {
-    "id": "string",
-    "checkIn": "string",
-    "checkout": "string",
-    "accommodationId": "string",
-    "status": "string",
-    "userId": "string"
-  },
-
-    ...
-]
+```json
+{
+    "message": "Successful request",
+    "booking": {
+        "id": "f4939be7-3790-4f67-97d0-f2c17739d807",
+        "checkIn": "2023/01/12",
+        "checkout": "2023/05/12",
+        "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
+        "status": "booked",
+        "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
+     },
+}
 ```
 
 <br>
@@ -194,25 +288,37 @@ body:
 
 <br>
 
-**Status - 401**
+**Status 401 - Missing authorization token**
 
-```
-body: {
-    "status": "Error",
-    "code": 401,
-    "message": "Invalid token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status - 404**
+**Status 401 - Invalid token**
 
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
+}
 ```
-body: {
-    "status": "Error",
-    "code": 404,
-    "message": "Booking not found"
+
+<br>
+
+**Status - 404 - Booking not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Booking not found"
 }
 ```
 
@@ -226,23 +332,33 @@ body: {
 
 #### Request:
 
-```
-header: {
-    authorization: "Bearer Admin Token or owner Token"
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
 <br>
 
+
 #### Expected Response:
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
+```json
 {
-    "message": "booking deleted with success!"
+    "message": "Booking deleted with success"
 }
 ```
 
@@ -252,22 +368,47 @@ header: {
 
 <br>
 
-**Status - 401**
+**Status 401 - Missing authorization token**
 
-```
-body: {
-    "status": "Error",
-    "code": 401,
-    "message": "Invalid token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status - 404**
+**Status 401 - Invalid token**
 
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
+}
 ```
-body: {
+
+<br>
+
+
+**Status 400 - Booking already deleted**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Booking already deleted"
+}
+```
+
+<br>
+
+**Status 404 - Booking not found**
+
+```json
+{
     "status": "Error",
     "code": 404,
     "message": "Booking not found"
