@@ -94,7 +94,7 @@ describe("Testing the type routes", () => {
     expect(genericType.status).toBe(401);
     expect(genericType.body).toHaveProperty("status", "Error");
     expect(genericType.body).toHaveProperty("code", 401);
-    expect(genericType.body).toHaveProperty("message", "User not admin");
+    expect(genericType.body).toHaveProperty("message", "User is not an admin");
   });
 
   test("POST /types - Should not be able to create a type with invalid key values", async () => {
@@ -170,7 +170,7 @@ describe("Testing the type routes", () => {
     expect(listOne.body).toHaveProperty("type");
     expect(listOne.body.type).toEqual(
       expect.objectContaining({
-        id: genericType.body.data.id,
+        id: genericType.body.type.id,
         name: mockedType2.name,
         isActive: true,
       })
@@ -193,7 +193,7 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(200);
-    expect(patchOne.body).toHaveProperty("message", "Sucessful reequest");
+    expect(patchOne.body).toHaveProperty("message", "Type updated with success");
     expect(patchOne.body).toHaveProperty("type");
     expect(patchOne.body.type).toEqual(
       expect.objectContaining({
@@ -238,7 +238,7 @@ describe("Testing the type routes", () => {
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body).toHaveProperty("status", "Error");
-    expect(patchOne.body).toHaveProperty("message", "User is not admin");
+    expect(patchOne.body).toHaveProperty("message", "User is not an admin");
     expect(patchOne.body).toHaveProperty("code", 401);
   });
 
