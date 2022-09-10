@@ -42,8 +42,6 @@ describe("Testing the category routes", () => {
     await connection.destroy();
   });
 
-  //se os testes falharem, pode haver a necessidade de alterar a referenciacao de response.body.data... para response.body.data.data...
-
   test("POST /categories - Should be able to create a new category", async () => {
     genericCategory = await request(app)
       .post("/categories")
@@ -184,7 +182,7 @@ describe("Testing the category routes", () => {
     expect(listOne.body).toHaveProperty("category");
     expect(listOne.body.category).toEqual(
       expect.objectContaining({
-        id: genericCategory.body.data.id,
+        id: genericCategory.body.category.id,
         name: mockedCategory2.name,
         isActive: true,
       })

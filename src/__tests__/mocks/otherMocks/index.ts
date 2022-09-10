@@ -46,3 +46,7 @@ export const mockedType2: ITypeRequest = {
 export const mockedType3: ITypeRequest = {
   name: "A shared room",
 };
+
+export const mockedTypeTooLarge: ICategoryRequest = {
+  name: "conectitur conetur confectum conferebamus confidam i",
+};
