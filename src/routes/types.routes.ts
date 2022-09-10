@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import createTypeController from "../controllers/types/createType.controller";
+import deleteTypeController from "../controllers/types/deleteType.controller";
 import listOneTypeController from "../controllers/types/listOneType.controller";
 import listTypesController from "../controllers/types/listTypes.controller";
 import updateTypeController from "../controllers/types/updateType.controller";
@@ -20,10 +21,16 @@ const typesRoutes = () => {
     createTypeController
   );
   routes.patch(
-    "/:id",
+    "/:typeId",
     authUserMiddleware,
     admValidationMiddleware,
     updateTypeController
+  );
+  routes.delete(
+    "/:typeId",
+    authUserMiddleware,
+    admValidationMiddleware,
+    deleteTypeController
   );
 
   return routes;

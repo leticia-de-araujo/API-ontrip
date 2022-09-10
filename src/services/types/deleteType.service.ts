@@ -2,14 +2,16 @@ import AppDataSource from "../../data-source";
 import { Type } from "../../entities/type.entity";
 import { AppError } from "../../errors/AppError";
 
-const listOneTypeService = async (typeId: string) => {
+const deleteTypeService = async (id: string) => {
   const typeRepository = AppDataSource.getRepository(Type);
-  const type = await typeRepository.findOneBy({ id: typeId });
+  const type = await typeRepository.findOneBy({ id: id });
   if (!type) {
     throw new AppError(404, "Type not found");
   }
 
-  return type;
+  await typeRepository.update(id, { ...type, isActive: false });
+
+  return { ...type, isActive: false };
 };
 
-export default listOneTypeService;
+export default deleteTypeService;

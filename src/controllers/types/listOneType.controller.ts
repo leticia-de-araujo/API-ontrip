@@ -8,7 +8,7 @@ const listOneTypeController = async (req: Request, res: Response) => {
     const { typeId } = req.params;
     const type = await listOneTypeService(typeId);
 
-    return res.status(200).send({ message: "Request sucessful", type: type });
+    return res.status(200).send({ message: "Successful request", type: type });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
