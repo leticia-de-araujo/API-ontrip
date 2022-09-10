@@ -10,7 +10,7 @@ const createTypeController = async (req: Request, res: Response) => {
 
     return res
       .status(201)
-      .send({ message: "Type created successfully", data: newType });
+      .send({ message: "Type created successfully", type: newType });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
