@@ -74,7 +74,7 @@ describe("Testing the type routes", () => {
     );
   });
 
-  test("POST /capacities - Should not be able to create a new capacity with and invalid token", async () => {
+  test("POST /capacities - Should not be able to create a new capacity with invalid token", async () => {
     genericCapacity = await request(app)
       .post("/capacities")
       .send(mockedCapacity2)
@@ -92,7 +92,7 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(genericCapacity.status).toBe(401);
-    expect(genericCapacity.body).toHaveProperty("message", "User not admin");
+    expect(genericCapacity.body).toHaveProperty("message", "User is not an admin");
   });
 
   test("POST /capacities - Should not be able to create a capacity without required data", async () => {
@@ -216,8 +216,18 @@ describe("Testing the type routes", () => {
       })
     );
   });
+  
+  test("PATCH /capacities/:id - Should not be able to update a capacity without authorization token", async () => {
+    const patchOne = await request(app)
+      .patch(`/capacities/${genericCapacity.body.capacity.id}`)
+      .send(mockedCapacity2)
 
-  test("PATCH /capacities/:id - Should not be able to update a capacity without a valid token", async () => {
+    expect(patchOne.status).toBe(401);
+    expect(patchOne.body).toHaveProperty("code", 401);
+    expect(patchOne.body).toHaveProperty("message", "Missing authorization token");
+  });
+
+  test("PATCH /capacities/:id - Should not be able to update a capacity with invalid token", async () => {
     const patchOne = await request(app)
       .patch(`/capacities/${genericCapacity.body.capacity.id}`)
       .send(mockedCapacity2)
@@ -236,19 +246,9 @@ describe("Testing the type routes", () => {
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body).toHaveProperty("code", 401);
-    expect(patchOne.body).toHaveProperty("message", "User not admin");
+    expect(patchOne.body).toHaveProperty("message", "User is not an admin");
   });
 
-  test("PATCH /capacities/:id - Should not be able to update a capacity without being an admin", async () => {
-    const patchOne = await request(app)
-      .patch(`/capacities/${genericCapacity.body.capacity.id}`)
-      .send(mockedCapacity2)
-      .set("Authorization", `Bearer ${genericToken.body.token}`);
-
-    expect(patchOne.status).toBe(401);
-    expect(patchOne.body).toHaveProperty("code", 401);
-    expect(patchOne.body).toHaveProperty("message", "User not admin");
-  });
 
   test("PATCH /capacities/:id - Should not be able to update a capacity with invalid data", async () => {
     const patchOne = await request(app)
@@ -336,7 +336,7 @@ describe("Testing the type routes", () => {
     expect(deleteOne.status).toBe(401);
     expect(deleteOne.body).toHaveProperty("status", "Error");
     expect(deleteOne.body).toHaveProperty("code", 401);
-    expect(deleteOne.body).toHaveProperty("message", "User not admin");
+    expect(deleteOne.body).toHaveProperty("message", ""User is not an admin");
   });
 
   test("DELETE /capacities/:id - Should not be able to soft-delete a capacity that doesn't exist", async () => {
