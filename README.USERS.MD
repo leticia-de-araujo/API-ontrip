@@ -8,10 +8,10 @@ The User object is defined as:
 | username    | string   | User name                                         |
 | email       | string   | User email                                        |
 | password    | string   | User password                                     |
-| dateOfBirth | Date     | User's date of birth                              |
+| dateOfBirth | string   | User's date of birth                              |
 | isAdm       | boolean  | Defines whether a user is an administrator or not |
 | isActive    | boolean  | Defines whether a user is active or not           |
-| photo       | File     | Specifies the file of the user's profile image    |
+| photo       | string   | Specifies the url of the user's profile image     |
 
 <br>
 
@@ -21,7 +21,7 @@ The User object is defined as:
 | ---------- | ---------- | ----------------------------------------------- |
 | POST       | /users     | Creates a user                                  |
 | GET        | /users     | List all users                                  |
-| GET        | /users/:id | Lists a user using its id as a parameter        |
+| GET        | /users/:id | Lists a user using its ID as a parameter        |
 | PATCH      | /users/:id | Updates a user using its ID as a parameter      |
 | DELETE     | /users/:id | Soft-deletes a user using its ID as a parameter |
 
@@ -47,7 +47,7 @@ The User object is defined as:
   "email": "bobspencer@email.com",
   "password": "874aS4A6F65i",
   "dateOfBirth": "14/03/1993",
-  "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
+  "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg",
   "isAdm": false
 }
 ```
@@ -68,7 +68,7 @@ The User object is defined as:
     "username": "Bob Spencer",
     "email": "bobspencer@email.com",
     "dateOfBirth": "14/03/1993",
-    "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
+    "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg",
     "isAdm": false,
     "isActive": true
   }
@@ -141,7 +141,7 @@ The User object is defined as:
     "username": "Bob Spencer",
     "email": "bobspencer@email.com",
     "dateOfBirth": "14/03/1993",
-    "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
+    "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg",
     "isAdm": false,
     "isActive": true
     },
@@ -156,18 +156,6 @@ The User object is defined as:
 
 <br>
 
-**Status 401 - Invalid Token**
-
-```json
-{
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid Token"
-}
-```
-
-<br>
-
 **Status 401 - Missing Admin Token**
 
 ```json
@@ -175,6 +163,18 @@ The User object is defined as:
   "status": "Error",
   "code": 401,
   "message": "Missing Admin Token"
+}
+```
+
+<br>
+
+**Status 401 - Invalid Token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid Token"
 }
 ```
 
@@ -217,7 +217,7 @@ The User object is defined as:
     "username": "Bob Spencer",
     "email": "bobspencer@email.com",
     "dateOfBirth": "14/03/1993",
-    "photo": "L2dvYWwgbW9yZJShu54j98vgSD79",
+    "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg",
     "isAdm": false,
     "isActive": true
   }
@@ -239,6 +239,20 @@ The User object is defined as:
   "message": "Missing Admin or Owner Token"
 }
 ```
+
+<br>
+
+**Status 401 - Invalid Token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid Token"
+}
+```
+
+<br>
 
 **Status 404 - User not found**
 
@@ -277,7 +291,7 @@ The User object is defined as:
 ```json
 {
   "email": "bob_spencer45@email.com",
-  "photo": "gbW9yZJ65652gfhgShu54j98vgSD79"
+  "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg"
 }
 ```
 
@@ -297,7 +311,7 @@ The User object is defined as:
     "username": "Bob Spencer",
     "email": "bob_spencer45@email.com",
     "dateOfBirth": "14/03/1993",
-    "photo": "gbW9yZJ65652gfhgShu54j98vgSD79",
+    "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg9",
     "isAdm": false,
     "isActive": true
   }
@@ -320,6 +334,20 @@ The User object is defined as:
 }
 ```
 
+<br>
+
+**Status 401 - Invalid Token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid Token"
+}
+```
+
+<br>
+
 **Status 409 - Email already exists**
 
 ```json
@@ -330,6 +358,8 @@ The User object is defined as:
 }
 ```
 
+<br>
+
 **Status 404 - User not found**
 
 ```json
@@ -339,6 +369,8 @@ The User object is defined as:
   "message": "User not found"
 }
 ```
+
+<br>
 
 **Status 400 - Bad request**
 
@@ -400,6 +432,20 @@ The User object is defined as:
   "message": "Missing Admin Token or Owner Token"
 }
 ```
+
+<br>
+
+**Status 401 - Invalid Token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid Token"
+}
+```
+
+<br>
 
 **Status 404 - User not found**
 

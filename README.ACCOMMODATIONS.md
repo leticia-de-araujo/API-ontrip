@@ -128,7 +128,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - Invalid Token**
+**Status 401 - Invalid token**
 
 ```json
 {
@@ -152,7 +152,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 400 - Required field with invalid type**
+**Status 400 - Invalid data type**
 
 ```json
 {
@@ -164,7 +164,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 413 - Required field length too large**
+**Status 413 - Data length too large**
 
 ```json
 {
@@ -253,7 +253,7 @@ The Accommodation object is defined as:
 
 #### Error Responses:
 
-- No error expected
+- No errors expected
 
 #
 
@@ -388,17 +388,17 @@ The Accommodation object is defined as:
 
 ```json
 {
-  "name"?: "Complete apartment to work",
-  "description"?: "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
-  "dailyPrice"?: 300,
-  "specialOffer"?: true,
-  "verifiedByAdm"?: true*,
-  "typeId"?: "6e79c2b7-c479-46e3-aeac-b9f62739799e",
-  "capacityId"?: "0b327321-603d-45a7-b4cd-525c11c14b04"
+  "name?": "Complete apartment to work",
+  "description?": "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
+  "dailyPrice?": 300,
+  "specialOffer?": true,
+  "verifiedByAdm?": true*,
+  "typeId?": "6e79c2b7-c479-46e3-aeac-b9f62739799e",
+  "capacityId?": "0b327321-603d-45a7-b4cd-525c11c14b04"
 }
 ```
 
-- **verifiedByAdm can only be updated by adm**
+- **verifiedByAdm can only be updated by an adm**
 - **At least one field is required**
 
 <br>
@@ -463,7 +463,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - Invalid Token**
+**Status 401 - Invalid token**
 
 ```json
 {
@@ -487,7 +487,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 400 - Field with invalid type**
+**Status 400 - Invalid data type**
 
 ```json
 {
@@ -499,7 +499,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 413 - Field length too large**
+**Status 413 - Data length too large**
 
 ```json
 {
@@ -561,7 +561,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 204 - No Content**
+**Status 200 - OK**
 
 ```json
 {
