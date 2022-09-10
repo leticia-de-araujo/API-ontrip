@@ -20,13 +20,13 @@ The Accommodation object is defined as:
 
 ### **Endpoints**
 
-| **Method** | **Route**           | **Description**                                           |
-| ---------- | ------------------- | --------------------------------------------------------- |
-| POST       | /accommodations     | Creates an accommodation                                  |
-| GET        | /accommodations     | List all accommodations                                   |
-| GET        | /accommodations/:id | Lists an accommodation using its ID as a parameter        |
-| PATCH      | /accommodations/:id | Updates an accommodation using its ID as a parameter      |
-| DELETE     | /accommodations/:id | Soft-deletes an accommodation using its ID as a parameter |
+| **Method** | **Route**                        | **Description**                                           |
+| ---------- | -------------------------------- | --------------------------------------------------------- |
+| POST       | /accommodations                  | Creates an accommodation                                  |
+| GET        | /accommodations                  | List all accommodations                                   |
+| GET        | /accommodations/:accommodationId | Lists an accommodation using its ID as a parameter        |
+| PATCH      | /accommodations/:accommodationId | Updates an accommodation using its ID as a parameter      |
+| DELETE     | /accommodations/:accommodationId | Soft-deletes an accommodation using its ID as a parameter |
 
 <br>
 
@@ -257,29 +257,21 @@ The Accommodation object is defined as:
 
 #
 
-## GET /accommodations/:id
+## GET /accommodations/:accommodationId
 
 <br>
 
 #### Request:
 
-- Authorization: Bearer Token
+- Authorization: None
 - Content-type: application/json
 - Empty body
 
 <br>
 
-**Request headers**
-
-```json
-{
-  "authorization": "Bearer Token"
-}
-```
+#### Expected Response:
 
 <br>
-
-#### Expected Response:
 
 **Status 200 - OK**
 
@@ -363,13 +355,14 @@ The Accommodation object is defined as:
 
 #
 
-## PATCH /accommodations/:id
+## PATCH /accommodations/:accommodationId
 
 <br>
 
 #### Request:
 
 - Authorization: Bearer Token
+- User must be an Adm or Accommodation Owner
 - Content-type: application/json
 
 <br>
@@ -392,14 +385,14 @@ The Accommodation object is defined as:
   "description?": "Ideal apartment to work remotely, quiet, comfortable, and with all the requirements for a perfect home office.",
   "dailyPrice?": 300,
   "specialOffer?": true,
-  "verifiedByAdm?": true*,
+  "*verifiedByAdm?": true,
   "typeId?": "6e79c2b7-c479-46e3-aeac-b9f62739799e",
   "capacityId?": "0b327321-603d-45a7-b4cd-525c11c14b04"
 }
 ```
 
-- **verifiedByAdm can only be updated by an adm**
 - **At least one field is required**
+- **The field verifiedByAdm can only be updated by an Adm**
 
 <br>
 
@@ -475,13 +468,13 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - User is not the accommodation owner or an admin**
+**Status 401 - User is not the owner or an admin**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Not possible to non-admin users to update an accommodation without being the owner"
+  "message": "User is not the owner or an admin"
 }
 ```
 
@@ -535,13 +528,14 @@ The Accommodation object is defined as:
 
 #
 
-## DELETE /accommodations/:id (soft-delete)
+## DELETE /accommodations/:accommodationId
 
 <br>
 
 #### Request:
 
 - Authorization: Bearer Token
+- User must be an Adm or Accommodation Owner
 - Content-type: application/json
 - Empty body
 
@@ -599,13 +593,13 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - User is not the accommodation owner or an admin**
+**Status 401 - User is not the owner or an admin**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Not possible to non-admin users to delete an accommodation without being the owner"
+  "message": "User is not the owner or an admin"
 }
 ```
 
