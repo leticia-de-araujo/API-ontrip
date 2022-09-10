@@ -165,7 +165,7 @@ The Category object is defined as:
 
 <br>
 
-#### Expected Responses:
+#### Expected Response:
 
 <br>
 
@@ -207,7 +207,7 @@ The Category object is defined as:
 
 <br>
 
-#### Expected Responses:
+#### Expected Response:
 
 <br>
 
@@ -271,24 +271,24 @@ The Category object is defined as:
 
 ```json
 {
-  "name": "apartment"
+  "name": "Studio"
 }
 ```
 
 <br>
 
-#### Expected Responses:
+#### Expected Response:
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
 ```json
 {
   "message": "Category updated with success",
   "category": {
     "id": "fc540668-a80c-4690-8889-1c89c5a51b5c",
-    "name": "apartment",
+    "name": "Studio",
     "isActive": true
   }
 }
@@ -396,7 +396,7 @@ The Category object is defined as:
 }
 ```
 
-#### Expected Responses:
+#### Expected Response:
 
 <br>
 
@@ -404,12 +404,7 @@ The Category object is defined as:
 
 ```json
 {
-  "message": "Category deleted with success",
-  "category": {
-    "id": "fc540668-a80c-4690-8889-1c89c5a51b5c",
-    "name": "Apartment",
-    "isActive": false
-  }
+  "message": "Category deleted with success"
 }
 ```
 
