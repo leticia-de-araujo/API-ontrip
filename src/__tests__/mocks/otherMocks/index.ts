@@ -22,6 +22,10 @@ export const mockedCategory5: ICategoryRequest = {
   name: "Boutique Hotel",
 };
 
+export const mockedCategoryTooLarge: ICategoryRequest = {
+  name: "conectitur conetur confectum conferebamus confidam i",
+};
+
 export const mockedPhoto: IPhotoRequest = {
   content: "thisIsAStringBase64",
   accommodationId: "",
@@ -41,4 +45,8 @@ export const mockedType2: ITypeRequest = {
 
 export const mockedType3: ITypeRequest = {
   name: "A shared room",
+};
+
+export const mockedTypeTooLarge: ICategoryRequest = {
+  name: "conectitur conetur confectum conferebamus confidam i",
 };
