@@ -175,7 +175,7 @@ export const admOrOwnerAuthMiddleware = async (
     }
 
     //finding the accommodation that is the owner of the photo
-    const accommodationId = photo.accommodation.id;
+    const accommodationId = photo.accommodation?.id;
     const accommodationRepo = AppDataSource.getRepository(Accommodation);
     const accommodation = await accommodationRepo.findOneBy({
       id: accommodationId,
