@@ -17,13 +17,13 @@ The User object is defined as:
 
 ### **Endpoints**
 
-| **Method** | **Route**  | **Description**                                 |
-| ---------- | ---------- | ----------------------------------------------- |
-| POST       | /users     | Creates a user                                  |
-| GET        | /users     | List all users                                  |
-| GET        | /users/:id | Lists a user using its ID as a parameter        |
-| PATCH      | /users/:id | Updates a user using its ID as a parameter      |
-| DELETE     | /users/:id | Soft-deletes a user using its ID as a parameter |
+| **Method** | **Route**      | **Description**                                 |
+| ---------- | -------------- | ----------------------------------------------- |
+| POST       | /users         | Creates a user                                  |
+| GET        | /users         | List all users                                  |
+| GET        | /users/:userId | Lists a user using its ID as a parameter        |
+| PATCH      | /users/:userId | Updates a user using its ID as a parameter      |
+| DELETE     | /users/:userId | Soft-deletes a user using its ID as a parameter |
 
 <br>
 
@@ -47,8 +47,7 @@ The User object is defined as:
   "email": "bobspencer@email.com",
   "password": "874aS4A6F65i",
   "dateOfBirth": "14/03/1993",
-  "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg",
-  "isAdm": false
+  "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg"
 }
 ```
 
@@ -81,15 +80,41 @@ The User object is defined as:
 
 <br>
 
-**Status 400 - Bad request**
+**Status 400 - Missing required field**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "Bad request, please make sure you have sent all the required information"
+  "message": "(any object key) is a required field"
 }
 ```
+
+<br>
+
+**Status 400 - Invalid data type**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
+}
+```
+
+<br>
+
+**Status 413 - Data length too large**
+
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
+}
+```
+
+<br>
 
 **Status 409 - Email already exists**
 
@@ -111,6 +136,7 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
+- User must be an Adm
 - Content-type: application/json
 - Empty Body
 
@@ -120,7 +146,7 @@ The User object is defined as:
 
 ```json
 {
-  "authorization": "Bearer Admin Token"
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -137,13 +163,13 @@ The User object is defined as:
   "message": "Successful request",
   "users": [
     {
-    "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
-    "username": "Bob Spencer",
-    "email": "bobspencer@email.com",
-    "dateOfBirth": "14/03/1993",
-    "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg",
-    "isAdm": false,
-    "isActive": true
+      "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
+      "username": "Bob Spencer",
+      "email": "bobspencer@email.com",
+      "dateOfBirth": "14/03/1993",
+      "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg",
+      "isAdm": false,
+      "isActive": true
     },
     ...
   ]
@@ -156,31 +182,45 @@ The User object is defined as:
 
 <br>
 
-**Status 401 - Missing Admin Token**
+**Status 401 - Missing authorization token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Missing Admin Token"
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status 401 - Invalid Token**
+**Status 401 - Invalid token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Invalid Token"
+  "message": "Invalid token"
 }
 ```
 
+<br>
+
+**Status 401 - User is not an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not an admin"
+}
+```
+
+<br>
+
 #
 
-## GET /users/:id
+## GET /users/:userId
 
 <br>
 
@@ -188,6 +228,7 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
+- User must be an Adm or the Owner
 - Content-type: application/json
 - Empty Body
 
@@ -197,7 +238,7 @@ The User object is defined as:
 
 ```json
 {
-  "authorization": "Bearer Admin Token or Owner Token"
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -230,25 +271,37 @@ The User object is defined as:
 
 <br>
 
-**Status 401 - Missing Admin or Owner Token**
+**Status 401 - Missing authorization token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Missing Admin or Owner Token"
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status 401 - Invalid Token**
+**Status 401 - Invalid token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Invalid Token"
+  "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status 401 - User is not the owner or an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not the owner or an admin"
 }
 ```
 
@@ -266,7 +319,7 @@ The User object is defined as:
 
 #
 
-## PATCH /users/:id
+## PATCH /users/:userId
 
 <br>
 
@@ -274,6 +327,7 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
+- User must be an Adm or the Owner
 - Content-type: application/json
 
 <br>
@@ -282,7 +336,7 @@ The User object is defined as:
 
 ```json
 {
-  "authorization": "Bearer Admin Token or Owner Token"
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -290,10 +344,17 @@ The User object is defined as:
 
 ```json
 {
-  "email": "bob_spencer45@email.com",
-  "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg"
+  "username?": "Bob Spencer",
+  "email?": "bob_spencer@email.com",
+  "password?": "874aS4A6F65i",
+  "dateOfBirth?": "14/03/1993",
+  "*isAdm": false,
+  "photo?": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg"
 }
 ```
+
+- At least one field is required
+- Only Adm users can update the isAdm field
 
 <br>
 
@@ -309,7 +370,7 @@ The User object is defined as:
   "user": {
     "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
     "username": "Bob Spencer",
-    "email": "bob_spencer45@email.com",
+    "email?": "bob_spencer@email.com",
     "dateOfBirth": "14/03/1993",
     "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg9",
     "isAdm": false,
@@ -324,25 +385,37 @@ The User object is defined as:
 
 <br>
 
-**Status 401 - Missing Admin Token or Owner Token**
+**Status 401 - Missing authorization token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Missing Admin Token or Owner Token"
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status 401 - Invalid Token**
+**Status 401 - Invalid token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Invalid Token"
+  "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status 401 - User is not the owner or an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not the owner or an admin"
 }
 ```
 
@@ -360,6 +433,30 @@ The User object is defined as:
 
 <br>
 
+**Status 400 - Invalid data type**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
+}
+```
+
+<br>
+
+**Status 413 - Data length too large**
+
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
+}
+```
+
+<br>
+
 **Status 404 - User not found**
 
 ```json
@@ -372,19 +469,9 @@ The User object is defined as:
 
 <br>
 
-**Status 400 - Bad request**
-
-```json
-{
-  "status": "Error",
-  "code": 400,
-  "message": "Bad request, please make sure you have sent all the required information"
-}
-```
-
 #
 
-## DELETE /users/:id
+## DELETE /users/:userId
 
 <br>
 
@@ -392,6 +479,7 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
+- User must be an Adm or the Owner
 - Content-type: application/json
 - Empty Body
 
@@ -399,7 +487,7 @@ The User object is defined as:
 
 ```json
 {
-  "authorization": "Bearer Admin Token or Owner Token"
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -423,25 +511,37 @@ The User object is defined as:
 
 <br>
 
-**Status 401 - Missing Admin Token or Owner Token**
+**Status 401 - Missing authorization token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Missing Admin Token or Owner Token"
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status 401 - Invalid Token**
+**Status 401 - Invalid token**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "Invalid Token"
+  "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status 401 - User is not the owner or an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not the owner or an admin"
 }
 ```
 
