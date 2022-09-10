@@ -9,6 +9,7 @@ import {
   validateUserCreate,
 } from "../middlewares/validateUserCreate.middleware";
 import deleteUserController from "../controllers/users/deleteUsers.controller";
+import updateUserController from "../controllers/users/updateUser.controller";
 
 const routes = Router();
 //validateUserCreate(userCreateSchema),
@@ -17,6 +18,7 @@ const userRoutes = () => {
   routes.get("", listUsersController);
   routes.get("/:id", listOneUserController);
   routes.delete("/:id", deleteUserController);
+  routes.patch("/userId", updateUserController);
   return routes;
 };
 
