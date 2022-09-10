@@ -53,7 +53,7 @@ describe("Testing the type routes", () => {
       "message",
       "Type created with success"
     );
-    expect(genericType.body).toHaveProperty("category");
+    expect(genericType.body).toHaveProperty("type");
     expect(genericType.body.type).toHaveProperty("id");
     expect(genericType.body.type).toHaveProperty("name", mockedType.name);
   });
@@ -280,7 +280,7 @@ describe("Testing the type routes", () => {
 
   test("PATCH /types/:id - Must not be able to update a type if not making any changes", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.category.id}`)
+      .post(`/types/${genericType.body.type.id}`)
       .send(mockedType3)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
@@ -295,7 +295,7 @@ describe("Testing the type routes", () => {
 
   test("DELETE /type/:id - Must be able to soft-delete a type", async () => {
     const deleteOne = await request(app)
-      .delete(`/type/${genericType.body.category.id}`)
+      .delete(`/type/${genericType.body.type.id}`)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(deleteOne.status).toBe(200);
@@ -305,9 +305,9 @@ describe("Testing the type routes", () => {
     );
   });
 
-  test("DELETE /categories/:id - Must not be able to soft-delete a category without a token", async () => {
+  test("DELETE /types/:id - Must not be able to soft-delete a type without a token", async () => {
     const deleteOne = await request(app).delete(
-      `/categories/${genericCategory.body.category.id}`
+      `/types/${genericType.body.type.id}`
     );
 
     expect(deleteOne.status).toBe(401);
@@ -319,9 +319,9 @@ describe("Testing the type routes", () => {
     );
   });
 
-  test("DELETE /categories/:id - Must not be able to soft-delete a category without a valid token", async () => {
+  test("DELETE /types/:id - Must not be able to soft-delete a type without a valid token", async () => {
     const deleteOne = await request(app)
-      .delete(`/categories/${genericCategory.body.category.id}`)
+      .delete(`/types/${genericType.body.type.id}`)
       .set("Authorization", `Bearer 1234567890`);
 
     expect(deleteOne.status).toBe(401);
@@ -330,9 +330,9 @@ describe("Testing the type routes", () => {
     expect(deleteOne.body).toHaveProperty("message", "Invalid token");
   });
 
-  test("DELETE /categories/:id - Must not be able to soft-delete a category without being an admin", async () => {
+  test("DELETE /types/:id - Must not be able to soft-delete a type without being an admin", async () => {
     const deleteOne = await request(app)
-      .delete(`/categories/${genericCategory.body.category.id}`)
+      .delete(`/types/${genericType.body.type.id}`)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(deleteOne.status).toBe(401);
@@ -341,14 +341,14 @@ describe("Testing the type routes", () => {
     expect(deleteOne.body).toHaveProperty("message", "User is not an admin");
   });
 
-  test("DELETE /categories/:id - Must not be able to soft-delete a category without being an admin", async () => {
+  test("DELETE /types/:id - Must not be able to soft-delete a type without being an admin", async () => {
     const deleteOne = await request(app)
-      .delete(`/categories/this7is7invalid7id`)
+      .delete(`/types/this7is7invalid7id`)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(deleteOne.status).toBe(404);
     expect(deleteOne.body).toHaveProperty("code", 404);
     expect(deleteOne.body).toHaveProperty("status", "Error");
-    expect(deleteOne.body).toHaveProperty("message", "Category not found");
+    expect(deleteOne.body).toHaveProperty("message", "Type not found");
   });
 });
