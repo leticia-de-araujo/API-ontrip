@@ -47,9 +47,9 @@ describe("Testing the type routes", () => {
 
     expect(genericType.status).toBe(201);
     expect(genericType.body).toHaveProperty("message");
-    expect(genericType.body).toHaveProperty("data");
-    expect(genericType.body.data).toHaveProperty("id");
-    expect(genericType.body.data).toHaveProperty("name");
+    expect(genericType.body).toHaveProperty("type");
+    expect(genericType.body.type).toHaveProperty("id");
+    expect(genericType.body.type).toHaveProperty("name");
   });
 
   test("POST /types - Should not be able to create a type that already exists (same name)", async () => {
@@ -58,7 +58,7 @@ describe("Testing the type routes", () => {
       .send(mockedType)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
-    expect(genericType.status).toBe(403);
+    expect(genericType.status).toBe(409);
     expect(genericType.body).toHaveProperty("message");
   });
 
@@ -77,12 +77,12 @@ describe("Testing the type routes", () => {
 
     expect(genericType.status).toBe(200);
     expect(genericType.body).toHaveProperty("message");
-    expect(genericType.body).toHaveProperty("data");
-    expect(genericType.body.data.length).toBeGreaterThanOrEqual(1);
-    expect(genericType.body.data).toEqual(
+    expect(genericType.body).toHaveProperty("types");
+    expect(genericType.body.types.length).toBeGreaterThanOrEqual(1);
+    expect(genericType.body.types).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: genericType.body.data[0].id,
+          id: genericType.body.types[0].id,
           name: mockedType.name,
         }),
       ])
@@ -97,10 +97,10 @@ describe("Testing the type routes", () => {
 
     expect(listOne.status).toBe(200);
     expect(listOne.body).toHaveProperty("message");
-    expect(listOne.body).toHaveProperty("data");
-    expect(listOne.body.data).toEqual(
+    expect(listOne.body).toHaveProperty("type");
+    expect(listOne.body.type).toEqual(
       expect.objectContaining({
-        id: genericType.body.data.id,
+        id: genericType.body.type.id,
         name: mockedType2.name,
       })
     );
@@ -109,25 +109,25 @@ describe("Testing the type routes", () => {
   test("GET /types/:id -  Must not be able to list a type that doesn't exist", async () => {
     const listOne = await request(app).get("/types/this7is7an7invalid7id");
 
-    expect(listOne.status).toBe(400);
+    expect(listOne.status).toBe(404);
     expect(listOne.body).toHaveProperty("message");
     expect(listOne.body).toMatchObject({
-      message: "There's no type associated with this ID",
+      message: "Type not found",
     });
   });
 
   test("PATCH /types/:id - Must be able to update a type", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.data.id}`)
+      .post(`/types/${genericType.body.type.id}`)
       .send(mockedType3)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(200);
     expect(patchOne.body).toHaveProperty("message");
-    expect(patchOne.body).toHaveProperty("data");
-    expect(patchOne.body.data).toEqual(
+    expect(patchOne.body).toHaveProperty("type");
+    expect(patchOne.body.type).toEqual(
       expect.objectContaining({
-        id: genericType.body.data.id,
+        id: genericType.body.type.id,
         name: mockedType3.name,
       })
     );
@@ -135,16 +135,12 @@ describe("Testing the type routes", () => {
 
   test("PATCH /types/:id - Must not be able to update a type without being and admin", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.data.id}`)
+      .post(`/types/${genericType.body.type.id}`)
       .send(mockedType2)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(patchOne.status).toBe(401);
-    expect(patchOne.body).toHaveProperty("message");
-    expect(patchOne.body.data).toStrictEqual({
-      message: "Not authorized to update a type not being admin",
-    });
-  });
+    expect(patchOne.body).toHaveProperty("message", "User is not an admin");
 
   test("PATCH /types/:id - Must not be able to update a type that doesn't exist", async () => {
     const patchOne = await request(app)
@@ -152,10 +148,7 @@ describe("Testing the type routes", () => {
       .send(mockedType)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
-    expect(patchOne.status).toBe(400);
-    expect(patchOne.body).toHaveProperty("message");
-    expect(patchOne.body.data).toStrictEqual({
-      message: "There's no type associated with this ID",
-    });
+    expect(patchOne.status).toBe(404);
+    expect(patchOne.body).toHaveProperty("message", "Type not found");
   });
 });
