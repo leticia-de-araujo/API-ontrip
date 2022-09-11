@@ -23,7 +23,7 @@ The Accommodation object is defined as:
 | **Method** | **Route**                        | **Description**                                           |
 | ---------- | -------------------------------- | --------------------------------------------------------- |
 | POST       | /accommodations                  | Creates an accommodation                                  |
-| GET        | /accommodations                  | Lists all accommodations                                   |
+| GET        | /accommodations                  | Lists all accommodations                                  |
 | GET        | /accommodations/:accommodationId | Lists an accommodation using its ID as a parameter        |
 | PATCH      | /accommodations/:accommodationId | Updates an accommodation using its ID as a parameter      |
 | DELETE     | /accommodations/:accommodationId | Soft-deletes an accommodation using its ID as a parameter |
@@ -317,30 +317,6 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - Missing authorization token**
-
-```json
-{
-  "status": "Error",
-  "code": 401,
-  "message": "Missing authorization token"
-}
-```
-
-<br>
-
-**Status 401 - Invalid token**
-
-```json
-{
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
 **Status - 404 - Accommodation not found**
 
 ```json
@@ -362,7 +338,7 @@ The Accommodation object is defined as:
 #### Request:
 
 - Authorization: Bearer Token
-- User must be an Adm or Accommodation Owner
+- User must be the owner of the accommodation or an admin
 - Content-type: application/json
 
 <br>
@@ -468,13 +444,13 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - User is not the owner or an admin**
+**Status 401 - User is not an admin or the owner of the accommodation**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "User is not the owner or an admin"
+  "message": "User must be an admin or the owner of the accommodation"
 }
 ```
 
@@ -535,7 +511,7 @@ The Accommodation object is defined as:
 #### Request:
 
 - Authorization: Bearer Token
-- User must be an Adm or Accommodation Owner
+- User must be the owner of the accommodation or an admin
 - Content-type: application/json
 - Empty body
 
@@ -593,13 +569,13 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - User is not the owner or an admin**
+**Status 401 - User is not an admin or the owner of the accommodation**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "User is not the owner or an admin"
+  "message": "User must be an admin or the owner of the accommodation"
 }
 ```
 
