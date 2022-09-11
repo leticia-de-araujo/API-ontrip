@@ -55,11 +55,16 @@ describe("Testing the type routes", () => {
       "message",
       "Capacity created with success"
     );
+    expect(genericCapacity.body).toHaveProperty(
+      "message",
+      "Capacity created with success"
+    );
     expect(genericCapacity.body.capacity).toHaveProperty("id");
     expect(genericCapacity.body.capacity).toHaveProperty("rooms", 1);
     expect(genericCapacity.body.capacity).toHaveProperty("beds", 1);
     expect(genericCapacity.body.capacity).toHaveProperty("totalGuests", 2);
     expect(genericCapacity.body.capacity).toHaveProperty("bathrooms", 1);
+    expect(genericCapacity.body.capacity).toHaveProperty("isActive", true);
   });
 
   test("POST /capacities - Should not be able to create a new capacity without a token", async () => {
@@ -68,6 +73,7 @@ describe("Testing the type routes", () => {
       .send(mockedCapacity2);
 
     expect(genericCapacity.status).toBe(401);
+    expect(genericCapacity.body.capacity).toHaveProperty("code", 401);
     expect(genericCapacity.body).toHaveProperty(
       "message",
       "Missing authorization token"
@@ -78,7 +84,7 @@ describe("Testing the type routes", () => {
     genericCapacity = await request(app)
       .post("/capacities")
       .send(mockedCapacity2)
-      .set("Authorization", `Bearer 1234567890`);
+      .set("Authorization", `Bearer 1d5d4858-c119-4fff-bfb5-9d5d7`);
 
     expect(genericCapacity.status).toBe(401);
     expect(genericCapacity.body).toHaveProperty("code", 401);
@@ -92,7 +98,11 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(genericCapacity.status).toBe(401);
-    expect(genericCapacity.body).toHaveProperty("message", "User is not an admin");
+    expect(genericCapacity.body).toHaveProperty("code", 401);
+    expect(genericCapacity.body).toHaveProperty(
+      "message",
+      "User is not an admin"
+    );
   });
 
   test("POST /capacities - Should not be able to create a capacity without required data", async () => {
@@ -102,6 +112,7 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(genericCapacity.status).toBe(400);
+    expect(genericCapacity.body).toHaveProperty("code", 400);
     expect(genericCapacity.body).toHaveProperty(
       "message",
       "rooms is a required field"
@@ -115,6 +126,7 @@ describe("Testing the type routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(genericCapacity.status).toBe(400);
+    expect(genericCapacity.body).toHaveProperty("code", 400);
     expect(genericCapacity.body).toHaveProperty(
       "message",
       "rooms has an invalid type"
@@ -143,55 +155,42 @@ describe("Testing the type routes", () => {
     expect(genericCapacity.status).toBe(200);
     expect(genericCapacity.body).toHaveProperty("message", "Sucessful request");
     expect(genericCapacity.body).toHaveProperty("capacities");
-    expect(genericCapacity.body.capacities.length).toBeGreaterThanOrEqual(1);
-    expect(genericCapacity.body.capacities).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          rooms: mockedCapacity.rooms,
-          beds: mockedCapacity.beds,
-          totalGuests: mockedCapacity.totalGuests,
-          bathrooms: mockedCapacity.bathrooms,
-        }),
-      ])
-    );
+    expect(genericCapacity.body.capacities[0]).toStrictEqual({
+      id: genericCapacity.body.capacities[0].id,
+      rooms: mockedCapacity.rooms,
+      beds: mockedCapacity.beds,
+      totalGuests: mockedCapacity.totalGuests,
+      bathrooms: mockedCapacity.bathrooms,
+      isActive: true,
+    });
   });
 
   test("GET /capacities/:id -  Should be able to list one capacity", async () => {
-    genericCapacity = await request(app)
-      .post("/capacities")
-      .send(mockedCapacity2)
-      .set("Authorization", `Bearer ${adminToken.body.token}`);
-
-    const listOne = await request(app)
-      .get(
-        `/capacities/${
-          genericCapacity.body.capacities[
-            genericCapacity.body.capacities.length - 1
-          ].id
-        }`
-      )
-      .set("Authorization", `Bearer ${adminToken.body.token}`);
-
-    expect(listOne.status).toBe(200);
-    expect(listOne.body).toHaveProperty("message", "Sucessful request");
-    expect(listOne.body).toHaveProperty("capacity");
-    expect(listOne.body.capacity).toEqual(
-      expect.objectContaining({
-        rooms: mockedCapacity2.rooms,
-        beds: mockedCapacity2.beds,
-        totalGuests: mockedCapacity2.totalGuests,
-        bathrooms: mockedCapacity2.bathrooms,
-      })
+    genericCapacity = await request(app).get(
+      `/capacities/${genericCapacity.body.capacities[0].id}`
     );
+
+    expect(genericCapacity.status).toBe(200);
+    expect(genericCapacity.body).toHaveProperty("message", "Sucessful request");
+    expect(genericCapacity.body).toHaveProperty("capacity");
+    expect(genericCapacity.body.capacity).toStrictEqual({
+      id: genericCapacity.body.capacity.id,
+      rooms: mockedCapacity.rooms,
+      beds: mockedCapacity.beds,
+      totalGuests: mockedCapacity.totalGuests,
+      bathrooms: mockedCapacity.bathrooms,
+      isActive: true,
+    });
   });
 
   test("GET /capacities/:id -  Should not be able to list a capacity that doesn't exist", async () => {
-    const listOne = await request(app)
-      .get("/capacities/this7is7an7invalid7id")
-      .set("Authorization", `Bearer ${adminToken.body.token}`);
+    const listOne = await request(app).get(
+      "/capacities/1d5d4858-c119-4fff-bfb5-9d5d7"
+    );
 
     expect(listOne.status).toBe(404);
-    expect(listOne.body).toHaveProperty("status", 404);
+    expect(listOne.body).toHaveProperty("code", 404);
+    expect(listOne.body).toHaveProperty("status", "Error");
     expect(listOne.body).toHaveProperty("message", "Capacity not found");
   });
 
@@ -207,34 +206,39 @@ describe("Testing the type routes", () => {
       "Capacity updated with success"
     );
     expect(patchOne.body).toHaveProperty("capacity");
-    expect(patchOne.body.capacity).toEqual(
-      expect.objectContaining({
-        rooms: mockedCapacity3.rooms,
-        beds: mockedCapacity3.beds,
-        totalGuests: mockedCapacity3.totalGuests,
-        bathrooms: mockedCapacity3.bathrooms,
-      })
-    );
+    expect(patchOne.body.capacity).toStrictEqual({
+      id: patchOne.body.capacity.id,
+      rooms: mockedCapacity3.rooms,
+      beds: mockedCapacity3.beds,
+      totalGuests: mockedCapacity3.totalGuests,
+      bathrooms: mockedCapacity3.bathrooms,
+      isActive: true,
+    });
   });
-  
+
   test("PATCH /capacities/:id - Should not be able to update a capacity without authorization token", async () => {
     const patchOne = await request(app)
       .patch(`/capacities/${genericCapacity.body.capacity.id}`)
-      .send(mockedCapacity2)
+      .send(mockedCapacity2);
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body).toHaveProperty("code", 401);
-    expect(patchOne.body).toHaveProperty("message", "Missing authorization token");
+    expect(patchOne.body).toHaveProperty("status", "Error");
+    expect(patchOne.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
   });
 
   test("PATCH /capacities/:id - Should not be able to update a capacity with invalid token", async () => {
     const patchOne = await request(app)
       .patch(`/capacities/${genericCapacity.body.capacity.id}`)
       .send(mockedCapacity2)
-      .set("Authorization", `Bearer ${genericToken.body.token}asdw`);
+      .set("Authorization", `Bearer 1d5d4858-c119-4fff-bfb5-9d5d7`);
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body).toHaveProperty("code", 401);
+    expect(patchOne.body).toHaveProperty("status", "Error");
     expect(patchOne.body).toHaveProperty("message", "Invalid token");
   });
 
@@ -246,9 +250,9 @@ describe("Testing the type routes", () => {
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body).toHaveProperty("code", 401);
+    expect(patchOne.body).toHaveProperty("status", "Error");
     expect(patchOne.body).toHaveProperty("message", "User is not an admin");
   });
-
 
   test("PATCH /capacities/:id - Should not be able to update a capacity with invalid data", async () => {
     const patchOne = await request(app)
@@ -258,6 +262,7 @@ describe("Testing the type routes", () => {
 
     expect(patchOne.status).toBe(400);
     expect(patchOne.body).toHaveProperty("code", 400);
+    expect(patchOne.body).toHaveProperty("status", "Error");
     expect(patchOne.body).toHaveProperty(
       "message",
       "totalGuests has invalid type"
@@ -268,12 +273,13 @@ describe("Testing the type routes", () => {
 
   test("PATCH /capacities/:id - Should not be able to update a capacity that doesn't exist", async () => {
     const patchOne = await request(app)
-      .patch(`/capacities/this7is7an7invalid7token`)
+      .patch(`/capacities/1d5d4858-c119-4fff-bfb5-9d5d7`)
       .send(mockedCapacity)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(400);
     expect(patchOne.body).toHaveProperty("code", 400);
+    expect(patchOne.body).toHaveProperty("status", "Error");
     expect(patchOne.body).toHaveProperty("message", "Capacity not found");
   });
 
@@ -285,6 +291,7 @@ describe("Testing the type routes", () => {
 
     expect(patchOne.status).toBe(400);
     expect(patchOne.body).toHaveProperty("code", 400);
+    expect(patchOne.body).toHaveProperty("status", "Error");
     expect(patchOne.body).toHaveProperty(
       "message",
       "Not possible to update a capacity without having any changes in any field"
@@ -320,7 +327,7 @@ describe("Testing the type routes", () => {
   test("DELETE /capacities/:id - Should not be able to soft-delete a capacity with an invalid token", async () => {
     const deleteOne = await request(app)
       .delete(`/capacities/${genericCapacity.body.capacity.id}`)
-      .set("Authorization", `Bearer ${adminToken.body.token}asdasas`);
+      .set("Authorization", `Bearer $1d5d4858-c119-4fff-bfb5-9d5d7`);
 
     expect(deleteOne.status).toBe(401);
     expect(deleteOne.body).toHaveProperty("status", "Error");
@@ -336,12 +343,12 @@ describe("Testing the type routes", () => {
     expect(deleteOne.status).toBe(401);
     expect(deleteOne.body).toHaveProperty("status", "Error");
     expect(deleteOne.body).toHaveProperty("code", 401);
-    expect(deleteOne.body).toHaveProperty("message", ""User is not an admin");
+    expect(deleteOne.body).toHaveProperty("message", "User is not an admin");
   });
 
   test("DELETE /capacities/:id - Should not be able to soft-delete a capacity that doesn't exist", async () => {
     const deleteOne = await request(app)
-      .delete(`/capacities/${genericCapacity.body.capacity.id}asdadas`)
+      .delete(`/capacities/1d5d4858-c119-4fff-bfb5-9d5d7`)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(deleteOne.status).toBe(404);
