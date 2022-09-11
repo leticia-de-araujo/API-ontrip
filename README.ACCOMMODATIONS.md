@@ -188,6 +188,54 @@ The Accommodation object is defined as:
 
 <br>
 
+**Status 404 - User not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "User not found"
+}
+```
+
+<br>
+
+**Status 404 - Type not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Type not found"
+}
+```
+
+<br>
+
+**Status 404 - Capacity not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Capacity not found"
+}
+```
+
+<br>
+
+**Status 404 - Category not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Category not found"
+}
+```
+
+<br>
+
 #
 
 ## GET /accommodations
@@ -501,6 +549,32 @@ The Accommodation object is defined as:
   "message": "Accommodation not found"
 }
 ```
+
+<br>
+
+**Status 404 - Type not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Type not found"
+}
+```
+
+<br>
+
+**Status 404 - Capacity not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Capacity not found"
+}
+```
+
+<br>
 
 #
 
