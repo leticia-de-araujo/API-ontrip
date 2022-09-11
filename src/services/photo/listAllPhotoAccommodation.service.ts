@@ -9,7 +9,7 @@ export const listAllPhotoAccommodationService = async (
   const photosList = await photoRepository.find();
 
   const accommodationPhotos = photosList.filter(
-    (photo) => photo.accommodation.id === accommodationId
+    (photo) => photo.accommodation?.id === accommodationId
   );
 
   return accommodationPhotos;

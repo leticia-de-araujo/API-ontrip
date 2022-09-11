@@ -20,10 +20,7 @@ export const admValidationMiddleware = async (
     }
 
     if (!user.isAdm) {
-      throw new AppError(
-        401,
-        "This service can only be requested by administrators"
-      );
+      throw new AppError(401, "User is not an admin");
     }
 
     req.isAdm = true;
