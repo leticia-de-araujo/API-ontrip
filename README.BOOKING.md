@@ -2,25 +2,25 @@
 
 The Booking object is defined as:
 
-| **Field**      | **Type** | **Description**                                 |
-| -------------- | -------- | ----------------------------------------------- |
-| id             | string   | Booking's unique identifier                     |
-| checkIn        | string   | Defines the data and time for a chekin          |
-| checkout       | string   | Defines the data and time for a checkout        |
-| accommodationId | string   | Accommodation's unique identifier                 |
-| status         | string   | Defines if the booking is "booked" or "canceled" |
-| userId         | string   | User's unique idetifier                           |
+| **Field**       | **Type** | **Description**                                  |
+| --------------- | -------- | ------------------------------------------------ |
+| id              | string   | Booking's unique identifier                      |
+| checkIn         | string   | Defines the data and time for a chekin           |
+| checkout        | string   | Defines the data and time for a checkout         |
+| accommodationId | string   | Accommodation's unique identifier                |
+| status          | string   | Defines if the booking is "booked" or "canceled" |
+| userId          | string   | User's unique idetifier                          |
 
 <br>
 
 ### **Endpoints**
 
-| **Method** | **Route**               | **Description**                                     |
-| ---------- | ----------------------- | --------------------------------------------------- |
-| POST       | /booking                | Creates a new booking                               |
-| GET        | /booking                | List all bookings                                   |
-| GET        | /booking/:bookingId     | Lists a booking using its ID as a parameter          |
-| DELETE     | /booking/:bookingId     | Soft-deletes a booking using its ID as a parameter  |
+| **Method** | **Route**           | **Description**                                    |
+| ---------- | ------------------- | -------------------------------------------------- |
+| POST       | /booking            | Creates a new booking                              |
+| GET        | /booking            | List all bookings                                  |
+| GET        | /booking/:bookingId | Lists a booking using its ID as a parameter        |
+| DELETE     | /booking/:bookingId | Soft-deletes a booking using its ID as a parameter |
 
 <br>
 
@@ -50,10 +50,10 @@ The Booking object is defined as:
 
 ```json
 {
-    "checkIn": "2023/01/12",
-    "checkout": "2023/05/12",
-    "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
-    "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
+  "checkIn": "2023/01/12",
+  "checkout": "2023/05/12",
+  "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
+  "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
 }
 ```
 
@@ -67,16 +67,15 @@ The Booking object is defined as:
 
 ```json
 {
-
-    "message": "Booking created with success",
-    "booking": {
-        "id": "f4939be7-3790-4f67-97d0-f2c17739d807",
-        "checkIn": "2023/01/12",
-        "checkout": "2023/05/12",
-        "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
-        "status": "booked",
-        "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
-    }
+  "message": "Booking created with success",
+  "booking": {
+    "id": "f4939be7-3790-4f67-97d0-f2c17739d807",
+    "checkIn": "2023/01/12",
+    "checkout": "2023/05/12",
+    "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
+    "status": "booked",
+    "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
+  }
 }
 ```
 
@@ -168,6 +167,7 @@ The Booking object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
+- User must be an admin
 - Content-type: application/json
 - Empty body
 
@@ -236,6 +236,18 @@ The Booking object is defined as:
 
 <br>
 
+**Status 401 - User is not an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not an admin"
+}
+```
+
+<br>
+
 #
 
 ## GET /booking/:bookingId
@@ -246,6 +258,7 @@ The Booking object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
+- User must be the owner of the accommodation, the guest that booked the booking, or an admin
 - Content-type: application/json
 - Empty body
 
@@ -261,7 +274,6 @@ The Booking object is defined as:
 
 <br>
 
-
 #### Expected Response:
 
 <br>
@@ -270,15 +282,15 @@ The Booking object is defined as:
 
 ```json
 {
-    "message": "Successful request",
-    "booking": {
-        "id": "f4939be7-3790-4f67-97d0-f2c17739d807",
-        "checkIn": "2023/01/12",
-        "checkout": "2023/05/12",
-        "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
-        "status": "booked",
-        "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
-     },
+  "message": "Successful request",
+  "booking": {
+    "id": "f4939be7-3790-4f67-97d0-f2c17739d807",
+    "checkIn": "2023/01/12",
+    "checkout": "2023/05/12",
+    "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
+    "status": "booked",
+    "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
+  }
 }
 ```
 
@@ -312,7 +324,19 @@ The Booking object is defined as:
 
 <br>
 
-**Status - 404 - Booking not found**
+**Status 401 - User is not the owner of the accommodation, the guest that booked the booking, or an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User must be the owner of the accommodation, the guest that booked the booking, or an admin"
+}
+```
+
+<br>
+
+**Status 404 - Booking not found**
 
 ```json
 {
@@ -334,6 +358,7 @@ The Booking object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
+- User must be the owner of the accommodation, the guest that booked the booking, or an admin
 - Content-type: application/json
 - Empty body
 
@@ -349,7 +374,6 @@ The Booking object is defined as:
 
 <br>
 
-
 #### Expected Response:
 
 <br>
@@ -358,7 +382,7 @@ The Booking object is defined as:
 
 ```json
 {
-    "message": "Booking deleted with success"
+  "message": "Booking deleted with success"
 }
 ```
 
@@ -392,6 +416,17 @@ The Booking object is defined as:
 
 <br>
 
+**Status 401 - User is not the owner of the accommodation, the guest that booked the booking, or an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User must be the owner of the accommodation, the guest that booked the booking, or an admin"
+}
+```
+
+<br>
 
 **Status 400 - Booking already deleted**
 
@@ -409,9 +444,9 @@ The Booking object is defined as:
 
 ```json
 {
-    "status": "Error",
-    "code": 404,
-    "message": "Booking not found"
+  "status": "Error",
+  "code": 404,
+  "message": "Booking not found"
 }
 ```
 

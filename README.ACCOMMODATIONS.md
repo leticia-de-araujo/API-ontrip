@@ -23,7 +23,7 @@ The Accommodation object is defined as:
 | **Method** | **Route**                        | **Description**                                           |
 | ---------- | -------------------------------- | --------------------------------------------------------- |
 | POST       | /accommodations                  | Creates an accommodation                                  |
-| GET        | /accommodations                  | List all accommodations                                   |
+| GET        | /accommodations                  | Lists all accommodations                                  |
 | GET        | /accommodations/:accommodationId | Lists an accommodation using its ID as a parameter        |
 | PATCH      | /accommodations/:accommodationId | Updates an accommodation using its ID as a parameter      |
 | DELETE     | /accommodations/:accommodationId | Soft-deletes an accommodation using its ID as a parameter |
@@ -188,6 +188,54 @@ The Accommodation object is defined as:
 
 <br>
 
+**Status 404 - User not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "User not found"
+}
+```
+
+<br>
+
+**Status 404 - Type not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Type not found"
+}
+```
+
+<br>
+
+**Status 404 - Capacity not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Capacity not found"
+}
+```
+
+<br>
+
+**Status 404 - Category not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Category not found"
+}
+```
+
+<br>
+
 #
 
 ## GET /accommodations
@@ -317,31 +365,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - Missing authorization token**
-
-```json
-{
-  "status": "Error",
-  "code": 401,
-  "message": "Missing authorization token"
-}
-```
-
-<br>
-
-**Status 401 - Invalid token**
-
-```json
-{
-  "status": "Error",
-  "code": 401,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
-**Status - 404 - Accommodation not found**
+**Status 404 - Accommodation not found**
 
 ```json
 {
@@ -362,7 +386,7 @@ The Accommodation object is defined as:
 #### Request:
 
 - Authorization: Bearer Token
-- User must be an Adm or Accommodation Owner
+- User must be the owner of the accommodation or an admin
 - Content-type: application/json
 
 <br>
@@ -391,8 +415,8 @@ The Accommodation object is defined as:
 }
 ```
 
-- **At least one field is required**
-- **The field verifiedByAdm can only be updated by an Adm**
+- At least one field is required
+- The field verifiedByAdm can only be updated by an Adm
 
 <br>
 
@@ -468,13 +492,13 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - User is not the owner or an admin**
+**Status 401 - User is not an admin or the owner of the accommodation**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "User is not the owner or an admin"
+  "message": "User must be an admin or the owner of the accommodation"
 }
 ```
 
@@ -526,6 +550,32 @@ The Accommodation object is defined as:
 }
 ```
 
+<br>
+
+**Status 404 - Type not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Type not found"
+}
+```
+
+<br>
+
+**Status 404 - Capacity not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Capacity not found"
+}
+```
+
+<br>
+
 #
 
 ## DELETE /accommodations/:accommodationId
@@ -535,7 +585,7 @@ The Accommodation object is defined as:
 #### Request:
 
 - Authorization: Bearer Token
-- User must be an Adm or Accommodation Owner
+- User must be the owner of the accommodation or an admin
 - Content-type: application/json
 - Empty body
 
@@ -593,13 +643,13 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 401 - User is not the owner or an admin**
+**Status 401 - User is not an admin or the owner of the accommodation**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "User is not the owner or an admin"
+  "message": "User must be an admin or the owner of the accommodation"
 }
 ```
 

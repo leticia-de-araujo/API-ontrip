@@ -59,10 +59,7 @@ describe("Testing the type routes", () => {
   });
 
   test("POST /types - Should not be able to create a type without a token", async () => {
-    genericType = await request(app)
-      .post("/types")
-      .send(mockedType2)
-      .set("Authorization", `Bearer ${genericToken.body.token}`);
+    genericType = await request(app).post("/types").send(mockedType2);
 
     expect(genericType.status).toBe(401);
     expect(genericType.body).toHaveProperty("status", "Error");
@@ -77,7 +74,7 @@ describe("Testing the type routes", () => {
     genericType = await request(app)
       .post("/types")
       .send(mockedType3)
-      .set("Authorization", `Bearer 1d5d4858-c119-4fff-bfb5-9d5d7ea00`);
+      .set("Authorization", `Bearer 1d5d4858-c119-4fff-bfb5-9d5d7`);
 
     expect(genericType.status).toBe(401);
     expect(genericType.body).toHaveProperty("status", "Error");
@@ -108,7 +105,7 @@ describe("Testing the type routes", () => {
     expect(genericType.body).toHaveProperty("code", 400);
     expect(genericType.body).toHaveProperty(
       "message",
-      "name has an invalid data type"
+      "name has an invalid type"
     );
   });
 
@@ -145,7 +142,7 @@ describe("Testing the type routes", () => {
     genericType = await request(app).get("/types");
 
     expect(genericType.status).toBe(200);
-    expect(genericType.body).toHaveProperty("message", "Sucessful request");
+    expect(genericType.body).toHaveProperty("message", "Successful request");
     expect(genericType.body).toHaveProperty("types");
     expect(genericType.body.types.length).toBeGreaterThanOrEqual(1);
     expect(genericType.body.types).toEqual(
@@ -160,13 +157,16 @@ describe("Testing the type routes", () => {
   });
 
   test("GET /types/:id -  Must be able to list one types", async () => {
-    genericType = await request(app).post("/types").send(mockedType2);
+    genericType = await request(app)
+      .post("/types")
+      .send(mockedType2)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
     const listOne = await request(app).get(
-      `/types/${genericType.body.types[genericType.body.types.length - 1].id}`
+      `/types/${genericType.body.type.id}`
     );
 
     expect(listOne.status).toBe(200);
-    expect(listOne.body).toHaveProperty("message", "Sucessful request");
+    expect(listOne.body).toHaveProperty("message", "Successful request");
     expect(listOne.body).toHaveProperty("type");
     expect(listOne.body.type).toEqual(
       expect.objectContaining({
@@ -183,30 +183,27 @@ describe("Testing the type routes", () => {
     expect(listOne.status).toBe(404);
     expect(listOne.body).toHaveProperty("status", "Error");
     expect(listOne.body).toHaveProperty("code", 404);
-    expect(listOne.body).toHaveProperty("message", "Error");
+    expect(listOne.body).toHaveProperty("message", "Type not found");
   });
 
   test("PATCH /types/:id - Must be able to update a type", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.type.id}`)
+      .patch(`/types/${genericType.body.type.id}`)
       .send(mockedType3)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(200);
-    expect(patchOne.body).toHaveProperty("message", "Type updated with success");
-    expect(patchOne.body).toHaveProperty("type");
-    expect(patchOne.body.type).toEqual(
-      expect.objectContaining({
-        id: genericType.body.type.id,
-        name: mockedType3.name,
-        isActive: true,
-      })
+    expect(patchOne.body).toHaveProperty(
+      "message",
+      "Type updated with success"
     );
+    expect(patchOne.body).toHaveProperty("type");
+    expect(patchOne.body.type).toHaveProperty("name", mockedType3.name);
   });
 
   test("PATCH /types/:id - Must not be able to update a type without a token", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.type.id}`)
+      .patch(`/types/${genericType.body.type.id}`)
       .send(mockedType3);
 
     expect(patchOne.status).toBe(401);
@@ -220,7 +217,7 @@ describe("Testing the type routes", () => {
 
   test("PATCH /types/:id - Must not be able to update a type with an invalid token", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.type.id}`)
+      .patch(`/types/${genericType.body.type.id}`)
       .send(mockedType3)
       .set("Authorization", `Bearer 1234567890`);
 
@@ -232,9 +229,9 @@ describe("Testing the type routes", () => {
 
   test("PATCH /types/:id - Must not be able to update a type without an Admin token", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.type.id}`)
+      .patch(`/types/${genericType.body.type.id}`)
       .send(mockedType3)
-      .set("Authorization", `Bearer ${adminToken.body.token}`);
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(patchOne.status).toBe(401);
     expect(patchOne.body).toHaveProperty("status", "Error");
@@ -244,19 +241,19 @@ describe("Testing the type routes", () => {
 
   test("PATCH /types/:id - Must not be able to update a type with a key of invalid value", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.type.id}`)
+      .patch(`/types/${genericType.body.type.id}`)
       .send({ name: 1 })
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(400);
     expect(patchOne.body).toHaveProperty("status", "Error");
-    expect(patchOne.body).toHaveProperty("message", "name has invalid type");
+    expect(patchOne.body).toHaveProperty("message", "name has an invalid type");
     expect(patchOne.body).toHaveProperty("code", 400);
   });
 
   test("PATCH /types/:id - Must not be able to update a type with a key of invalid value length", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.type.id}`)
+      .patch(`/types/${genericType.body.type.id}`)
       .send(mockedTypeTooLarge)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
@@ -268,7 +265,7 @@ describe("Testing the type routes", () => {
 
   test("PATCH /types/:id - Must not be able to update a type that doesn't exist", async () => {
     const patchOne = await request(app)
-      .post(`/types/1d5d4858-c119-4fff-bfb5-9d5d7ea002f2`)
+      .patch(`/types/1d5d4858-c119-4fff-bfb5-9d5d7ea002f2`)
       .send(mockedType)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
@@ -280,7 +277,7 @@ describe("Testing the type routes", () => {
 
   test("PATCH /types/:id - Must not be able to update a type if not making any changes", async () => {
     const patchOne = await request(app)
-      .post(`/types/${genericType.body.type.id}`)
+      .patch(`/types/${genericType.body.type.id}`)
       .send(mockedType3)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
@@ -293,9 +290,9 @@ describe("Testing the type routes", () => {
     expect(patchOne.body).toHaveProperty("code", 400);
   });
 
-  test("DELETE /type/:id - Must be able to soft-delete a type", async () => {
+  test("DELETE /types/:id - Must be able to soft-delete a type", async () => {
     const deleteOne = await request(app)
-      .delete(`/type/${genericType.body.type.id}`)
+      .delete(`/types/${genericType.body.type.id}`)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(deleteOne.status).toBe(200);
@@ -341,10 +338,10 @@ describe("Testing the type routes", () => {
     expect(deleteOne.body).toHaveProperty("message", "User is not an admin");
   });
 
-  test("DELETE /types/:id - Must not be able to soft-delete a type without being an admin", async () => {
+  test("DELETE /types/:id - Must not be able to soft-delete a type that doesn't exists", async () => {
     const deleteOne = await request(app)
       .delete(`/types/this7is7invalid7id`)
-      .set("Authorization", `Bearer ${genericToken.body.token}`);
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(deleteOne.status).toBe(404);
     expect(deleteOne.body).toHaveProperty("code", 404);
