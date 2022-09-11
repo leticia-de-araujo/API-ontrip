@@ -53,10 +53,7 @@ export const admOrOwnerAuthMiddleware = async (
     //checking if the changes are being made by an Admin or the owner of the account
     const notOwner = userFromToken.id != userAffected.id;
     if (notOwner) {
-      throw new AppError(
-        401,
-        "Must be an admin or owner of the account to make any changes"
-      );
+      throw new AppError(401, "User must be an admin or the owner of the account");
     }
     req.isOwner = true;
     next();
@@ -79,7 +76,7 @@ export const admOrOwnerAuthMiddleware = async (
     if (notAccommodationOwner) {
       throw new AppError(
         401,
-        "Must be an admin or owner of the accommodation to make any changes"
+        "User must be an admin or the owner of the accommodation"
       );
     }
     req.isOwner = true;
@@ -119,7 +116,7 @@ export const admOrOwnerAuthMiddleware = async (
     if (notAccommodationOwner && notBookingOwner) {
       throw new AppError(
         401,
-        "Must be the owner of the accommodation, the guest that booked the booking, or an admin to make any changes"
+        "User must be the owner of the accommodation, the guest that booked the booking, or an admin"
       );
     }
     req.isOwner = true;
@@ -156,7 +153,7 @@ export const admOrOwnerAuthMiddleware = async (
     if (notAccommodationOwner) {
       throw new AppError(
         401,
-        "Must be the owner of the accommodation set at this address or an admin to make any changes"
+        "User must be the owner of the accommodation set at this address or an admin"
       );
     }
     req.isOwner = true;
@@ -192,7 +189,7 @@ export const admOrOwnerAuthMiddleware = async (
     if (notAccommodationOwner) {
       throw new AppError(
         401,
-        "Must be the owner of the accommodation set at this address or an admin to make any changes"
+        "User must be the owner of the accommodation set at this address or an admin"
       );
     }
     req.isOwner = true;

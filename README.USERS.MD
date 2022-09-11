@@ -34,7 +34,7 @@ The User object is defined as:
 #### Request:
 
 - Host: http://suaapi.com/v1
-- Authorization: none
+- Authorization: None
 - Content-type: application/json
 
 <br>
@@ -136,7 +136,7 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
-- User must be an Adm
+- User must be an admin
 - Content-type: application/json
 - Empty Body
 
@@ -228,7 +228,7 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
-- User must be an Adm or the Owner
+- User must be an admin or the owner of the account
 - Content-type: application/json
 - Empty Body
 
@@ -295,13 +295,13 @@ The User object is defined as:
 
 <br>
 
-**Status 401 - User is not the owner or an admin**
+**Status 401 - User is not an admin or the owner of the account**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "User is not the owner or an admin"
+  "message": "User must be an admin or the owner of the account"
 }
 ```
 
@@ -327,7 +327,7 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
-- User must be an Adm or the Owner
+- User must be an admin or the owner of the account
 - Content-type: application/json
 
 <br>
@@ -409,13 +409,13 @@ The User object is defined as:
 
 <br>
 
-**Status 401 - User is not the owner or an admin**
+**Status 401 - User is not an admin or the owner of the account**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "User is not the owner or an admin"
+  "message": "User must be an admin or the owner of the account"
 }
 ```
 
@@ -479,7 +479,7 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
-- User must be an Adm or the Owner
+- User must be an admin or the owner of the account
 - Content-type: application/json
 - Empty Body
 
@@ -535,13 +535,13 @@ The User object is defined as:
 
 <br>
 
-**Status 401 - User is not the owner or an admin**
+**Status 401 - User is not an admin or the owner of the account**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "User is not the owner or an admin"
+  "message": "User must be an admin or the owner of the account"
 }
 ```
 
