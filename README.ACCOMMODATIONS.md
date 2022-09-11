@@ -317,7 +317,7 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status - 404 - Accommodation not found**
+**Status 404 - Accommodation not found**
 
 ```json
 {
@@ -367,8 +367,8 @@ The Accommodation object is defined as:
 }
 ```
 
-- **At least one field is required**
-- **The field verifiedByAdm can only be updated by an Adm**
+- At least one field is required
+- The field verifiedByAdm can only be updated by an Adm
 
 <br>
 

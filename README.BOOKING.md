@@ -236,7 +236,7 @@ The Booking object is defined as:
 
 <br>
 
-**Status 401 - "User is not an admin**
+**Status 401 - User is not an admin**
 
 ```json
 {
@@ -336,7 +336,7 @@ The Booking object is defined as:
 
 <br>
 
-**Status - 404 - Booking not found**
+**Status 404 - Booking not found**
 
 ```json
 {
