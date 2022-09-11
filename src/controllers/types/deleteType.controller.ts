@@ -7,7 +7,7 @@ const deleteTypeController = async (req: Request, res: Response) => {
     const id = req.params.typeId;
 
     const test = await deleteTypeService(id);
-    console.log(test);
+
     return res.status(200).send({ message: "Type deleted with success" });
   } catch (error) {
     if (error instanceof AppError) {
