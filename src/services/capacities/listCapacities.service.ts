@@ -6,7 +6,7 @@ const capacitiesReadAllService = async (): Promise<Capacity[]> => {
 
   const capacities = await capacityRepository.find();
 
-  return capacities;
+  return { ...capacities };
 };
 
 export default capacitiesReadAllService;

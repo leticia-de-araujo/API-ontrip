@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
-import capacitiesReadOneService from "../../services/capacities/capacitiesReadOne.service";
+import capacitiesReadOneService from "../../services/capacities/listOneCapacity.service";
 
 const capacitiesReadOneController = async (req: Request, res: Response) => {
   try {
@@ -8,7 +8,7 @@ const capacitiesReadOneController = async (req: Request, res: Response) => {
 
     const readCapacity = await capacitiesReadOneService(id);
 
-    return res.json({ message: "Request successful", data: readCapacity });
+    return res.json({ message: "Successful request", capacity: readCapacity });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
