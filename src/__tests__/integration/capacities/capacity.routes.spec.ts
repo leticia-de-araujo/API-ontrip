@@ -153,7 +153,7 @@ describe("Testing the capacities routes", () => {
     genericCapacity = await request(app).get("/capacities");
 
     expect(genericCapacity.status).toBe(200);
-    expect(genericCapacity.body).toHaveProperty("message", "Sucessful request");
+    expect(genericCapacity.body).toHaveProperty("message", "Successful request");
     expect(genericCapacity.body).toHaveProperty("capacities");
     expect(genericCapacity.body.capacities[0]).toStrictEqual({
       id: genericCapacity.body.capacities[0].id,
@@ -171,7 +171,7 @@ describe("Testing the capacities routes", () => {
     );
 
     expect(genericCapacity.status).toBe(200);
-    expect(genericCapacity.body).toHaveProperty("message", "Sucessful request");
+    expect(genericCapacity.body).toHaveProperty("message", "Successful request");
     expect(genericCapacity.body).toHaveProperty("capacity");
     expect(genericCapacity.body.capacity).toStrictEqual({
       id: genericCapacity.body.capacity.id,
