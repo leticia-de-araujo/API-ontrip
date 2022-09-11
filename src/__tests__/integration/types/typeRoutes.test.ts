@@ -103,7 +103,10 @@ describe("Testing the type routes", () => {
     expect(genericType.status).toBe(400);
     expect(genericType.body).toHaveProperty("status", "Error");
     expect(genericType.body).toHaveProperty("code", 400);
-    expect(genericType.body).toHaveProperty("message", "name has invalid type");
+    expect(genericType.body).toHaveProperty(
+      "message",
+      "name has an invalid type"
+    );
   });
 
   test("POST /types - Should not be able to create a type with invalid key length", async () => {
@@ -244,7 +247,7 @@ describe("Testing the type routes", () => {
 
     expect(patchOne.status).toBe(400);
     expect(patchOne.body).toHaveProperty("status", "Error");
-    expect(patchOne.body).toHaveProperty("message", "name has invalid type");
+    expect(patchOne.body).toHaveProperty("message", "name has an invalid type");
     expect(patchOne.body).toHaveProperty("code", 400);
   });
 
@@ -339,8 +342,6 @@ describe("Testing the type routes", () => {
     const deleteOne = await request(app)
       .delete(`/types/this7is7invalid7id`)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
-
-    console.log(deleteOne.body);
 
     expect(deleteOne.status).toBe(404);
     expect(deleteOne.body).toHaveProperty("code", 404);

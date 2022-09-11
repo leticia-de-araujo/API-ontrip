@@ -353,7 +353,6 @@ describe("Testing the capacities routes", () => {
       .delete(`/capacities/1d5d4858-c119-4fff-bfb5-9d5d7`)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
-    console.log(deleteOne.body);
     expect(deleteOne.status).toBe(404);
     expect(deleteOne.body).toHaveProperty("status", "Error");
     expect(deleteOne.body).toHaveProperty("code", 404);

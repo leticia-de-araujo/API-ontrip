@@ -8,9 +8,9 @@ const categoryDeleteService = async (id: string): Promise<string> => {
   const category = await categoryRepository.findOneBy({ id: id });
   if (!category) throw new AppError(404, "Category not found");
 
-  await categoryRepository.delete(id);
+  await categoryRepository.update(id, { isActive: false });
 
-  return "Category deleted";
+  return "Category deleted with success";
 };
 
 export default categoryDeleteService;
