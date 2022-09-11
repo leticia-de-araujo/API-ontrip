@@ -16,7 +16,7 @@ export const createPhotoService = async ({
   });
 
   if (!accommodation) {
-    throw new AppError(404, "Accomodation not found");
+    throw new AppError(404, "Accommodation not found");
   }
 
   // Opcão de já salvar no DB a url da imagem em vez da referência.

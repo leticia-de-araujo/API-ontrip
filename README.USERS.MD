@@ -559,4 +559,16 @@ The User object is defined as:
 
 <br>
 
+**Status 400 - User already deleted**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "User already deleted"
+}
+```
+
+<br>
+
 #
