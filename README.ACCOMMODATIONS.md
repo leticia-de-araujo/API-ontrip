@@ -23,7 +23,7 @@ The Accommodation object is defined as:
 | **Method** | **Route**                        | **Description**                                           |
 | ---------- | -------------------------------- | --------------------------------------------------------- |
 | POST       | /accommodations                  | Creates an accommodation                                  |
-| GET        | /accommodations                  | List all accommodations                                   |
+| GET        | /accommodations                  | Lists all accommodations                                   |
 | GET        | /accommodations/:accommodationId | Lists an accommodation using its ID as a parameter        |
 | PATCH      | /accommodations/:accommodationId | Updates an accommodation using its ID as a parameter      |
 | DELETE     | /accommodations/:accommodationId | Soft-deletes an accommodation using its ID as a parameter |
