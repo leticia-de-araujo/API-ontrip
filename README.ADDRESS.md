@@ -1,12 +1,50 @@
+# Address
+
+The Address object is defined as:
+
+| **Field**       | **Type** | **Description**                                  |
+| --------------- | -------- | ------------------------------------------------ |
+| country         | string   | Defines the country of the address               |
+| state           | string   | Defines the state of the address                 |
+| city            | string   | Defines the city of the address                  |
+| postalCode      | string   | Defines the postal Code of the address           |
+| street          | string   | Defines the stret of the address                 |
+| complement      | string   | Defines the complement of the address            |
+| accommodationId | string   | Accommodation's unique identifier                |
+
+<br>
+
+### **Endpoints**
+
+| **Method** | **Route**               | **Description**                                     |
+| ---------- | ----------------------- | --------------------------------------------------- |
+| GET        | /address                | List all address                                    |
+| GET        | /address/:addressId     | List a unique address                               |
+| POST       | /address                | Create a new address                                |
+| PATCH      | /address/:addressId     | Updates an address                                  |
+| DELETE     | /address/:addressId     | Soft-deletes an address using its ID as a parameter |
+
+<br>
+
+
 ## GET /address
 
 <br>
 
 #### Request:
 
-```
-header: {
-    authorization: "Bearer token"
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -18,24 +56,23 @@ header: {
 
 **Status - 200**
 
-```
-body:
-[
+```json
+{
     "message": "success",
-    data: [
+    "addresses": [
       {
-      "id": "uuid",
-      "country": "example",
-      "state": "example state",
-      "city": "example city",
-      "postalCode": "28830418",
-      "street": "street example",
-      "complement": "near from example",
-      "accommodation": "uuid accomodation"
+      "id": "4a944707-6c5e-4ea9-a2c8-882196d3904f",
+      "country": "Brazil",
+      "state": "Espirito Santo",
+      "city": "Serra",
+      "postalCode": "29163663",
+      "street": "Rosemberg",
+      "complement": "Quadra 45, Setor Ásia",
+      "accommodationId": "661dc120-4851-47ec-8a76-216e8380345e"
       },
     ...
   ]
-]
+}
 ```
 
 <br>
@@ -46,11 +83,11 @@ body:
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "Invalid token"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Invalid token"
 }
 ```
 
@@ -58,11 +95,11 @@ body: {
 
 **Status - 401**
 
-```
-body: {
-"status": "Error",
-"code": 401,
-"message": "Missing authorization token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
 }
 ```
 
@@ -74,11 +111,18 @@ body: {
 
 #### Request:
 
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty body
+
 <br>
 
-```
-header: {
-authorization: "Bearer token"
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -88,23 +132,22 @@ authorization: "Bearer token"
 
 **Status - 200**
 
-```
-body:
+```json
+{
     "message": "success",
-    data: {
-      {
-      "id": "uuid",
-      "country": "example",
-      "state": "example state",
-      "city": "example city",
-      "postalCode": "28830418",
-      "street": "street example",
-      "complement": "near from example",
-      "accommodation": "uuid accomodation"
-       },
-      }
+    "address": 
+    {      
+      "id": "4a944707-6c5e-4ea9-a2c8-882196d3904f",
+      "country": "Brazil",
+      "state": "Espirito Santo",
+      "city": "Serra",
+      "postalCode": "29163663",
+      "street": "Rosemberg",
+      "complement": "Quadra 45, Setor Ásia",
+      "accommodationId": "661dc120-4851-47ec-8a76-216e8380345e"
+      ,
     }
-  }
+}
 ```
 
 <br>
@@ -115,11 +158,11 @@ body:
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "Invalid token"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Invalid token"
 }
 ```
 
@@ -127,11 +170,11 @@ body: {
 
 **Status - 404**
 
-```
-body: {
-"status": "Error",
-"code": 404,
-"message": "Address not found"
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Address not found"
 }
 ```
 
@@ -139,11 +182,11 @@ body: {
 
 **Status - 401**
 
-```
-body: {
-"status": "Error",
-"code": 401,
-"message": "Missing authorization token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
 }
 ```
 
@@ -155,26 +198,33 @@ body: {
 
 #### Request:
 
-```
-header: {
-authorization: "Bearer token"
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
-```
-body:
+<br>
+
+**Request body example**
+
+```json
 {
-  {
-    {
-      "country": "example",
-      "state": "example state",
-      "city": "example city",
-      "postalCode": "28830418",
-      "street": "street example",
-      "complement": "near from example",
-      "accommodation": "uuid accomodation"
-    },
-  }
+    "country": "Brazil",
+    "state": "Espirito Santo",
+    "city": "Serra",
+    "postalCode": "29163663",
+    "street": "Rosemberg",
+    "complement": "Quadra 45, Setor Ásia",
+    "accommodationId": "661dc120-4851-47ec-8a76-216e8380345e"
 }
 ```
 
@@ -186,23 +236,21 @@ body:
 
 **Status - 201**
 
-```
-body:
+```json
 {
-    "message": "success",
-    "data": {
-      {
-      "id": "uuid",
-      "country": "example",
-      "state": "example state",
-      "city": "example city",
-      "postalCode": "28830418",
-      "street": "street example",
-      "complement": "near from example",
-      "accommodation": "uuid accomodation"
-      },
-    }
-  }
+    "message": "Address created",
+    "address": 
+    {
+      "id": "4a944707-6c5e-4ea9-a2c8-882196d3904f",
+      "country": "Brazil",
+      "state": "Espirito Santo",
+      "city": "Serra",
+      "postalCode": "29163663",
+      "street": "Rosemberg",
+      "complement": "Quadra 45, Setor Ásia",
+      "accommodationId": "661dc120-4851-47ec-8a76-216e8380345e"
+    },
+}
 ```
 
 <br>
@@ -213,11 +261,11 @@ body:
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "Invalid token"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Invalid token"
 }
 ```
 
@@ -225,11 +273,11 @@ body: {
 
 **Status - 401**
 
-```
-body: {
-"status": "Error",
-"code": 401,
-"message": "Missing authorization token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
 }
 ```
 
@@ -237,11 +285,11 @@ body: {
 
 **Status - 404**
 
-```
-body: {
-"status": "Error",
-"code": 404,
-"message": "Accommodation not found"
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Accommodation not found"
 }
 ```
 
@@ -249,11 +297,11 @@ body: {
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "(any object key) is a required field"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) is a required field"
 }
 ```
 
@@ -261,11 +309,11 @@ body: {
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "(any object key) has an invalid type"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
 }
 ```
 
@@ -273,11 +321,11 @@ body: {
 
 **Status - 413**
 
-```
-body: {
-"status": "Error",
-"code": 413,
-"message": "(object key) length too large"
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
 }
 ```
 
@@ -291,26 +339,33 @@ body: {
 
 #### Request:
 
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+
 <br>
 
-```
-header: {
-authorization: "Bearer token"
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
-```
-body:
+<br>
+
+**Request body example**
+
+```json
 {
-  {
-    "country": "example",
-    "state": "example state",
-    "city": "example city",
-    "postalCode": "28830418",
-    "street": "street example",
-    "complement": "near from example",
-    "accommodation": "uuid accomodation"
-  },
+    "country": "Brazil",
+    "state": "Espirito Santo",
+    "city": "Serra",
+    "postalCode": "29163663",
+    "street": "Rosemberg",
+    "complement": "Quadra 45, Setor Ásia",
+    "accommodationId": "661dc120-4851-47ec-8a76-216e8380345e"
 }
 ```
 
@@ -322,23 +377,21 @@ body:
 
 **Status - 200**
 
-```
-body:
-  {
-    "message": "success",
-    "data": {
-      {
-      "id": "uuid",
-      "country": "example",
-      "state": "example state",
-      "city": "example city",
-      "postalCode": "28830418",
-      "street": "street example",
-      "complement": "near from example",
-      "accommodation": "uuid accomodation"
-      },
-    }
-  }
+```json
+{
+    "message": "Address updated",
+    "address": 
+    {
+      "id": "4a944707-6c5e-4ea9-a2c8-882196d3904f",
+      "country": "Brazil",
+      "state": "Espirito Santo",
+      "city": "Serra",
+      "postalCode": "29163663",
+      "street": "Rosemberg",
+      "complement": "Quadra 45, Setor Ásia",
+      "accommodationId": "661dc120-4851-47ec-8a76-216e8380345e"
+    },
+}
 ```
 
 <br>
@@ -349,11 +402,11 @@ body:
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "Invalid token"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Invalid token"
 }
 ```
 
@@ -361,11 +414,11 @@ body: {
 
 **Status - 401**
 
-```
-body: {
-"status": "Error",
-"code": 401,
-"message": "Missing authorization token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
 }
 ```
 
@@ -373,11 +426,11 @@ body: {
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "(any object key) has an invalid type"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
 }
 ```
 
@@ -385,11 +438,11 @@ body: {
 
 **Status - 413**
 
-```
-body: {
-"status": "Error",
-"code": 413,
-"message": "(object key) length too large"
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
 }
 ```
 
@@ -397,11 +450,11 @@ body: {
 
 **Status - 404**
 
-```
-body: {
-"status": "Error",
-"code": 404,
-"message": "Address not found"
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Address not found"
 }
 ```
 
@@ -413,9 +466,18 @@ body: {
 
 #### Request:
 
-```
-header: {
-authorization: "Bearer token"
+- Host: http://suaapi.com/v1
+- Authorization: Bearer Token
+- Content-type: application/json
+- Empty body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
@@ -427,9 +489,9 @@ authorization: "Bearer token"
 
 **Status - 204**
 
-```
-body: {
-"message": "Address disabled with success"
+```json
+{
+  "message": "Address disabled with success"
 }
 ```
 
@@ -441,11 +503,11 @@ body: {
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "Invalid token"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Invalid token"
 }
 ```
 
@@ -453,11 +515,11 @@ body: {
 
 **Status - 401**
 
-```
-body: {
-"status": "Error",
-"code": 401,
-"message": "Missing authorization token"
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
 }
 ```
 
@@ -465,11 +527,11 @@ body: {
 
 **Status - 400**
 
-```
-body: {
-"status": "Error",
-"code": 400,
-"message": "Address already disabled"
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Address already disabled"
 }
 ```
 
@@ -477,10 +539,10 @@ body: {
 
 **Status - 404**
 
-```
-body: {
-"status": "Error",
-"code": 404,
-"message": "Address not found"
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Address not found"
 }
 ```
