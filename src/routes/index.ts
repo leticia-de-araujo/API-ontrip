@@ -7,6 +7,7 @@ import typesRoutes from "./types.routes";
 import userRoutes from "./users.routes";
 import photosRoutes from "./photos.routes";
 import categoriesRouter from "./categories.routes";
+import addressesRoutes from "./addresses.routes";
 
 const appRoutes = (app: Express) => {
   app.use("/users", userRoutes());
@@ -17,6 +18,7 @@ const appRoutes = (app: Express) => {
   app.use("/types", typesRoutes());
   app.use("/photos", photosRoutes());
   app.use("/categories", categoriesRouter());
+  app.use("/address", addressesRoutes());
 };
 
 export default appRoutes;
