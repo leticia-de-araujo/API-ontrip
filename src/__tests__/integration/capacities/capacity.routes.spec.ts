@@ -18,7 +18,7 @@ import {
   mockedCapacityPatch,
 } from "../../mocks/capacityMocks";
 
-describe("Testing the type routes", () => {
+describe("Testing the capacities routes", () => {
   let connection: DataSource;
   let genericUser: any;
   let adminUser: any;
