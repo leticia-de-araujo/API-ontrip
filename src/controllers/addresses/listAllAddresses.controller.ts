@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 
-export const createAddressController = async (req: Request, res: Response) => {
+export const listAllAddressesController = async (
+  req: Request,
+  res: Response
+) => {
   try {
   } catch (err) {
     if (err instanceof AppError) {
