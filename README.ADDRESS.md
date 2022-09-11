@@ -19,7 +19,7 @@ The Address object is defined as:
 | **Method** | **Route**           | **Description**                                |
 | ---------- | ------------------- | ---------------------------------------------- |
 | POST       | /address            | Creates a new address                          |
-<!-- | PATCH      | /address/:addressId | Updates an address using its ID as a parameter | -->
+| PATCH      | /address/:addressId | Updates an address using its ID as a parameter |
 
 <br>
 
@@ -31,7 +31,7 @@ The Address object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
-- User must be the owner of the accommodation of the new address
+- User must be the owner of the accommodation of the new address or an admin
 - Content-type: application/json
 
 <br>
@@ -114,13 +114,13 @@ The Address object is defined as:
 
 <br>
 
-**Status 401 - User is not the accommodation owner**
+**Status 401 - User is not the owner of the accommodation set at this address or an admin**
 
 ```json
 {
   "status": "Error",
   "code": 401,
-  "message": "User must be the owner of the accommodation set at this address"
+  "message": "User must be the owner of the accommodation set at this address or an admin"
 }
 ```
 
@@ -162,7 +162,7 @@ The Address object is defined as:
 
 <br>
 
-**Status - 404 - Accommodation not found**
+**Status 404 - Accommodation not found**
 
 ```json
 {
@@ -186,9 +186,7 @@ The Address object is defined as:
 
 <br>
 
-<!-- Faz sentido ter patch de Address? Pq alguém mudaria o endereço de uma acomodação? O certo não seria criar outra acomodação? -->
-
-<!-- #
+#
 
 ## PATCH /address/:id
 
@@ -198,7 +196,7 @@ The Address object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
-- User must be the accommodation owner or an admin
+- User must be the owner of the accommodation set at this address or an admin
 - Content-type: application/json
 
 <br>
@@ -217,15 +215,18 @@ The Address object is defined as:
 
 ```json
 {
-  "country": "Brazil",
-  "state": "Espirito Santo",
-  "city": "Serra",
-  "postalCode": "29163663",
-  "street": "Rosemberg",
-  "complement": "Quadra 45, Setor Ásia",
+  "postalCode?": "29163663",
+  "street?": "Rosemberg",
+  "complement?": "Quadra 45, Setor Ásia",
   "accommodationId": "661dc120-4851-47ec-8a76-216e8380345e"
 }
 ```
+
+- accommodationId is a required field
+- At least one of these fields is required:
+  - postalCode
+  - street
+  - complement
 
 <br>
 
@@ -257,19 +258,7 @@ The Address object is defined as:
 
 <br>
 
-**Status - 400**
-
-```json
-{
-  "status": "Error",
-  "code": 400,
-  "message": "Invalid token"
-}
-```
-
-<br>
-
-**Status - 401**
+**Status 401 - Missing authorization token**
 
 ```json
 {
@@ -281,7 +270,31 @@ The Address object is defined as:
 
 <br>
 
-**Status - 400**
+**Status 401 - Invalid token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status 401 - User is not the owner of the accommodation set at this address or an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User must be the owner of the accommodation set at this address or an admin"
+}
+```
+
+<br>
+
+**Status 400 - Invalid data type**
 
 ```json
 {
@@ -293,7 +306,7 @@ The Address object is defined as:
 
 <br>
 
-**Status - 413**
+**Status 413 - Data length too large**
 
 ```json
 {
@@ -305,7 +318,19 @@ The Address object is defined as:
 
 <br>
 
-**Status - 404**
+**Status 400 - No changes in address data**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Not possible to update an address without having any changes in any field"
+}
+```
+
+<br>
+
+**Status 404 - Address not found**
 
 ```json
 {
@@ -315,5 +340,18 @@ The Address object is defined as:
 }
 ```
 
+<br>
+
+**Status 404 - Accommodation not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Accommodation not found"
+}
+```
+
+<br>
+
 #
- -->
