@@ -14,6 +14,7 @@ export const createAddressController = async (req: Request, res: Response) => {
       complement,
       accommodation: accommodationId,
     } = req.body;
+    const { userId } = req;
 
     if (
       !country ||
@@ -37,6 +38,7 @@ export const createAddressController = async (req: Request, res: Response) => {
       street,
       complement,
       accommodationId,
+      userId: userId!,
     });
 
     return res.status(201).json({
