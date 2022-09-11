@@ -486,4 +486,16 @@ The Type object is defined as:
 
 <br>
 
+**Status 400 - Type already deleted**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Type already deleted"
+}
+```
+
+<br>
+
 #

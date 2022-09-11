@@ -515,4 +515,16 @@ The Capacity object is defined as:
 
 <br>
 
+**Status 400 - Capacity already deleted**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Capacity already deleted"
+}
+```
+
+<br>
+
 #
