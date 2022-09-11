@@ -486,13 +486,13 @@ The Category object is defined as:
 
 <br>
 
-**Status 400 - Capacity already deleted**
+**Status 400 - Category already deleted**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "Capacity already deleted"
+  "message": "Category already deleted"
 }
 ```
 
