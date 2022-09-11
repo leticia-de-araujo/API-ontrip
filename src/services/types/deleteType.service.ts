@@ -5,6 +5,7 @@ import { AppError } from "../../errors/AppError";
 const deleteTypeService = async (id: string) => {
   const typeRepository = AppDataSource.getRepository(Type);
   const type = await typeRepository.findOneBy({ id: id });
+
   if (!type) {
     throw new AppError(404, "Type not found");
   }

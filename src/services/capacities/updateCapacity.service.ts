@@ -12,35 +12,35 @@ const capacitiesUpdateService = async (
   const capacity = await capacityRepository.findOneBy({ id: id });
 
   if (!capacity) {
-    throw new AppError(404, "There's no capacity associated with this id");
+    throw new AppError(404, "Capacity not found");
   }
 
-  const capacityUpdayed = capacityRepository.create({
+  const capacityUpdated: ICapacityRequestPatch = {
     rooms: rooms ? rooms : capacity.rooms,
     beds: beds ? beds : capacity.beds,
     totalGuests: totalGuests ? totalGuests : capacity.totalGuests,
     bathrooms: bathrooms ? bathrooms : capacity.bathrooms,
-  });
+  };
 
   const capacityCheck = await capacityRepository.findOne({
     where: {
-      rooms: capacityUpdayed.rooms,
-      beds: capacityUpdayed.beds,
-      totalGuests: capacityUpdayed.totalGuests,
-      bathrooms: capacityUpdayed.bathrooms,
+      rooms: capacityUpdated.rooms,
+      beds: capacityUpdated.beds,
+      totalGuests: capacityUpdated.totalGuests,
+      bathrooms: capacityUpdated.bathrooms,
     },
   });
 
   if (capacityCheck) {
     throw new AppError(
-      409,
-      "There's already a capacity with the intended data in the database"
+      400,
+      "Not possible to update a capacity without having any changes in any field"
     );
   }
 
-  await capacityRepository.update(id, capacityUpdayed);
+  await capacityRepository.update(id, capacityUpdated);
 
-  return capacityUpdayed;
+  return { ...capacity, ...capacityUpdated };
 };
 
 export default capacitiesUpdateService;

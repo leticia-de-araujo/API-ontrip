@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
-import capacitiesUpdateService from "../../services/capacities/capacitiesUpdate.service";
+import capacitiesUpdateService from "../../services/capacities/updateCapacity.service";
 
 const capacitiesUpdateController = async (req: Request, res: Response) => {
   try {
@@ -17,7 +17,7 @@ const capacitiesUpdateController = async (req: Request, res: Response) => {
 
     return res.json({
       message: "Capacity updated with success",
-      data: updatedCapacity,
+      capacity: updatedCapacity,
     });
   } catch (error) {
     if (error instanceof AppError) {
