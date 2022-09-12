@@ -21,10 +21,8 @@ export interface IAddressRequest {
 }
 
 export interface IAddressRequestPatch {
-  country?: string;
-  state?: string;
-  city?: string;
   postalCode?: string;
   street?: string;
   complement?: string;
+  accommodationId: string;
 }
