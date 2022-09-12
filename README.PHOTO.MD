@@ -2,11 +2,11 @@
 
 The Photo object is defined as:
 
-| **Field**       | **Type** | **Description**                    |
-| --------------- | -------- | ---------------------------------- |
-| id              | string   | Photo's unique identifier          |
-| content         | string   | Photo's url provided by cloudinary |
-| accommodationId | string   | Accommodation's unique identifier  |
+| **Field**       | **Type** | **Description**                   |
+| --------------- | -------- | --------------------------------- |
+| id              | string   | Photo's unique identifier         |
+| files           | file     | Upload user image file            |
+| accommodationId | string   | Accommodation's unique identifier |
 
 <br>
 
@@ -30,7 +30,7 @@ The Photo object is defined as:
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
 - User must be the owner of this photo's accommodation or an admin
-- Content-type: application/json
+- Content-type: multipart/form-data
 
 <br>
 
@@ -46,10 +46,8 @@ The Photo object is defined as:
 
 **Request body example**
 
-```json
-{
-  "content": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg"
-}
+```multipart/form-data
+  files: file.jpg
 ```
 
 <br>

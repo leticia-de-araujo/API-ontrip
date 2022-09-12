@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IUserRequest } from "../interfaces/users";
+import { IUserRequest, IValidateUser } from "../interfaces/users";
 
-export const userCreateSchema: SchemaOf<IUserRequest> = yup.object().shape({
+export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
   username: yup.string().required().max(20),
   email: yup.string().email().required().max(30),
   password: yup.string().required().min(4).max(50),
@@ -15,14 +15,25 @@ export const userCreateSchema: SchemaOf<IUserRequest> = yup.object().shape({
       "Format should be yyyy-mm-dd"
     ),
   isAdm: yup.boolean(),
-  photo: yup.string().required(),
+  file: yup.object().shape({
+    fieldname: yup.mixed(),
+    originalname: yup.mixed(),
+    encoding: yup.mixed(),
+    mimetype: yup.mixed(),
+    destination: yup.mixed(),
+    filename: yup.mixed(),
+    path: yup.mixed(),
+    size: yup.number(),
+  }),
 });
 
 export const validateUserCreate =
-  (schema: SchemaOf<IUserRequest>) =>
+  (schema: SchemaOf<IValidateUser>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const data = req.body;
+      const body = req.body;
+      const file: any = req.file;
+      const data = { ...body, ...file };
 
       try {
         const validatedData = await schema.validate(data, {
