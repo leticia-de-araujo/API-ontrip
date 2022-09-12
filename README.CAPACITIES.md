@@ -1,28 +1,61 @@
 # Capacities
 
+The Capacity object is defined as:
+
+| **Field**   | **Type** | **Description**                                |
+| ----------- | -------- | ---------------------------------------------- |
+| id          | string   | Capacity's unique identifier                   |
+| rooms       | number   | Number of capacity rooms                       |
+| beds        | number   | Number of capacity beds                        |
+| totalGuests | number   | Total number of guests that the capacity hosts |
+| bathrooms   | number   | Number of capacity bathrooms                   |
+| isActive    | boolean  | Defines whether a capacity is active or not    |
+
+<br>
+
+### **Endpoints**
+
+| **Method** | **Route**               | **Description**                                     |
+| ---------- | ----------------------- | --------------------------------------------------- |
+| POST       | /capacities             | Creates a capacity                                  |
+| GET        | /capacities             | List all capacities                                 |
+| GET        | /capacities/:capacityId | Lists a capacity using its ID as a parameter        |
+| PATCH      | /capacities/:capacityId | Updates a capacity using its ID as a parameter      |
+| DELETE     | /capacities/:capacityId | Soft-deletes a capacity using its ID as a parameter |
+
+<br>
+
 ## POST /capacities
 
 <br>
 
 #### Request:
 
-- Authorization: Bearer Token
+- Host: http://suaapi.com/v1
+- Authorization: Admin Bearer Token
+- User must be an admin to create a capacity
 - Content-type: application/json
 
 <br>
 
-```
-headers: {
-  "authorization": "Bearer token"
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
-```
-body: {
-    "rooms": number,
-    "beds": number,
-    "totalGuests": number,
-    "bathrooms": number,
+<br>
+
+**Request body example**
+
+```json
+{
+  "rooms": 2,
+  "beds": 2,
+  "totalGuests": 4,
+  "bathrooms": 2
 }
 ```
 
@@ -32,17 +65,18 @@ body: {
 
 <br>
 
-**Status - 201**
+**Status 201 - Created**
 
-```
-body:{
+```json
+{
   "message": "Capacity created with success",
-  "data": {
-    "id": "string",
-    "rooms": number
-    "beds": number
-    "totalGuests": number
-    "bathrooms": number
+  "capacity": {
+    "id": "3aa9018f-1415-4caf-a382-07aff5e0076a",
+    "rooms": 2,
+    "beds": 2,
+    "totalGuests": 4,
+    "bathrooms": 2,
+    "isActive": true
   }
 }
 ```
@@ -53,22 +87,24 @@ body:{
 
 <br>
 
-**Status - 401 - Missing admin token**
+<br>
 
-```
-body: {
+**Status 401 - Missing authorization token**
+
+```json
+{
   "status": "Error",
   "code": 401,
-  "message": "Missing admin token"
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status - 401 - Invalid Token**
+**Status 401 - Invalid token**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 401,
   "message": "Invalid token"
@@ -77,27 +113,65 @@ body: {
 
 <br>
 
-**Status - 409 - There's already a capacity with the same exact data**
+**Status 401 - User is not an admin**
 
-```
-body: {
+```json
+{
   "status": "Error",
-  "code": 409,
-  "message": "There's already a capacity with the intended data in the database"
+  "code": 401,
+  "message": "User is not an admin"
 }
 ```
 
 <br>
 
-**Status - 400 - Invalid capacity data (negative values or unreasonable guest capacity)**
+**Status 400 - Missing required field**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 400,
-  "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
+  "message": "(any object key) is a required field"
 }
 ```
+
+<br>
+
+**Status 400 - Invalid data type**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
+}
+```
+
+<br>
+
+**Status 413 - Data length too large**
+
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
+}
+```
+
+<br>
+
+**Status 409 - This capacity already exists**
+
+```json
+{
+  "status": "Error",
+  "code": 409,
+  "message": "This capacity already exists"
+}
+```
+
+<br>
 
 #
 
@@ -107,6 +181,7 @@ body: {
 
 #### Request:
 
+- Host: http://suaapi.com/v1
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -117,20 +192,22 @@ body: {
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body: {
+```json
+{
   "message": "Successful request",
-  "data": [
+  "capacities":
+  [
     {
-      "id": "string",
-      "rooms": number,
-      "beds": number,
-      "totalGuests": number,
-      "bathrooms": number,
+      "id": "3aa9018f-1415-4caf-a382-07aff5e0076a",
+      "rooms": 2,
+      "beds": 2,
+      "totalGuests": 4,
+      "bathrooms": 2,
+      "isActive": true
     },
-    ...
+  ...
   ]
 }
 ```
@@ -139,29 +216,20 @@ body: {
 
 #### Error Responses:
 
-<br>
-
-**No errors expected**
+- No errors expected
 
 #
 
-## GET /capacities/:id
+## GET /capacities/:capacityId
 
 <br>
 
 #### Request:
 
-- Authorization: Bearer Token
+- Host: http://suaapi.com/v1
+- Authorization: None
 - Content-type: application/json
 - Empty body
-
-<br>
-
-```
-headers: {
-  "authorization": "Bearer token"
-}
-```
 
 <br>
 
@@ -169,17 +237,18 @@ headers: {
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body: {
+```json
+{
   "message": "Successful request",
-  "data": {
-    "id": "string",
-    "rooms": number,
-    "beds": number,
-    "totalGuests": number,
-    "bathrooms": number,
+  "capacity": {
+    "id": "3aa9018f-1415-4caf-a382-07aff5e0076a",
+    "rooms": 2,
+    "beds": 2,
+    "totalGuests": 4,
+    "bathrooms": 2,
+    "isActive": true
   }
 }
 ```
@@ -190,10 +259,10 @@ body: {
 
 <br>
 
-**Status - 404 - Capacity not found**
+**Status 404 - Capacity not found**
 
-```
-body: {
+```json
+{
   "status": "Error",
   "code": 404,
   "message": "Capacity not found"
@@ -204,31 +273,41 @@ body: {
 
 #
 
-## PATCH /capacities/:id
+## PATCH /capacities/:capacityId
 
 <br>
 
 #### Request:
 
-- Authorization: Bearer Token
+- Host: http://suaapi.com/v1
+- Authorization: Admin Bearer Token
+- User must be an admin to update a capacity
 - Content-type: application/json
 
 <br>
 
-```
-headers: {
-  "authorization": "Bearer token"
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
 }
 ```
 
-```
-body: {
-  "rooms": number
-  "beds": number
-  "totalGuests": number
-  "bathrooms": number,
+<br>
+
+**Request body example**
+
+```json
+{
+  "rooms?": 1,
+  "beds?": 1,
+  "totalGuests?": 2,
+  "bathrooms?": 1
 }
 ```
+
+- At least one field is required
 
 <br>
 
@@ -236,17 +315,18 @@ body: {
 
 <br>
 
-**Status - 200**
+**Status 200 - OK**
 
-```
-body: {
+```json
+{
   "message": "Capacity updated with success",
-  "data": {
-    "id": "string",
-    "rooms": number,
-    "beds": number,
-    "totalGuests": number,
-    "bathrooms": number,
+  "capacity": {
+    "id": "3aa9018f-1415-4caf-a382-07aff5e0076a",
+    "rooms": 1,
+    "beds": 1,
+    "totalGuests": 2,
+    "bathrooms": 1,
+    "isActive": true
   }
 }
 ```
@@ -257,44 +337,194 @@ body: {
 
 <br>
 
-**Status - 401 - Missing admin token**
+<br>
 
-```
-body: {
+**Status 401 - Missing authorization token**
+
+```json
+{
   "status": "Error",
   "code": 401,
-  "message": "Missing admin token",
-}
-```
-
-**Status - 404 - Capacity not found**
-
-```
-body: {
-  "status": "Error",
-  "code": 404,
-  "message": "Capacity not found",
-}
-```
-
-**Status - 400 - The request data must make sense (no negative values, at least 1 guest capacity)**
-
-```
-body: {
-  "status": "Error",
-  "code": 403,
-  "message": "Invalid capacity data (negative values or unreasonable guest capacity)"
+  "message": "Missing authorization token"
 }
 ```
 
 <br>
 
-**Status - 400 - No changes in capacity data**
+**Status 401 - Invalid token**
 
-```
-body: {
+```json
+{
   "status": "Error",
-  "code": 400,
-  "message": "Not possible to update a capacity without having any changes in any field",
+  "code": 401,
+  "message": "Invalid token"
 }
 ```
+
+<br>
+
+**Status 401 - User is not an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not an admin"
+}
+```
+
+<br>
+
+**Status 400 - Invalid data type**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "(any object key) has an invalid type"
+}
+```
+
+<br>
+
+**Status 413 - Data length too large**
+
+```json
+{
+  "status": "Error",
+  "code": 413,
+  "message": "(object key) length too large"
+}
+```
+
+<br>
+
+**Status 404 - Capacity not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Capacity not found"
+}
+```
+
+<br>
+
+**Status 400 - No changes in capacity data**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Not possible to update a capacity without having any changes in any field"
+}
+```
+
+<br>
+
+#
+
+## DELETE /capacities/:capacityId
+
+<br>
+
+#### Request:
+
+- Host: http://suaapi.com/v1
+- Authorization: Admin Bearer Token
+- User must be an admin to delete a capacity
+- Content-type: application/json
+- Empty body
+
+<br>
+
+**Request headers**
+
+```json
+{
+  "authorization": "Bearer Token"
+}
+```
+
+#### Expected Response:
+
+<br>
+
+**Status 200 - OK**
+
+```json
+{
+  "message": "Capacity deleted with success"
+}
+```
+
+<br>
+
+#### Expected Errors:
+
+<br>
+
+<br>
+
+**Status 401 - Missing authorization token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Missing authorization token"
+}
+```
+
+<br>
+
+**Status 401 - Invalid token**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Invalid token"
+}
+```
+
+<br>
+
+**Status 401 - User is not an admin**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "User is not an admin"
+}
+```
+
+<br>
+
+**Status 404 - Capacity not found**
+
+```json
+{
+  "status": "Error",
+  "code": 404,
+  "message": "Capacity not found"
+}
+```
+
+<br>
+
+**Status 400 - Capacity already deleted**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "Capacity already deleted"
+}
+```
+
+<br>
+
+#

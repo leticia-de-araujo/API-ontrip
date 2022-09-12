@@ -1,4 +1,5 @@
 import * as express from "express";
+import { ICapacityRequest } from "../../src/interfaces/capacities";
 
 declare global {
   namespace Express {
@@ -7,6 +8,7 @@ declare global {
       userId?: string;
       isAdm: boolean = false;
       isOwner: boolean = false;
+      newCapacity?: ICapacityRequest;
     }
   }
 }

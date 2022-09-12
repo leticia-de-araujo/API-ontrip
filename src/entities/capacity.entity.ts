@@ -18,6 +18,9 @@ export class Capacity {
   @Column({ type: "int", width: 2, default: 1 })
   bathrooms: number;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   constructor() {
     if (!this.id) {
       this.id = uuid();

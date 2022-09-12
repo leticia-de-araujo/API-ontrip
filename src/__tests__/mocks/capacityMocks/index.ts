@@ -27,7 +27,7 @@ export const mockedCapacity3: ICapacityRequest = {
 export const mockedCapacityInvalid: ICapacityRequest = {
   rooms: -1,
   beds: 1,
-  totalGuests: 0,
+  totalGuests: 1,
   bathrooms: 1,
 };
 

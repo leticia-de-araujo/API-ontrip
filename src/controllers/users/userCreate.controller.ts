@@ -1,22 +1,13 @@
 import { instanceToPlain } from "class-transformer";
 import { Request, Response } from "express";
-import path from "path";
 import { AppError } from "../../errors/AppError";
 import { IUserRequest } from "../../interfaces/users";
-import handleErrorMiddleware from "../../middlewares/handleError.middleware";
 import userCreateService from "../../services/users/userCreate.services";
-import { v4 as uuid } from "uuid";
-import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
-
 const userCreateController = async (req: Request, res: Response) => {
   try {
     const { username, email, password, dateOfBirth, isAdm }: IUserRequest =
       req.body;
 
-    if (!req.file) {
-      throw new AppError(400, "Manda foto");
-    }
     let photo = req.file;
     const user = await userCreateService({
       username,

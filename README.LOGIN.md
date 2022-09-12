@@ -24,7 +24,7 @@ The Login object is defined as:
 #### Request:
 
 - Host: http://suaapi.com/v1
-- Authorization: none
+- Authorization: None
 - Content-type: application/json
 
 **Request body example**
