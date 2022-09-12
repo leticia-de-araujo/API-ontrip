@@ -4,7 +4,7 @@ export const mockedUser: IUserRequest = {
   username: "Hitalo",
   email: "hitalo@mail.com",
   password: "123456",
-  dateOfBirth: "2000-02-11",
+  dateOfBirth: "2000/02/11",
   isAdm: false,
 };
 
