@@ -55,56 +55,56 @@ describe("/accommodations", () => {
       .post("/users")
       .send(mockedUser);
 
-    genericUserId = createGenericUser.body.data.id;
+    genericUserId = createGenericUser.body.user.id;
 
     const loginGenericUser = await request(app)
       .post("/login")
       .send(mockedUserLogin);
 
-    genericUserToken = loginGenericUser.body.data.token;
+    genericUserToken = loginGenericUser.body.token;
 
     const createGenericUser2 = await request(app)
       .post("/users")
       .send(mockedUser3);
 
-    genericUserId2 = createGenericUser2.body.data.id;
+    genericUserId2 = createGenericUser2.body.user.id;
 
     const loginGenericUser2 = await request(app)
       .post("/login")
       .send(mockedUser3Login);
 
-    genericUserToken2 = loginGenericUser2.body.data.token;
+    genericUserToken2 = loginGenericUser2.body.token;
 
     const createAdminUser = await request(app).post("/users").send(mockedAdmin);
 
-    adminUserId = createAdminUser.body.data.id;
+    adminUserId = createAdminUser.body.user.id;
 
     const loginAdminUser = await request(app)
       .post("/login")
       .send(mockedAdminLogin);
 
-    adminUserToken = loginAdminUser.body.data.token;
+    adminUserToken = loginAdminUser.body.token;
 
     const createCategory = await request(app)
       .post("/categories")
       .send(mockedCategory2)
       .set("Authorization", `Bearer ${adminUserToken}`);
 
-    categoryId = createCategory.body.data.id;
+    categoryId = createCategory.body.category.id;
 
     const createCapacity = await request(app)
       .post("/capacities")
       .send(mockedCapacity)
       .set("Authorization", `Bearer ${adminUserToken}`);
 
-    capacityId = createCapacity.body.data.id;
+    capacityId = createCapacity.body.category.id;
 
     const createType = await request(app)
       .post("/types")
       .send(mockedType)
       .set("Authorization", `Bearer ${adminUserToken}`);
 
-    typeId = createType.body.data.id;
+    typeId = createType.body.type.id;
 
     genericAccommodation = {
       name: mockedAccommodation.name,
@@ -138,27 +138,27 @@ describe("/accommodations", () => {
       .set("Authorization", `Bearer ${genericUserToken}`);
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("data");
-    expect(response.body.data).toHaveProperty("id");
-    expect(response.body.data).toHaveProperty(
+    expect(response.body).toHaveProperty("accommodation");
+    expect(response.body.accommodation).toHaveProperty("id");
+    expect(response.body.accommodation).toHaveProperty(
       "name",
       genericAccommodation.name
     );
-    expect(response.body.data).toHaveProperty(
+    expect(response.body.accommodation).toHaveProperty(
       "description",
       genericAccommodation.description
     );
-    expect(response.body.data).toHaveProperty(
+    expect(response.body.accommodation).toHaveProperty(
       "dailyPrice",
       genericAccommodation.dailyPrice
     );
-    expect(response.body.data).toHaveProperty("isActive", true);
-    expect(response.body.data).toHaveProperty("verifiedByAdm", false);
-    expect(response.body.data).toHaveProperty("specialOffer", false);
-    expect(response.body.data).toHaveProperty("type");
-    expect(response.body.data).toHaveProperty("user");
-    expect(response.body.data).toHaveProperty("capacity");
-    expect(response.body.data).toHaveProperty("category");
+    expect(response.body.accommodation).toHaveProperty("isActive", true);
+    expect(response.body.accommodation).toHaveProperty("verifiedByAdm", false);
+    expect(response.body.accommodation).toHaveProperty("specialOffer", false);
+    expect(response.body.accommodation).toHaveProperty("type");
+    expect(response.body.accommodation).toHaveProperty("user");
+    expect(response.body.accommodation).toHaveProperty("capacity");
+    expect(response.body.accommodation).toHaveProperty("category");
   });
 
   test("POST /accommodations - Should not be able to create an accommodation without authentication", async () => {
@@ -210,6 +210,46 @@ describe("/accommodations", () => {
       dailyPrice: mockedAccommodationInvalid.dailyPrice,
       userId: genericUserId,
       categoryId,
+      capacityId,
+      typeId,
+    };
+
+    const response = await request(app)
+      .post("/accommodations")
+      .send(invalidAccommodation)
+      .set("Authorization", `Bearer ${genericUserToken}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("status", "Error");
+  });
+
+  test("POST /accommodations - Should not be able to create an accommodation with a required field with invalid capacity", async () => {
+    const invalidAccommodation = {
+      name: mockedAccommodationInvalid.name,
+      description: mockedAccommodationInvalid.description,
+      dailyPrice: mockedAccommodationInvalid.dailyPrice,
+      userId: genericUserId,
+      categoryId,
+      capacityId: "123!Aa",
+      typeId,
+    };
+
+    const response = await request(app)
+      .post("/accommodations")
+      .send(invalidAccommodation)
+      .set("Authorization", `Bearer ${genericUserToken}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty("status", "Error");
+  });
+
+  test("POST /accommodations - Should not be able to create an accommodation with a required field with invalid category", async () => {
+    const invalidAccommodation = {
+      name: mockedAccommodationInvalid.name,
+      description: mockedAccommodationInvalid.description,
+      dailyPrice: mockedAccommodationInvalid.dailyPrice,
+      userId: genericUserId,
+      categoryId: "123!Aa",
       capacityId,
       typeId,
     };
