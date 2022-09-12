@@ -4,7 +4,7 @@ import readBookingService from "../../services/bookings/readBooking.service";
 
 const readBookingController = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const {id} = req.params;
 
     const readBooking = await readBookingService(id);
 

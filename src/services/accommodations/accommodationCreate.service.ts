@@ -55,6 +55,7 @@ const accommodationCreateService = async ({
       category,
     },
   });
+  
   if (accommodationCheck) {
     throw new AppError(409, "This accommodation is already registered");
   }

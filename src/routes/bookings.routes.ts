@@ -5,14 +5,15 @@ import readBookingController from "../controllers/bookings/readBooking.controlle
 import readBookingsController from "../controllers/bookings/readBookings.controller";
 import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
 import { authUserMiddleware } from "../middlewares/authUser.middleware";
+import { bookingCreateSchema, validateBookingCreate } from "../middlewares/validadeBookingCreate.middleware";
 
 const routes = Router();
 
 const bookingsRoutes = () => {
-  routes.post("", authUserMiddleware, createBookingController);
-  routes.get("", admValidationMiddleware, readBookingsController);
-  routes.get("/:id", authUserMiddleware, readBookingController);
-  routes.delete("", admValidationMiddleware, deleteBookingController);
+  routes.post("", authUserMiddleware, validateBookingCreate(bookingCreateSchema),createBookingController);
+  routes.get("", authUserMiddleware, readBookingsController);
+  routes.get("/:bookingId", authUserMiddleware, readBookingController);
+  routes.delete("/:bookingId", admValidationMiddleware, deleteBookingController);
   return routes;
 };
 
