@@ -25,4 +25,5 @@ export interface IAddressRequestPatch {
   street?: string;
   complement?: string;
   accommodationId: string;
+  addressId?: string;
 }
