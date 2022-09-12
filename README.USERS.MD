@@ -11,6 +11,7 @@ The User object is defined as:
 | dateOfBirth | string   | User's date of birth                              |
 | isAdm       | boolean  | Defines whether a user is an administrator or not |
 | isActive    | boolean  | Defines whether a user is active or not           |
+| files       | file     | Upload user image file                            |
 | photo       | string   | Specifies the url of the user's profile image     |
 
 <br>
@@ -35,20 +36,19 @@ The User object is defined as:
 
 - Host: http://suaapi.com/v1
 - Authorization: None
-- Content-type: application/json
+- Content-type: multipart/form-data
 
 <br>
 
 **Request body example**
 
-```json
-{
-  "username": "Bob Spencer",
-  "email": "bobspencer@email.com",
-  "password": "874aS4A6F65i",
-  "dateOfBirth": "14/03/1993",
-  "photo": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg"
-}
+```multipart/form-data
+  username: "Bob Spencer",
+  email: "bobspencer@email.com",
+  password: "874aS4A6F65i",
+  dateOfBirth: "14/03/1993",
+  isAdm: false,
+  files?: file.jpg
 ```
 
 <br>
@@ -328,7 +328,7 @@ The User object is defined as:
 - Host: http://suaapi.com/v1
 - Authorization: Bearer Token
 - User must be an admin or the owner of the account
-- Content-type: application/json
+- Content-type: multipart/form-data
 
 <br>
 
@@ -342,15 +342,13 @@ The User object is defined as:
 
 **Request body example**
 
-```json
-{
-  "username?": "Bob Spencer",
-  "email?": "bob_spencer@email.com",
-  "password?": "874aS4A6F65i",
-  "dateOfBirth?": "14/03/1993",
-  "*isAdm": false,
-  "photo?": "https://res.cloudinary.com/de8wdumps/image/upload/v1662750917/zdlf9ppnkqfjlbxejo8f.jpg"
-}
+```multipart/form-data
+  username?: "Bob Spencer",
+  email?: "bob_spencer@email.com",
+  password?: "874aS4A6F65i",
+  dateOfBirth?: "14/03/1993",
+  *isAdm?: false,
+  file?: file.jpg
 ```
 
 - At least one field is required
