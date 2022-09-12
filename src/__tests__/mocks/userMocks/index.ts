@@ -9,10 +9,10 @@ export const mockedUser: IUserRequest = {
 };
 
 export const mockedUser2: IUserRequest = {
-  username: "Marquinhos Atalaia",
+  username: "hitalo Atalaia",
   email: "hitalo@mail.com",
   password: "123456",
-  dateOfBirth: "1999/02/11",
+  dateOfBirth: "1998/02/11",
   isAdm: false,
 };
 
@@ -21,6 +21,14 @@ export const mockedUser3: IUserRequest = {
   email: "marquinhos@mail.com",
   password: "123456",
   dateOfBirth: "1999/02/11",
+  isAdm: false,
+};
+
+export const mockedUserAlternative: IUserRequest = {
+  username: "Andre Perregil",
+  email: "andre@mail.com",
+  password: "123456",
+  dateOfBirth: "1989/02/11",
   isAdm: false,
 };
 
@@ -54,9 +62,22 @@ export const mockedUser3Login: IUserLogin = {
   password: "123456",
 };
 
+export const mockedUserAlternativeLogin: IUserLogin = {
+  email: "andre@mail.com",
+  password: "123456",
+};
+
 export const mockedUserWrongType: any = {
-  username: "Hitalo",
-  email: "hitalo@mail.com",
+  username: "hitaro",
+  email: 1,
+  password: 123456,
+  dateOfBirth: "2000/02/11",
+  isAdm: "false",
+};
+
+export const mockedUserTooLong: any = {
+  username: "hitaro conectitur conetur confectum conferebamus confidam i",
+  email: "hitaro@mail.com",
   password: 123456,
   dateOfBirth: "2000/02/11",
   isAdm: "false",
