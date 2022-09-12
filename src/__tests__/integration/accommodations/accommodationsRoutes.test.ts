@@ -505,7 +505,7 @@ describe("/accommodations", () => {
   test("DELETE /accommodations/:id - Should be able to delete an accommodation", async () => {
     const accommodations = await request(app).get("/accommodations");
 
-    const accommodationId = accommodations.body[0].data.id;
+    const accommodationId = accommodations.body.accommodations[0].id;
 
     const response = await request(app)
       .delete(`/accommodations/${accommodationId}`)
@@ -521,7 +521,7 @@ describe("/accommodations", () => {
   test("DELETE /accommodations/:id - Should not be able to delete an accommodation without authentication", async () => {
     const accommodations = await request(app).get("/accommodations");
 
-    const accommodationId = accommodations.body[0].data.id;
+    const accommodationId = accommodations.body.accommodations[0].id;
 
     const response = await request(app).delete(
       `/accommodations/${accommodationId}`
@@ -538,7 +538,7 @@ describe("/accommodations", () => {
   test("DELETE /accommodations/:id - Should not be able to delete an accommodation with invalid token", async () => {
     const accommodations = await request(app).get("/accommodations");
 
-    const accommodationId = accommodations.body[0].data.id;
+    const accommodationId = accommodations.body.accommodations[0].id;
 
     const response = await request(app)
       .delete(`/accommodations/${accommodationId}`)
@@ -552,7 +552,7 @@ describe("/accommodations", () => {
   test("DELETE /accommodations/:id - Should not be able to delete an accommodation if the user is not the owner and is not an admin", async () => {
     const accommodations = await request(app).get("/accommodations");
 
-    const accommodationId = accommodations.body[0].data.id;
+    const accommodationId = accommodations.body.accommodations[0].id;
 
     const response = await request(app)
       .delete(`/accommodations/${accommodationId}`)
@@ -569,7 +569,7 @@ describe("/accommodations", () => {
   test("DELETE /accommodations/:id - Should not be able to delete an accommodation that is already deleted", async () => {
     const accommodations = await request(app).get("/accommodations");
 
-    const accommodationId = accommodations.body[0].data.id;
+    const accommodationId = accommodations.body.accommodations[0].id;
 
     const response = await request(app)
       .delete(`/accommodations/${accommodationId}`)
