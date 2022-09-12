@@ -1,3 +1,4 @@
+import { admOrOwnerAuthMiddleware } from './../middlewares/admOrOwnerAuth.middleware';
 import { Router } from "express";
 import createBookingController from "../controllers/bookings/createBooking.controller";
 import deleteBookingController from "../controllers/bookings/deleteBooking.controller";
@@ -12,8 +13,8 @@ const routes = Router();
 const bookingsRoutes = () => {
   routes.post("", authUserMiddleware, validateBookingCreate(bookingCreateSchema),createBookingController);
   routes.get("", authUserMiddleware, readBookingsController);
-  routes.get("/:bookingId", authUserMiddleware, readBookingController);
-  routes.delete("/:bookingId", admValidationMiddleware, deleteBookingController);
+  routes.get("/:id", authUserMiddleware, admOrOwnerAuthMiddleware, readBookingController);
+  routes.delete("/:id", authUserMiddleware, admOrOwnerAuthMiddleware, deleteBookingController);
   return routes;
 };
 

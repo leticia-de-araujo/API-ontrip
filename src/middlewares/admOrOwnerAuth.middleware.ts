@@ -16,7 +16,7 @@ export const admOrOwnerAuthMiddleware = async (
 ) => {
   const { userId } = req;
   const route = req.originalUrl.split("/");
-
+  
   const { id } = req.params;
   if (!id) {
     throw new AppError(400, "Missing ID param on route");
@@ -86,6 +86,7 @@ export const admOrOwnerAuthMiddleware = async (
   //logic for bookings (to be used on PATCH routes)
   if (route[1] === "bookings") {
     //finding the booking
+    console.log(route[1]);
     const bookingRepo = AppDataSource.getRepository(Booking);
     const booking = await bookingRepo.findOneBy({ id: id });
     if (!booking) {

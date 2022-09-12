@@ -162,42 +162,41 @@ describe("Testing the booking routes", () => {
 
   test("GET /bookings/:bookingId - Should be able to list one booking", async () => {
     const response = await request(app)
-      .get(`/bookings/${genericBooking.body.booking}`)
+      .get(`/bookings/${genericBooking.body.booking.id}`)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
+    console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("message");
   });
 
   test("GET /bookings/:bookingId - Should not be able to list one booking without token", async () => {
     const response = await request(app)
-      .get(`/bookings/${genericBooking.body.booking}`);
+      .get(`/bookings/${genericBooking.body.booking.id}`);
 
     expect(response.status).toBe(401);
     expect(response.body).toHaveProperty("message");
   });
 
-  test("GET /bookings/:id - Must not be able to list a non-existent booking", async () => {
+  test("GET /bookings/:bookingId- Must not be able to list a non-existent booking", async () => {
     const response = await request(app)
-      .get("/bookings/963")
-      .set("Authorization", `Bearer ${genericUser.body.data.token}`);
+      .get("/bookings/this7is7an7invalid7id")
+      .set("Authorization", `Bearer ${genericAdminToken.body.token}`);
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(404);
   });
 
   test("DELETE /bookings/:bookingId - Should be able to soft-delete booking as owner", async () => {
-    const bookinResponse = await request(app)
-      .post("/bookings")
-      .send(mockedBooking9);
-
+    
     const response = await request(app)
-      .delete(`/bookings/${bookinResponse.body.data.id}`)
-      .set("Authorization", `Bearer ${genericUser.body.data.token}`);
+      .delete(`/bookings/${genericBooking.body.booking.id}`)
+      .set("Authorization", `Bearer ${genericUser.body.token}`);
 
+    
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(200);
-    expect(response.body.data.status).toBe("canceled");
+    expect(response.body.data.status).toBe("cancelled");
   });
 
   test("DELETE /bookings/:bookingId - Should no be able to delete a booking without authentication", async () => {
