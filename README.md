@@ -764,7 +764,7 @@ The Login object is defined as:
 
 ```json
 {
-  "message": "Login sucessfull",
+  "message": "Login successful",
   "token": "yJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY2MjY4ODU1OCwiaWF0IjoxNjYyNjg4NTU4fQ.OONsla408_ohD5XE9b3-qfWaniZC95pgyBetmJeKViA"
 }
 ```
@@ -787,37 +787,13 @@ The Login object is defined as:
 
 <br>
 
-**Status 400 - Required field with invalid type**
+**Status 401 - Invalid email or password**
 
 ```json
 {
   "status": "Error",
-  "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Required field length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
-}
-```
-
-<br>
-
-**Status 404 - User not found**
-
-```json
-{
-  "status": "Error",
-  "code": 404,
-  "message": "User not found"
+  "code": 401,
+  "message": "Invalid email or password"
 }
 ```
 
