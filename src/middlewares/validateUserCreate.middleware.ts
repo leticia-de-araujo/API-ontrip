@@ -32,7 +32,6 @@ export const validateUserCreate =
       const body = req.body;
       const file: any = req.file;
       const data = { ...body, ...file };
-      console.log(file);
 
       try {
         const validatedData = await schema.validate(data, {
