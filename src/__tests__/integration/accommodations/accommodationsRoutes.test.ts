@@ -138,6 +138,7 @@ describe("/accommodations", () => {
       .set("Authorization", `Bearer ${genericUserToken}`);
 
     expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("message", "Accommodation created with success");
     expect(response.body).toHaveProperty("accommodation");
     expect(response.body.accommodation).toHaveProperty("id");
     expect(response.body.accommodation).toHaveProperty(
@@ -223,7 +224,7 @@ describe("/accommodations", () => {
     expect(response.body).toHaveProperty("status", "Error");
   });
 
-  test("POST /accommodations - Should not be able to create an accommodation with a required field with invalid capacity", async () => {
+  test("POST /accommodations - Should not be able to create an accommodation with invalid capacity data", async () => {
     const invalidAccommodation = {
       name: mockedAccommodationInvalid.name,
       description: mockedAccommodationInvalid.description,
@@ -243,7 +244,7 @@ describe("/accommodations", () => {
     expect(response.body).toHaveProperty("status", "Error");
   });
 
-  test("POST /accommodations - Should not be able to create an accommodation with a required field with invalid category", async () => {
+  test("POST /accommodations - Should not be able to create an accommodation with invalid category data", async () => {
     const invalidAccommodation = {
       name: mockedAccommodationInvalid.name,
       description: mockedAccommodationInvalid.description,
@@ -263,7 +264,7 @@ describe("/accommodations", () => {
     expect(response.body).toHaveProperty("status", "Error");
   });
 
-  test("POST /accommodations - Should not be able to create an accommodation with a required field with invalid user", async () => {
+  test("POST /accommodations - Should not be able to create an accommodation with an invalid user", async () => {
     const invalidAccommodation = {
       name: mockedAccommodationInvalid.name,
       description: mockedAccommodationInvalid.description,
@@ -376,6 +377,7 @@ describe("/accommodations", () => {
       .set("Authorization", `Bearer ${genericUserToken}`);
 
     expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("message", "Accommodation updated with success");
     expect(response.body).toHaveProperty("accommodation");
     expect(response.body.accommodation).toHaveProperty("id", accommodationId);
     expect(response.body.accommodation).toHaveProperty("name");
@@ -436,7 +438,7 @@ describe("/accommodations", () => {
     expect(response.body).toHaveProperty("status", "Error");
     expect(response.body).toHaveProperty(
       "message",
-      "Not possible to non-admin users to update an accommodation without being the owner"
+     "User must be an admin or the owner of the accommodation"
     );
   });
 
@@ -511,7 +513,7 @@ describe("/accommodations", () => {
       .delete(`/accommodations/${accommodationId}`)
       .set("Authorization", `Bearer ${genericUserToken}`);
 
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(200);
     expect(response.body).toHaveProperty(
       "message",
       "Accommodation deleted with success"
@@ -562,7 +564,7 @@ describe("/accommodations", () => {
     expect(response.body).toHaveProperty("status", "Error");
     expect(response.body).toHaveProperty(
       "message",
-      "Not possible to non-admin users to delete an accommodation without being the owner"
+    "User must be an admin or the owner of the accommodation"
     );
   });
 
