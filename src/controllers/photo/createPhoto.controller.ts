@@ -8,12 +8,15 @@ export const createPhotoController = async (req: Request, res: Response) => {
     const { accommodationId } = req.params;
 
     if (!file) {
-      throw new AppError(400, "send an image");
+      throw new AppError(400, "files is a required field");
     }
 
     const photo = await createPhotoService({ file, accommodationId });
 
-    return res.status(201).json(photo);
+    return res.status(201).json({
+      message: "Photo created with success",
+      photo,
+    });
   } catch (err) {
     if (err instanceof AppError) {
       throw new AppError(err.statusCode, err.message);
