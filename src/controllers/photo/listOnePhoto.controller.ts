@@ -12,7 +12,10 @@ export const lisOnePhotoController = async (req: Request, res: Response) => {
 
     const photo = await listOnePhotoService(photoId);
 
-    return res.status(200).json(photo);
+    return res.status(200).json({
+      message: "Successful request",
+      photo,
+    });
   } catch (err) {
     if (err instanceof AppError) {
       throw new AppError(err.statusCode, err.message);

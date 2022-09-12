@@ -13,12 +13,12 @@ The Photo object is defined as:
 
 ### **Endpoints**
 
-| **Method** | **Route**                         | **Description**                                                                                |
-| ---------- | --------------------------------- | ---------------------------------------------------------------------------------------------- |
-| POST       | /photos/:accommodationId          | Creates a new photo of an accommodation using the accommodation ID as a parameter              |
-| GET        | /photos/:accommodationId          | Lists all photos of an accommodation using the accommodation ID as a parameter                 |
-| GET        | /photos/:accommodationId/:photoId | Lists a photo of an accommodation using the accommodation ID and photo ID as parameters        |
-| DELETE     | /photos/:accommodationId/:photoId | Soft-deletes a photo of an accommodation using the accommodation ID and photo ID as parameters |
+| **Method** | **Route**                | **Description**                                                                                |
+| ---------- | ------------------------ | ---------------------------------------------------------------------------------------------- |
+| POST       | /photos/:accommodationId | Creates a new photo of an accommodation using the accommodation ID as a parameter              |
+| GET        | /photos/:accommodationId | Lists all photos of an accommodation using the accommodation ID as a parameter                 |
+| GET        | /photos/:photoId         | Lists a photo of an accommodation using the accommodation ID and photo ID as parameters        |
+| DELETE     | /photos/:photoId         | Soft-deletes a photo of an accommodation using the accommodation ID and photo ID as parameters |
 
 <br>
 
@@ -215,7 +215,7 @@ The Photo object is defined as:
 
 #
 
-## GET /photos/:accommodationId/:photoId
+## GET /photos/:photoId
 
 <br>
 
@@ -251,18 +251,6 @@ The Photo object is defined as:
 
 <br>
 
-**Status 404 - Accommodation not found**
-
-```json
-{
-  "status": "Error",
-  "code": 404,
-  "message": "Accommodation not found"
-}
-```
-
-<br>
-
 **Status 404 - Photo not found**
 
 ```json
@@ -277,7 +265,7 @@ The Photo object is defined as:
 
 #
 
-## DELETE /photos/:accommodationId/:photoId
+## DELETE /photos/:photoId
 
 <br>
 
@@ -348,18 +336,6 @@ The Photo object is defined as:
   "status": "Error",
   "code": 401,
   "message": "User must be an admin or the owner of the accommodation"
-}
-```
-
-<br>
-
-**Status 404 - Accommodation not found**
-
-```json
-{
-  "status": "Error",
-  "code": 404,
-  "message": "Accommodation not found"
 }
 ```
 
