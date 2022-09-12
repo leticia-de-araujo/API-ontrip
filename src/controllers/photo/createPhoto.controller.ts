@@ -4,14 +4,14 @@ import { createPhotoService } from "../../services/photo/createPhoto.service";
 
 export const createPhotoController = async (req: Request, res: Response) => {
   try {
-    const content = req.file;
+    const file = req.file;
     const { accommodationId } = req.params;
 
-    if (!content) {
+    if (!file) {
       throw new AppError(400, "send an image");
     }
 
-    const photo = await createPhotoService({ content, accommodationId });
+    const photo = await createPhotoService({ file, accommodationId });
 
     return res.status(201).json(photo);
   } catch (err) {
