@@ -26,10 +26,7 @@ export const admOrOwnerAuthMiddleware = async (
   const userRepo = AppDataSource.getRepository(User);
   const userFromToken = await userRepo.findOneBy({ id: userId });
   if (!userFromToken) {
-    throw new AppError(
-      400,
-      "There's no user associated with the id used(token)"
-    );
+    throw new AppError(404, "User not found");
   }
 
   //checking if token owner is Adm
@@ -44,16 +41,16 @@ export const admOrOwnerAuthMiddleware = async (
     //finding the user that is suffering changes
     const userAffected = await userRepo.findOneBy({ id: id });
     if (!userAffected) {
-      throw new AppError(
-        400,
-        "There's no user associated with the id used(route params)"
-      );
+      throw new AppError(404, "User not found");
     }
 
     //checking if the changes are being made by an Admin or the owner of the account
     const notOwner = userFromToken.id != userAffected.id;
     if (notOwner) {
-      throw new AppError(401, "User must be an admin or the owner of the account");
+      throw new AppError(
+        401,
+        "User must be an admin or the owner of the account"
+      );
     }
     req.isOwner = true;
     next();
@@ -65,10 +62,7 @@ export const admOrOwnerAuthMiddleware = async (
     const accommodationRepo = AppDataSource.getRepository(Accommodation);
     const accommodation = await accommodationRepo.findOneBy({ id: id });
     if (!accommodation) {
-      throw new AppError(
-        400,
-        "There's no accommodation associated with the id used(route params)"
-      );
+      throw new AppError(404, "Accommodation not found");
     }
 
     //checking if accommodation belongs to the owner of the token
@@ -89,10 +83,7 @@ export const admOrOwnerAuthMiddleware = async (
     const bookingRepo = AppDataSource.getRepository(Booking);
     const booking = await bookingRepo.findOneBy({ id: id });
     if (!booking) {
-      throw new AppError(
-        400,
-        "There's no booking associated with the id used(route params)"
-      );
+      throw new AppError(404, "Booking not found");
     }
 
     //checking if booking belongs to owner of the token
@@ -105,10 +96,7 @@ export const admOrOwnerAuthMiddleware = async (
       id: accommodationId,
     });
     if (!accommodation) {
-      throw new AppError(
-        400,
-        "There's no valid accommodation associated with the booking id used(route params)"
-      );
+      throw new AppError(404, "Accommodation not found");
     }
 
     const notAccommodationOwner = accommodation.owner.id != userFromToken.id;
@@ -129,10 +117,7 @@ export const admOrOwnerAuthMiddleware = async (
     const addressRepo = AppDataSource.getRepository(Address);
     const address = await addressRepo.findOneBy({ id: id });
     if (!address) {
-      throw new AppError(
-        400,
-        "There's no address associated with the id used(route params)"
-      );
+      throw new AppError(404, "Address not found");
     }
 
     //finding the accommodation that is the owner of the address
@@ -142,10 +127,7 @@ export const admOrOwnerAuthMiddleware = async (
       id: accommodationId,
     });
     if (!accommodation) {
-      throw new AppError(
-        400,
-        "There's no valid accommodation associated with the address id used(route params)"
-      );
+      throw new AppError(404, "Accommodation not found");
     }
 
     //checking if Accommodation belongs to owner of the token
@@ -178,10 +160,7 @@ export const admOrOwnerAuthMiddleware = async (
       id: accommodationId,
     });
     if (!accommodation) {
-      throw new AppError(
-        400,
-        "There's no valid accommodation associated with the photo id used(route params)"
-      );
+      throw new AppError(404, "Accommodation not found");
     }
 
     //checking if Accommodation belongs to owner of the token
