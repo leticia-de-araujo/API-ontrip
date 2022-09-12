@@ -17,8 +17,8 @@ const photosRoutes = () => {
     upload.single("files"),
     createPhotoController
   );
-  routes.get("/:photoId", lisOnePhotoController);
   routes.get("/:accommodationId", listAllPhotoAccommodationController);
+  routes.get("/:photoId", lisOnePhotoController);
   routes.delete(
     "/:photoId",
     authUserMiddleware,
