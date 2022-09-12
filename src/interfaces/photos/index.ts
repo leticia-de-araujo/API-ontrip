@@ -6,7 +6,7 @@ export interface IPhoto {
 
 //id gerado automaticamente
 export interface IPhotoRequest {
-  file: any;
+  file?: any;
   accommodationId: string;
 }
 
@@ -15,5 +15,5 @@ export interface IPhotoRequestPatch {
 }
 
 export interface IPhotoRequisition {
-  file: any;
+  file?: any;
 }

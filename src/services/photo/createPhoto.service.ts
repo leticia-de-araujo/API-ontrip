@@ -19,9 +19,14 @@ export const createPhotoService = async ({
     throw new AppError(404, "Accommodation not found");
   }
 
-  // Opcão de já salvar no DB a url da imagem em vez da referência.
+  let img =
+    "https://res.cloudinary.com/duz8wq1jo/image/upload/v1662735741/gn1ngtjtzz8cyfvfzmvf.jpg";
 
-  const img = cloudinary.url(file);
+  if (file) {
+    img = cloudinary.url(file);
+  }
+
+  // Opcão de já salvar no DB a url da imagem em vez da referência.
 
   const photo = photoRepository.create({
     content: img,
