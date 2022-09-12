@@ -54,3 +54,12 @@ export interface IUserLogin {
   email: string;
   password: string;
 }
+
+export interface IValidateUser {
+  username: string;
+  email: string;
+  password: string;
+  dateOfBirth: string;
+  isAdm?: boolean;
+  file?: any;
+}
