@@ -322,38 +322,39 @@ describe("/accommodations", () => {
     const response = await request(app).get("/accommodations");
 
     expect(response.status).toBe(200);
-    expect(response.body).toBeInstanceOf(Array);
-    expect(response.body.length).toBeGreaterThan(0);
+    expect(response.body).toHaveProperty("accommodations");
+    expect(response.body.accommodations).toBeInstanceOf(Array);
+    expect(response.body.accommodations.length).toBeGreaterThan(0);
   });
 
   test("GET /accommodations/:id - Should be able to list an accommodation", async () => {
     const accommodations = await request(app).get("/accommodations");
 
-    const accommodationId = accommodations.body[0].accommodations.id;
+    const accommodationId = accommodations.body.accommodations[0].id;
 
     const response = await request(app)
       .get(`/accommodations/${accommodationId}`)
       .set("Authorization", `Bearer ${genericUserToken}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("accommodations");
-    expect(response.body.accommodations).toHaveProperty("id", accommodationId);
-    expect(response.body.accommodations).toHaveProperty("name");
-    expect(response.body.accommodations).toHaveProperty("description");
-    expect(response.body.accommodations).toHaveProperty("dailyPrice");
-    expect(response.body.accommodations).toHaveProperty("isActive");
-    expect(response.body.accommodations).toHaveProperty("verifiedByAdm");
-    expect(response.body.accommodations).toHaveProperty("specialOffer");
-    expect(response.body.accommodations).toHaveProperty("type");
-    expect(response.body.accommodations).toHaveProperty("user");
-    expect(response.body.accommodations).toHaveProperty("capacity");
-    expect(response.body.accommodations).toHaveProperty("category");
+    expect(response.body).toHaveProperty("accommodation");
+    expect(response.body.accommodation).toHaveProperty("id", accommodationId);
+    expect(response.body.accommodation).toHaveProperty("name");
+    expect(response.body.accommodation).toHaveProperty("description");
+    expect(response.body.accommodation).toHaveProperty("dailyPrice");
+    expect(response.body.accommodation).toHaveProperty("isActive");
+    expect(response.body.accommodation).toHaveProperty("verifiedByAdm");
+    expect(response.body.accommodation).toHaveProperty("specialOffer");
+    expect(response.body.accommodation).toHaveProperty("type");
+    expect(response.body.accommodation).toHaveProperty("user");
+    expect(response.body.accommodation).toHaveProperty("capacity");
+    expect(response.body.accommodation).toHaveProperty("category");
   });
 
   test("GET /accommodations/:id - Should not be able to list an accommodation without authentication", async () => {
     const accommodations = await request(app).get("/accommodations");
 
-    const accommodationId = accommodations.body[0].data.id;
+    const accommodationId = accommodations.body.accommodations[0].id;
 
     const response = await request(app).get(
       `/accommodations/${accommodationId}`
@@ -370,7 +371,7 @@ describe("/accommodations", () => {
   test("GET /accommodations/:id - Should not be able to list an accommodation with invalid token", async () => {
     const accommodations = await request(app).get("/accommodations");
 
-    const accommodationId = accommodations.body[0].data.id;
+    const accommodationId = accommodations.body[0].accommodations.id;
 
     const response = await request(app)
       .get(`/accommodations/${accommodationId}`)
