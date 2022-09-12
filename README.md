@@ -36,8 +36,9 @@ These were the main technologies used in this project:
 - [PostgreSQL](https://www.postgresql.org/)
 - [TypeORM](https://typeorm.io/)
 - [Yup](https://www.npmjs.com/package/yup)
+- [Jest](https://jestjs.io/)
 
-**Base URL: http://suaapi.com/v1**
+**Base URL: https://ontrip.herokuapp.com/**
 
 ### 1.1. Squad
 
@@ -54,7 +55,7 @@ These were the main technologies used in this project:
 
 [ Back to the top ](#content-table)
 
-<!-- ![ERD](DER_SP7_01.drawio.png) -->
+![ERD](/diagram-er.png)
 
 ---
 
@@ -116,7 +117,7 @@ Please read each route's documentation to understand which authentications are r
 - [Login](#2-login)
 - [Accommodations](#3-accommodations)
 - [Bookings](#4-bookings)
-- [Address](#5-address)
+- [Addresses](#5-addresses)
 - [Categories](#6-categories)
 - [Capacities](#7-capacities)
 - [Types](#8-types)
@@ -165,7 +166,7 @@ The User object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 
@@ -268,7 +269,7 @@ The User object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be an admin
 - Content-type: application/json
@@ -362,7 +363,7 @@ The User object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be an admin or the owner of the account
 - Content-type: application/json
@@ -463,7 +464,7 @@ The User object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be an admin or the owner of the account
 - Content-type: application/json
@@ -617,7 +618,7 @@ The User object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be an admin or the owner of the account
 - Content-type: application/json
@@ -744,7 +745,7 @@ The Login object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 
@@ -874,7 +875,7 @@ The Accommodation object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - Content-type: application/json
 
@@ -1084,6 +1085,7 @@ The Accommodation object is defined as:
 
 #### Request:
 
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -1153,6 +1155,7 @@ The Accommodation object is defined as:
 
 #### Request:
 
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -1229,6 +1232,7 @@ The Accommodation object is defined as:
 
 #### Request:
 
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be the owner of the accommodation or an admin
 - Content-type: application/json
@@ -1430,6 +1434,7 @@ The Accommodation object is defined as:
 
 #### Request:
 
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be the owner of the accommodation or an admin
 - Content-type: application/json
@@ -1531,7 +1536,7 @@ The Accommodation object is defined as:
 
 [ Back to endpoints index ](#index)
 
-# Booking
+# Bookings
 
 The Booking object is defined as:
 
@@ -1548,18 +1553,18 @@ The Booking object is defined as:
 
 ### **Endpoints**
 
-| **Method** | **Route**           | **Description**                                    |
-| ---------- | ------------------- | -------------------------------------------------- |
-| POST       | /booking            | Creates a new booking                              |
-| GET        | /booking            | List all bookings                                  |
-| GET        | /booking/:bookingId | Lists a booking using its ID as a parameter        |
-| DELETE     | /booking/:bookingId | Soft-deletes a booking using its ID as a parameter |
+| **Method** | **Route**            | **Description**                                    |
+| ---------- | -------------------- | -------------------------------------------------- |
+| POST       | /bookings            | Creates a new booking                              |
+| GET        | /bookings            | List all bookings                                  |
+| GET        | /bookings/:bookingId | Lists a booking using its ID as a parameter        |
+| DELETE     | /bookings/:bookingId | Soft-deletes a booking using its ID as a parameter |
 
 <br>
 
 #
 
-## POST /booking
+## POST /bookings
 
 [ Back to endpoints index ](#index)
 
@@ -1567,7 +1572,7 @@ The Booking object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - Content-type: application/json
 
@@ -1696,7 +1701,7 @@ The Booking object is defined as:
 
 #
 
-## GET /booking
+## GET /bookings
 
 [ Back to endpoints index ](#index)
 
@@ -1704,7 +1709,7 @@ The Booking object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be an admin
 - Content-type: application/json
@@ -1789,7 +1794,7 @@ The Booking object is defined as:
 
 #
 
-## GET /booking/:bookingId
+## GET /bookings/:bookingId
 
 [ Back to endpoints index ](#index)
 
@@ -1797,7 +1802,7 @@ The Booking object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be the owner of the accommodation, the guest that booked the booking, or an admin
 - Content-type: application/json
@@ -1891,7 +1896,7 @@ The Booking object is defined as:
 
 #
 
-## DELETE /booking/:bookingId
+## DELETE /bookings/:bookingId
 
 [ Back to endpoints index ](#index)
 
@@ -1899,7 +1904,7 @@ The Booking object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be the owner of the accommodation, the guest that booked the booking, or an admin
 - Content-type: application/json
@@ -1997,11 +2002,11 @@ The Booking object is defined as:
 
 ---
 
-## 5. **Address**
+## 5. **Addresses**
 
 [ Back to endpoints index ](#index)
 
-# Address
+# Addresses
 
 The Address object is defined as:
 
@@ -2019,16 +2024,16 @@ The Address object is defined as:
 
 ### **Endpoints**
 
-| **Method** | **Route**           | **Description**                                |
-| ---------- | ------------------- | ---------------------------------------------- |
-| POST       | /address            | Creates a new address                          |
-| PATCH      | /address/:addressId | Updates an address using its ID as a parameter |
+| **Method** | **Route**             | **Description**                                |
+| ---------- | --------------------- | ---------------------------------------------- |
+| POST       | /addresses            | Creates a new address                          |
+| PATCH      | /addresses/:addressId | Updates an address using its ID as a parameter |
 
 <br>
 
 #
 
-## POST /address
+## POST /addresses
 
 [ Back to endpoints index ](#index)
 
@@ -2036,7 +2041,7 @@ The Address object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be the owner of the accommodation of the new address or an admin
 - Content-type: application/json
@@ -2195,7 +2200,7 @@ The Address object is defined as:
 
 #
 
-## PATCH /address/:id
+## PATCH /addresses/:addressId
 
 [ Back to endpoints index ](#index)
 
@@ -2203,7 +2208,7 @@ The Address object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be the owner of the accommodation set at this address or an admin
 - Content-type: application/json
@@ -2403,7 +2408,7 @@ The Category object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to create a category
 - Content-type: application/json
@@ -2547,7 +2552,7 @@ The Category object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -2591,7 +2596,7 @@ The Category object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -2643,7 +2648,7 @@ The Category object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to update a category
 - Content-type: application/json
@@ -2787,7 +2792,7 @@ The Category object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to delete a category
 - Content-type: application/json
@@ -2922,7 +2927,7 @@ The Capacity object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to create a capacity
 - Content-type: application/json
@@ -3074,7 +3079,7 @@ The Capacity object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -3121,7 +3126,7 @@ The Capacity object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -3176,7 +3181,7 @@ The Capacity object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to update a capacity
 - Content-type: application/json
@@ -3330,7 +3335,7 @@ The Capacity object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to delete a capacity
 - Content-type: application/json
@@ -3464,7 +3469,7 @@ The Type object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to create a type
 - Content-type: application/json
@@ -3608,7 +3613,7 @@ The Type object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -3652,7 +3657,7 @@ The Type object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty body
@@ -3704,7 +3709,7 @@ The Type object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to update a type
 - Content-type: application/json
@@ -3848,7 +3853,7 @@ The Type object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Admin Bearer Token
 - User must be an admin to delete a type
 - Content-type: application/json
@@ -3979,7 +3984,7 @@ The Photo object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be the owner of this photo's accommodation or an admin
 - Content-type: application/json
@@ -4123,7 +4128,7 @@ The Photo object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty Body
@@ -4178,7 +4183,7 @@ The Photo object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: None
 - Content-type: application/json
 - Empty Body
@@ -4242,7 +4247,7 @@ The Photo object is defined as:
 
 #### Request:
 
-- Host: http://suaapi.com/v1
+- Host: https://ontrip.herokuapp.com/
 - Authorization: Bearer Token
 - User must be the owner of this photo's accommodation or an admin
 - Content-type: application/json
