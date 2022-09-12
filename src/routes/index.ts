@@ -18,7 +18,7 @@ const appRoutes = (app: Express) => {
   app.use("/types", typesRoutes());
   app.use("/photos", photosRoutes());
   app.use("/categories", categoriesRouter());
-  app.use("/address", addressesRoutes());
+  app.use("/addresses", addressesRoutes());
 };
 
 export default appRoutes;
