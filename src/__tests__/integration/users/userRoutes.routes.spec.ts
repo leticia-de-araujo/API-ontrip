@@ -55,7 +55,6 @@ describe("/users", () => {
     genericToken = await request(app).post("/login").send(mockedUserLogin);
 
     expect(genericUser.status).toBe(201);
-    expect(genericUser.body).toHaveProperty("code", 201);
     expect(genericUser.body).toHaveProperty(
       "message",
       "User created with success"
