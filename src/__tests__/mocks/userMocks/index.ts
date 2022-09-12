@@ -77,8 +77,8 @@ export const mockedUserWrongType: any = {
 
 export const mockedUserTooLong: any = {
   username: "hitaro conectitur conetur confectum conferebamus confidam i",
-  email: "hitaro@mail.com",
-  password: 123456,
+  email: "hitalo@mail.com",
+  password: "123456",
   dateOfBirth: "2000/02/11",
-  isAdm: "false",
+  isAdm: false,
 };
