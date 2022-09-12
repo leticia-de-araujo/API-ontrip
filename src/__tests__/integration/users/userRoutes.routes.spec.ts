@@ -166,7 +166,7 @@ describe("/users", () => {
 
     expect(response.status).toBe(401);
     expect(response.body.code).toBe(401);
-    expect(response.body).toHaveProperty("message", "User not admin");
+    expect(response.body).toHaveProperty("message", "User is not an admin");
   });
 
   test("GET /users/:id -  Must be able to list one user being the owner", async () => {
