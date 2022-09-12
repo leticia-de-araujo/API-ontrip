@@ -17,13 +17,13 @@ export interface IAddressRequest {
   street: string;
   complement?: string;
   accommodationId: string;
+  userId: string;
 }
 
 export interface IAddressRequestPatch {
-  country?: string;
-  state?: string;
-  city?: string;
   postalCode?: string;
   street?: string;
   complement?: string;
+  accommodationId: string;
+  addressId?: string;
 }
