@@ -26,8 +26,8 @@ export const mockedCategoryTooLarge: ICategoryRequest = {
   name: "conectitur conetur confectum conferebamus confidam i",
 };
 
-export const mockedPhoto = {
-  content: "thisIsAStringBase64",
+export const mockedPhoto: IPhotoRequest = {
+  file: "urldocloudinary",
   accommodationId: "",
 };
 

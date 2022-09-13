@@ -1,24 +1,19 @@
+import { IBookingRequest } from './../interfaces/bookings/index';
 import { Request, Response, NextFunction } from "express";
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IAccommodationRequestPatch } from "../interfaces/accommodations";
 
-export const accommodationPatchSchema: SchemaOf<IAccommodationRequestPatch> =
-  yup.object().shape({
-    name: yup
-      .string()
-      .matches(/^[A-Za-z]+$/)
-      .max(35),
-    description: yup.string().max(200),
-    dailyPrice: yup.number(),
-    specialOffer: yup.boolean(),
-    typeId: yup.string(),
-    verifiedByAdm: yup.boolean(),
-    capacityId: yup.string(),
+export const bookingCreateSchema: SchemaOf<IBookingRequest> = yup
+  .object()
+  .shape({
+    checkIn: yup.string().required().max(10).min(10),
+    checkOut: yup.string().required().max(10).min(10),
+    userId: yup.string().required().min(1),
+    accommodationId: yup.string().required().min(1),
   });
 
-export const validateAccommodationPatch =
-  (schema: SchemaOf<IAccommodationRequestPatch>) =>
+export const validateBookingCreate =
+  (schema: SchemaOf<IBookingRequest>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;
@@ -28,6 +23,8 @@ export const validateAccommodationPatch =
           abortEarly: false,
           stripUnknown: true,
         });
+
+        req.newBooking = validatedData;
 
         next();
       } catch (err: any) {

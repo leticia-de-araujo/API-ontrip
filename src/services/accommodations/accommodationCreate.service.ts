@@ -49,12 +49,13 @@ const accommodationCreateService = async ({
       name,
       description,
       dailyPrice,
-      type,
+      type: type,
       owner: user,
-      capacity,
-      category,
+      capacity: capacity,
+      category: category,
     },
   });
+  
   if (accommodationCheck) {
     throw new AppError(409, "This accommodation is already registered");
   }

@@ -15,7 +15,7 @@ const addressesRoutes = () => {
     createAddressController
   );
   routes.patch(
-    "/:addressId",
+    "/:id",
     authUserMiddleware,
     accountValidationMiddleware,
     admOrOwnerAuthMiddleware /* adicionar lógica no middleware para aceitar a rota de address */,

@@ -4,7 +4,11 @@ import { SchemaOf } from "yup";
 import { IUserRequestPatch } from "../interfaces/users";
 
 export const userPatchSchema: SchemaOf<IUserRequestPatch> = yup.object().shape({
-  username: yup.string().notRequired().max(20),
+  username: yup
+    .string()
+    .matches(/^[A-Za-z]+$/)
+    .notRequired()
+    .max(20),
   email: yup.string().email().notRequired().max(30),
   password: yup.string().notRequired().min(4).max(50),
   dateOfBirth: yup

@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
-import { IAddressRequest } from "../../interfaces/address";
 import { createAddressService } from "../../services/addresses/createAddress.service";
 
 export const createAddressController = async (req: Request, res: Response) => {
@@ -12,23 +11,8 @@ export const createAddressController = async (req: Request, res: Response) => {
       postalCode,
       street,
       complement,
-      accommodation: accommodationId,
+      accommodationId,
     } = req.body;
-    const { userId } = req;
-
-    if (
-      !country ||
-      !state ||
-      !city ||
-      !postalCode ||
-      !street ||
-      !accommodationId
-    ) {
-      throw new AppError(
-        401,
-        "The following fields are required: country, state, city, postalCode, street, accommodation."
-      );
-    }
 
     const address = await createAddressService({
       country,
@@ -38,12 +22,11 @@ export const createAddressController = async (req: Request, res: Response) => {
       street,
       complement,
       accommodationId,
-      userId: userId!,
     });
 
     return res.status(201).json({
       message: "success",
-      data: address,
+      address: address,
     });
   } catch (err) {
     if (err instanceof AppError) {
