@@ -6,9 +6,9 @@ const listUsersController = async (req: Request, res: Response) => {
   try {
     const users = await listUsersService();
     return res.status(200).json({
-        message: "Success",
-        data: users
-    })
+      message: "Success",
+      users: users,
+    });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);

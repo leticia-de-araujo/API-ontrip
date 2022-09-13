@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import { IUserRequest } from "../../interfaces/users";
 import userCreateService from "../../services/users/userCreate.services";
+
 const userCreateController = async (req: Request, res: Response) => {
   try {
     const { username, email, password, dateOfBirth, isAdm }: IUserRequest =
