@@ -10,7 +10,15 @@ export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
     .required()
     .max(20),
   email: yup.string().email().required().max(30),
-  password: yup.string().required().min(4).max(50),
+  password: yup
+    .string()
+    .matches(
+      /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/,
+      "Password field must have at least 1 capital letter, 1 lower case letter, 1 number and 1 special character"
+    )
+    .required()
+    .min(4)
+    .max(50),
   dateOfBirth: yup
     .string()
     .required()
