@@ -43,7 +43,7 @@ export const createAddressController = async (req: Request, res: Response) => {
 
     return res.status(201).json({
       message: "success",
-      data: address,
+      address: address,
     });
   } catch (err) {
     if (err instanceof AppError) {
