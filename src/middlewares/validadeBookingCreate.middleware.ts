@@ -1,4 +1,4 @@
-import { IBookingRequest } from './../interfaces/bookings/index';
+import { IBookingRequest } from "./../interfaces/bookings/index";
 import { Request, Response, NextFunction } from "express";
 import * as yup from "yup";
 import { SchemaOf } from "yup";
