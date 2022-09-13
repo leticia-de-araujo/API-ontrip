@@ -24,6 +24,14 @@ export const mockedUser3: IUserRequest = {
   isAdm: false,
 };
 
+export const mockedUser4: IUserRequest = {
+  username: "Paulo Silva",
+  email: "paulosilva@mail.com",
+  password: "123456",
+  dateOfBirth: "1995/08/07",
+  isAdm: false,
+};
+
 export const mockedUserAlternative: IUserRequest = {
   username: "Andre Perregil",
   email: "andre@mail.com",
