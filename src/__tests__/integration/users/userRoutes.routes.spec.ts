@@ -15,6 +15,10 @@ import {
   mockedUserTooLong,
   mockedUserWithoutAllFields,
   mockedUserWrongType,
+  mockedUserPatch,
+  mockedUserPatch2,
+  mockedUser4,
+  mockedUser4Login,
 } from "../../mocks/userMocks";
 
 describe("/users", () => {
@@ -22,9 +26,10 @@ describe("/users", () => {
   let adminUser: any;
   let adminToken: any;
   let genericUser: any;
-  let backupGenericUser: any;
-  let backupGenericToken: any;
   let genericToken: any;
+  let genericUser3: any;
+  let genericUser4: any;
+  let genericUserToken4: any;
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -36,15 +41,16 @@ describe("/users", () => {
       });
 
     adminUser = await request(app).post("/users").send(mockedAdmin);
+
     adminToken = await request(app).post("/login").send(mockedAdminLogin);
 
-    backupGenericUser = await request(app)
-      .post("/users")
-      .send(mockedUserAlternative);
+    genericUser3 = await request(app).post("/users").send(mockedUser3);
 
-    backupGenericToken = await request(app)
+    genericUser4 = await request(app).post("/users").send(mockedUser4);
+
+    genericUserToken4 = await request(app)
       .post("/login")
-      .send(mockedUserAlternativeLogin);
+      .send(mockedUser4Login);
   });
 
   afterAll(async () => {
@@ -261,7 +267,7 @@ describe("/users", () => {
   test("PATCH /users/:userId - Should be able to update a user being the account owner", async () => {
     const userUpdate = await request(app)
       .patch(`/users/${genericUser.body.user.id}`)
-      .send(mockedUser3)
+      .send(mockedUserPatch)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(userUpdate.status).toBe(200);
@@ -271,9 +277,9 @@ describe("/users", () => {
     );
     expect(userUpdate.body.user).toEqual({
       id: genericUser.body.user.id,
-      username: mockedUser3.username,
-      email: mockedUser3.email,
-      dateOfBirth: mockedUser3.dateOfBirth,
+      username: genericUser.body.user.username,
+      email: mockedUserPatch.email,
+      dateOfBirth: genericUser.body.user.dateOfBirth,
       isAdm: genericUser.body.user.isAdm,
       isActive: true,
       photo: genericUser.body.user.photo,
@@ -283,7 +289,7 @@ describe("/users", () => {
   test("PATCH /users/:userId - Should be able to update a user being an admin", async () => {
     const userUpdate = await request(app)
       .patch(`/users/${genericUser.body.user.id}`)
-      .send(mockedUser2)
+      .send(mockedUserPatch2)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(userUpdate.status).toBe(200);
@@ -293,11 +299,11 @@ describe("/users", () => {
     );
     expect(userUpdate.body.user).toEqual({
       id: genericUser.body.user.id,
-      username: mockedUser2.username,
-      email: mockedUser2.email,
-      dateOfBirth: mockedUser2.dateOfBirth,
+      username: genericUser.body.user.username,
+      email: mockedUserPatch2.email,
+      dateOfBirth: genericUser.body.user.dateOfBirth,
       isAdm: genericUser.body.user.isAdm,
-      isActive: genericUser.body.user.isActive,
+      isActive: true,
       photo: genericUser.body.user.photo,
     });
   });
@@ -305,7 +311,7 @@ describe("/users", () => {
   test("PATCH /users/:userId - Should not be able to update a user without an authorization token", async () => {
     const userUpdate = await request(app)
       .patch(`/users/${genericUser.body.user.id}`)
-      .send(mockedUser3);
+      .send(mockedUserPatch);
 
     expect(userUpdate.status).toBe(401);
     expect(userUpdate.body.status).toBe("Error");
@@ -319,7 +325,7 @@ describe("/users", () => {
   test("PATCH /users/:userId - Should not be able to update a user with an invalid token", async () => {
     const userUpdate = await request(app)
       .patch(`/users/${genericUser.body.user.id}`)
-      .send(mockedUser3)
+      .send(mockedUserPatch)
       .set("Authorization", `Bearer 123456789876544`);
 
     expect(userUpdate.status).toBe(401);
@@ -331,8 +337,8 @@ describe("/users", () => {
   test("PATCH /users/:userId - Should not be able to update a user without being an admin or account owner", async () => {
     const userUpdate = await request(app)
       .patch(`/users/${genericUser.body.user.id}`)
-      .send(mockedUser2)
-      .set("Authorization", `Bearer ${backupGenericToken.body.token}`);
+      .send(mockedUserPatch)
+      .set("Authorization", `Bearer ${genericUserToken4.body.token}`);
 
     expect(userUpdate.status).toBe(401);
     expect(userUpdate.body.status).toBe("Error");
@@ -345,8 +351,8 @@ describe("/users", () => {
 
   test("PATCH /users/:userId - Should not be able to update a user with existing email", async () => {
     const userUpdate = await request(app)
-      .patch(`/users/${backupGenericUser.body.user.id}`)
-      .send({ email: "hitalo@mail.com" })
+      .patch(`/users/${genericUser4.body.user.id}`)
+      .send({ email: genericUser3.body.user.email })
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(userUpdate.status).toBe(409);
@@ -357,7 +363,7 @@ describe("/users", () => {
 
   test("PATCH /users/:userId - Should not be able to update a user with invalid data", async () => {
     const userUpdate = await request(app)
-      .patch(`/users/${backupGenericUser.body.user.id}`)
+      .patch(`/users/${genericUser4.body.user.id}`)
       .send({ email: 123 })
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
@@ -369,7 +375,7 @@ describe("/users", () => {
 
   test("PATCH /users/:userId - Should not be able to update a user with data that is too large", async () => {
     const userUpdate = await request(app)
-      .patch(`/users/${backupGenericUser.body.user.id}`)
+      .patch(`/users/${genericUser4.body.user.id}`)
       .send(mockedUserTooLong)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
@@ -393,7 +399,7 @@ describe("/users", () => {
 
   test("DELETE /users/:userId - Should not be able to soft-delete a user without authorization token", async () => {
     const UserTobeDeleted = await request(app).delete(
-      `/users/${backupGenericUser.body.user.id}`
+      `/users/${genericUser4.body.user.id}`
     );
 
     expect(UserTobeDeleted.status).toBe(401);
@@ -407,7 +413,7 @@ describe("/users", () => {
 
   test("DELETE /users/:userId - Should not be able to soft-delete a user with invalid token", async () => {
     const UserTobeDeleted = await request(app)
-      .delete(`/users/${backupGenericUser.body.user.id}`)
+      .delete(`/users/${genericUser4.body.user.id}`)
       .set("Authorization", `Bearer 12345678909876554`);
 
     expect(UserTobeDeleted.status).toBe(401);
@@ -418,7 +424,7 @@ describe("/users", () => {
 
   test("DELETE /users/:userId - Should not be able to soft-delete a user without being an admin or account owner", async () => {
     const UserTobeDeleted = await request(app)
-      .delete(`/users/${backupGenericUser.body.user.id}`)
+      .delete(`/users/${genericUser4.body.user.id}`)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(UserTobeDeleted.status).toBe(401);
@@ -444,7 +450,7 @@ describe("/users", () => {
   test("DELETE /users/:userId - Should be able to soft-delete a user as the account owner", async () => {
     const UserTobeDeleted = await request(app)
       .delete(`/users/${genericUser.body.user.id}`)
-      .set("Authorization", `Bearer ${genericUser.body.token}`);
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(UserTobeDeleted.status).toBe(200);
     expect(UserTobeDeleted.body).toHaveProperty(
@@ -455,7 +461,7 @@ describe("/users", () => {
 
   test("DELETE /users/:userId - Should be able to soft-delete a user as an admin", async () => {
     const UserTobeDeleted = await request(app)
-      .delete(`/users/${backupGenericUser.body.user.id}`)
+      .delete(`/users/${genericUser4.body.user.id}`)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(UserTobeDeleted.status).toBe(200);
@@ -468,7 +474,7 @@ describe("/users", () => {
   test("DELETE /users/:userId - Should not be able to soft-delete a user that is already deleted", async () => {
     const UserTobeDeleted = await request(app)
       .delete(`/users/${genericUser.body.user.id}`)
-      .set("Authorization", `Bearer ${adminUser.body.token}`);
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(UserTobeDeleted.status).toBe(400);
     expect(UserTobeDeleted.body.status).toBe("Error");

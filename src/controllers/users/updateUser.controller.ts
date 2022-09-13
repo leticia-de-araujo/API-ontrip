@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import updateUserService from "../../services/users/updateUser.service";
-import { IUserRequest } from "../../interfaces/users";
+import { IUserRequest, IUserRequestPatch } from "../../interfaces/users";
 import { instanceToPlain } from "class-transformer";
 
 const updateUserController = async (req: Request, res: Response) => {
@@ -14,8 +14,8 @@ const updateUserController = async (req: Request, res: Response) => {
       password,
       dateOfBirth,
       isAdm,
-      photo,
-    }: IUserRequest = req.body;
+      file,
+    }: IUserRequestPatch = req.body;
 
     const user = await updateUserService(id, {
       username,
@@ -23,9 +23,9 @@ const updateUserController = async (req: Request, res: Response) => {
       password,
       dateOfBirth,
       isAdm,
-      photo,
+      file,
     });
-    
+
     return res.status(200).json({
       message: "User updated with success",
       user: instanceToPlain(user),

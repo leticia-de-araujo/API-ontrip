@@ -13,6 +13,10 @@ import updateUserController from "../controllers/users/updateUser.controller";
 import { authUserMiddleware } from "../middlewares/authUser.middleware";
 import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
 import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
+import {
+  userPatchSchema,
+  validateUserUpdate,
+} from "../middlewares/validateUserUpdate.middleware";
 
 const routes = Router();
 
@@ -36,9 +40,10 @@ const userRoutes = () => {
     listOneUserController
   );
   routes.patch(
-    "/id",
+    "/:id",
     authUserMiddleware,
     admOrOwnerAuthMiddleware,
+    validateUserUpdate(userPatchSchema),
     updateUserController
   );
   routes.delete(
