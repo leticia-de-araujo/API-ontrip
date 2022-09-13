@@ -1,23 +1,24 @@
 import { Router } from "express";
 import { createAddressController } from "../controllers/addresses/createAddress.controller";
 import { updateAddressController } from "../controllers/addresses/updateAddress.controller";
-import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
-import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
-import { authUserMiddleware } from "../middlewares/authUser.middleware";
+import { accountValidationMiddleware } from "../middlewares/authentications/accountValidation.middleware";
+import admOrOwnerAuthMiddleware from "../middlewares/authentications/admOrOwnerAuth.middleware";
+import authUserMiddleware from "../middlewares/authentications/authUser.middleware";
 
 const routes = Router();
 
 const addressesRoutes = () => {
   routes.post(
     "",
-    authUserMiddleware,    accountValidationMiddleware,
+    authUserMiddleware,
+    accountValidationMiddleware,
     createAddressController
   );
   routes.patch(
     "/:id",
-    authUserMiddleware, 
+    authUserMiddleware,
     accountValidationMiddleware,
-    admOrOwnerAuthMiddleware /* adicionar lógica no middleware para aceitar a rota de address */,
+    admOrOwnerAuthMiddleware,
     updateAddressController
   );
 

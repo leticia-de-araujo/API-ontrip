@@ -1,23 +1,18 @@
 import { Router } from "express";
-import fileUpload from "express-fileupload";
 import listOneUserController from "../controllers/users/listOneUser.controller";
 import listUsersController from "../controllers/users/listUsers.controller";
 import userCreateController from "../controllers/users/userCreate.controller";
 import upload from "../utils/multer.middleware";
-import {
-  userCreateSchema,
-  validateUserCreate,
-} from "../middlewares/validateUserCreate.middleware";
 import deleteUserController from "../controllers/users/deleteUsers.controller";
 import updateUserController from "../controllers/users/updateUser.controller";
-import { authUserMiddleware } from "../middlewares/authUser.middleware";
-import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
-import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
-import {
-  userPatchSchema,
-  validateUserUpdate,
-} from "../middlewares/validateUserUpdate.middleware";
-import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
+import validateUserCreate from "../middlewares/users/validateUserCreate.middleware";
+import userCreateSchema from "../schemas/users/userCreate.schema";
+import authUserMiddleware from "../middlewares/authentications/authUser.middleware";
+import { accountValidationMiddleware } from "../middlewares/authentications/accountValidation.middleware";
+import admValidationMiddleware from "../middlewares/authentications/admValidation.middleware";
+import admOrOwnerAuthMiddleware from "../middlewares/authentications/admOrOwnerAuth.middleware";
+import validateUserUpdate from "../middlewares/users/validateUserUpdate.middleware";
+import userPatchSchema from "../schemas/users/userUpdate.schema";
 
 const routes = Router();
 

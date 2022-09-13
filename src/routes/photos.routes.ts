@@ -3,9 +3,10 @@ import { createPhotoController } from "../controllers/photo/createPhoto.controll
 import { listAllPhotoAccommodationController } from "../controllers/photo/listAllPhotoAccommodation.controller";
 import { lisOnePhotoController } from "../controllers/photo/listOnePhoto.controller";
 import { softDeletePhotoController } from "../controllers/photo/softDeletePhoto.controller";
-import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
-import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
-import { authUserMiddleware } from "../middlewares/authUser.middleware";
+import { accountValidationMiddleware } from "../middlewares/authentications/accountValidation.middleware";
+import admOrOwnerAuthMiddleware from "../middlewares/authentications/admOrOwnerAuth.middleware";
+import authUserMiddleware from "../middlewares/authentications/authUser.middleware";
+
 import upload from "../utils/multer.middleware";
 
 const routes = Router();
