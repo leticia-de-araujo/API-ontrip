@@ -113,6 +113,7 @@ describe("Testing the booking routes", () => {
     expect(genericBooking.body.booking).toHaveProperty("checkOut");
     expect(genericBooking.body.booking).toHaveProperty("status");
     expect(genericBooking.body).toHaveProperty("message");
+    expect(genericBooking.body).not.toHaveProperty("password");
   });
 
   test("POST /bookings - Should not be able to create a booking that already exists", async () => {

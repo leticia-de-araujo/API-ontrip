@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import createBookingService from "../../services/bookings/bookingCreate.service";
+import { instanceToPlain } from "class-transformer";
 
 const createBookingController = async (req: Request, res: Response) => {
   try {
@@ -14,7 +15,7 @@ const createBookingController = async (req: Request, res: Response) => {
     });
 
 
-    return res.status(201).json({ message: "Booking created with success", booking: createBooking });
+    return res.status(201).json({ message: "Booking created with success", booking: instanceToPlain(createBooking) });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
