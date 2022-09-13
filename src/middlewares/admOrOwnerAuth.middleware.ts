@@ -121,7 +121,7 @@ export const admOrOwnerAuthMiddleware = async (
     }
 
     //finding the accommodation that is the owner of the address
-    const accommodationId = address.accommodation.id;
+    const accommodationId = address.id;
     const accommodationRepo = AppDataSource.getRepository(Accommodation);
     const accommodation = await accommodationRepo.findOneBy({
       id: accommodationId,
