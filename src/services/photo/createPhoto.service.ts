@@ -20,12 +20,11 @@ export const createPhotoService = async ({
   }
 
   let img =
-    "https://res.cloudinary.com/duz8wq1jo/image/upload/v1662735741/gn1ngtjtzz8cyfvfzmvf.jpg";
+    "https://res.cloudinary.com/duz8wq1jo/image/upload/v1663107146/Profile_qinmi4.png";
 
   if (file) {
     img = cloudinary.url(file);
   }
-
 
   const photo = photoRepository.create({
     content: img,

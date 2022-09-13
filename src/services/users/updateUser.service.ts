@@ -59,7 +59,8 @@ const updateUserService = async (
   }
 
   if (!file) {
-    photo = "Imagem padrão";
+    photo =
+      "https://res.cloudinary.com/duz8wq1jo/image/upload/v1663107146/Profile_qinmi4.png";
   }
 
   const userToUpdate = {

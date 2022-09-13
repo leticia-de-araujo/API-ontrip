@@ -1,22 +1,16 @@
 import { Router } from "express";
-
-import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
-import { authUserMiddleware } from "../middlewares/authUser.middleware";
-import {
-  validateCapacityCreate,
-  capacityCreateSchema,
-} from "../middlewares/validateCapacityCreate.middleware";
-import {
-  validateCapacityUpdate,
-  capacityUpdateSchema,
-} from "../middlewares/validateCapacityUpdate.middleware";
-
 import capacitiesCreateController from "../controllers/capacities/createCapacity.controller";
 import capacitiesReadAllController from "../controllers/capacities/listCapacities.controller";
 import capacitiesReadOneController from "../controllers/capacities/listOneCapacity.controller";
 import capacitiesUpdateController from "../controllers/capacities/updateCapacity.controller";
 import capacitiesDeleteController from "../controllers/capacities/deleteCapacity.controller";
-import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
+import authUserMiddleware from "../middlewares/authentications/authUser.middleware";
+import { accountValidationMiddleware } from "../middlewares/authentications/accountValidation.middleware";
+import admValidationMiddleware from "../middlewares/authentications/admValidation.middleware";
+import validateCapacityCreate from "../middlewares/capacities/validateCapacityCreate.middleware";
+import capacityCreateSchema from "../schemas/capacities/capacityCreate.schema";
+import validateCapacityUpdate from "../middlewares/capacities/validateCapacityUpdate.middleware";
+import capacityUpdateSchema from "../schemas/capacities/capacityUpdate.schema";
 
 const routes = Router();
 

@@ -3,10 +3,10 @@ import { loginController } from "../controllers/session/login.controller";
 
 const routes = Router();
 
-const sessionRoutes = () => {
+const loginRoutes = () => {
   routes.post("/", loginController);
 
   return routes;
 };
 
-export default sessionRoutes;
+export default loginRoutes;

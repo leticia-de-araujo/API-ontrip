@@ -78,7 +78,10 @@ describe("/users", () => {
     );
     expect(genericUser.body.user).toHaveProperty("isAdm", mockedUser.isAdm);
     expect(genericUser.body.user).toHaveProperty("isActive", true);
-    expect(genericUser.body.user).toHaveProperty("photo", "Imagem padrão");
+    expect(genericUser.body.user).toHaveProperty(
+      "photo",
+      "https://res.cloudinary.com/duz8wq1jo/image/upload/v1663107146/Profile_qinmi4.png"
+    );
     expect(genericUser.body.user).not.toHaveProperty("password");
   });
 
