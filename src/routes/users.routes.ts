@@ -10,6 +10,9 @@ import {
 } from "../middlewares/validateUserCreate.middleware";
 import deleteUserController from "../controllers/users/deleteUsers.controller";
 import updateUserController from "../controllers/users/updateUser.controller";
+import { authUserMiddleware } from "../middlewares/authUser.middleware";
+import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
+import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
 
 const routes = Router();
 const userRoutes = () => {
@@ -19,10 +22,20 @@ const userRoutes = () => {
     validateUserCreate(userCreateSchema),
     userCreateController
   );
-  routes.get("", listUsersController);
-  routes.get("/:id", listOneUserController);
+  routes.get(
+    "",
+    authUserMiddleware,
+    admValidationMiddleware,
+    listUsersController
+  );
+  routes.get(
+    "/:id",
+    authUserMiddleware,
+    admOrOwnerAuthMiddleware,
+    listOneUserController
+  );
   routes.delete("/:id", deleteUserController);
-  routes.patch("/userId", updateUserController);
+  routes.patch("/id", updateUserController);
   return routes;
 };
 

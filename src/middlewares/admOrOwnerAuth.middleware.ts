@@ -33,7 +33,7 @@ export const admOrOwnerAuthMiddleware = async (
   const isAdmin = userFromToken.isAdm;
   if (isAdmin) {
     req.isAdm = true;
-    next();
+    return next();
   }
 
   //logic for user routes (to be used on PATCH routes)
@@ -53,7 +53,7 @@ export const admOrOwnerAuthMiddleware = async (
       );
     }
     req.isOwner = true;
-    next();
+    return next();
   }
 
   //logic for accommodations routes (to be used on PATCH routes)
@@ -74,7 +74,7 @@ export const admOrOwnerAuthMiddleware = async (
       );
     }
     req.isOwner = true;
-    next();
+    return next();
   }
 
   //logic for bookings (to be used on PATCH routes)
@@ -108,7 +108,7 @@ export const admOrOwnerAuthMiddleware = async (
       );
     }
     req.isOwner = true;
-    next();
+    return next();
   }
 
   //logic for address routes (discuss if this is necessary) (To be used on PATCH routes)
@@ -139,7 +139,7 @@ export const admOrOwnerAuthMiddleware = async (
       );
     }
     req.isOwner = true;
-    next();
+    return next();
   }
 
   if (route[1] === "photos") {
@@ -172,7 +172,7 @@ export const admOrOwnerAuthMiddleware = async (
       );
     }
     req.isOwner = true;
-    next();
+    return next();
   }
 
   //erase the following after development
