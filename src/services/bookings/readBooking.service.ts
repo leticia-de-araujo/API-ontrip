@@ -5,11 +5,16 @@ import { AppError } from "../../errors/AppError";
 const readBookingService = async (id: string): Promise<Booking> => {
   const bookingRepository = AppDataSource.getRepository(Booking);
 
-  const booking = await bookingRepository.findOneBy({ id: id });
+  const booking = await bookingRepository.find();
 
-  if (!booking) throw new AppError(404, "Booking not found");
+  const newBooking = booking.filter((booking) => booking.id === id);
 
-  return booking;
+
+  if (!newBooking[0]) {
+    throw new AppError(404, "Booking not found");
+  }
+  
+  return newBooking[0];
 };
 
 export default readBookingService;

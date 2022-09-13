@@ -80,7 +80,6 @@ export const admOrOwnerAuthMiddleware = async (
   //logic for bookings (to be used on PATCH routes)
   if (route[1] === "bookings") {
     //finding the booking
-    console.log(route[1]);
     const bookingRepo = AppDataSource.getRepository(Booking);
     const booking = await bookingRepo.findOneBy({ id: id });
     if (!booking) {
@@ -175,7 +174,8 @@ export const admOrOwnerAuthMiddleware = async (
     req.isOwner = true;
     next();
   }
-
+  next();
+  
   //erase the following after development
   throw new AppError(
     420,
