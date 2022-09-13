@@ -12,7 +12,7 @@ import addressesRoutes from "./addresses.routes";
 const appRoutes = (app: Express) => {
   app.use("/users", userRoutes());
   app.use("/accommodations", accommodationsRoutes());
-  app.use("/booking", bookingsRoutes());
+  app.use("/bookings", bookingsRoutes());
   app.use("/login", sessionRoutes());
   app.use("/capacities", capacitiesRoutes());
   app.use("/types", typesRoutes());

@@ -47,7 +47,7 @@ export interface IUserRequestPatch {
   password?: string;
   dateOfBirth?: string;
   isAdm?: boolean;
-  photo?: string;
+  file?: any;
 }
 
 export interface IUserLogin {

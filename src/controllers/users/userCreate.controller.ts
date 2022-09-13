@@ -2,13 +2,14 @@ import { instanceToPlain } from "class-transformer";
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import { IUserRequest } from "../../interfaces/users";
-import userCreateService from "../../services/users/userCreate.services";
+import userCreateService from "../../services/users/userCreate.service";
 const userCreateController = async (req: Request, res: Response) => {
   try {
     const { username, email, password, dateOfBirth, isAdm }: IUserRequest =
       req.body;
 
     let photo = req.file;
+
     const user = await userCreateService({
       username,
       email,
@@ -19,8 +20,8 @@ const userCreateController = async (req: Request, res: Response) => {
     });
 
     return res.status(201).json({
-      message: "User created with success!",
-      data: instanceToPlain(user),
+      message: "User created with success",
+      user: instanceToPlain(user),
     });
   } catch (error) {
     if (error instanceof AppError) {

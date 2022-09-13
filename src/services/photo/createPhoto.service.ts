@@ -33,16 +33,7 @@ export const createPhotoService = async ({
     accommodation,
   });
 
-  /* const photo = photoRepository.create({
-    content,
-    accommodation,
-  }); */
-
   await photoRepository.save(photo);
-
-  /* const image = cloudinary.url(photo.content);
-
-  photo.content = image; */
 
   return photo;
 };

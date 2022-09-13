@@ -46,6 +46,16 @@ export const mockedAccommodationInvalid = {
   typeId: "",
 };
 
+export const mockedAccommodationInvalidType = {
+  name: 123456,
+  description: "text",
+  dailyPrice: 300,
+  categoryId: "",
+  capacityId: "",
+  userId: "",
+  typeId: "",
+};
+
 export const mockedAccommodationTooLarge: IAccommodationRequest = {
   name: "Marolargo Marolargo Marolargo Marolargo Marolargo",
   description:
@@ -63,7 +73,7 @@ export const mockedAccommodationPatch: IAccommodationRequestPatch = {
 
 export const mockedAccommodationInvalidPatch = {
   description: "text",
-  dailyPrice: "300",
+  dailyPrice: "batata",
 };
 
 export const mockedAccommodationTooLargePatch = {

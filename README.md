@@ -223,25 +223,13 @@ The User object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -568,25 +556,13 @@ The User object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -963,25 +939,13 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -1324,25 +1288,13 @@ The Accommodation object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -1635,25 +1587,13 @@ The Booking object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -2122,25 +2062,13 @@ The Address object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -2280,25 +2208,13 @@ The Address object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -2478,25 +2394,13 @@ The Category object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -2706,25 +2610,13 @@ The Category object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -3005,25 +2897,13 @@ The Capacity object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -3249,25 +3129,13 @@ The Capacity object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -3539,25 +3407,13 @@ The Type object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 
@@ -3767,25 +3623,13 @@ The Type object is defined as:
 
 <br>
 
-**Status 400 - Invalid data type**
+**Status 400 - Invalid data type or length**
 
 ```json
 {
   "status": "Error",
   "code": 400,
-  "message": "(any object key) has an invalid type"
-}
-```
-
-<br>
-
-**Status 413 - Data length too large**
-
-```json
-{
-  "status": "Error",
-  "code": 413,
-  "message": "(object key) length too large"
+  "message": "yup error message"
 }
 ```
 

@@ -15,6 +15,11 @@ export const loginService = async ({ email, password }: IUserLogin) => {
     throw new AppError(401, "Invalid email or password");
   }
 
+  //If user.isActive:false, it cannot login
+  if (!user.isActive) {
+    throw new AppError(401, "Account deleted, please contact customer service");
+  }
+
   // If it exists, it compares the passed password with the password hash that was saved in the db
   const passwordMatch = compareSync(password, user.password);
 

@@ -10,8 +10,17 @@ import {
 } from "../middlewares/validateUserCreate.middleware";
 import deleteUserController from "../controllers/users/deleteUsers.controller";
 import updateUserController from "../controllers/users/updateUser.controller";
+import { authUserMiddleware } from "../middlewares/authUser.middleware";
+import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
+import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
+import {
+  userPatchSchema,
+  validateUserUpdate,
+} from "../middlewares/validateUserUpdate.middleware";
+import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
 
 const routes = Router();
+
 const userRoutes = () => {
   routes.post(
     "",
@@ -19,10 +28,35 @@ const userRoutes = () => {
     validateUserCreate(userCreateSchema),
     userCreateController
   );
-  routes.get("", listUsersController);
-  routes.get("/:id", listOneUserController);
-  routes.delete("/:id", deleteUserController);
-  routes.patch("/userId", updateUserController);
+  routes.get(
+    "",
+    authUserMiddleware,
+    accountValidationMiddleware,
+    admValidationMiddleware,
+    listUsersController
+  );
+  routes.get(
+    "/:id",
+    authUserMiddleware,
+    accountValidationMiddleware,
+    admOrOwnerAuthMiddleware,
+    listOneUserController
+  );
+  routes.patch(
+    "/:id",
+    authUserMiddleware,
+    accountValidationMiddleware,
+    admOrOwnerAuthMiddleware,
+    validateUserUpdate(userPatchSchema),
+    updateUserController
+  );
+  routes.delete(
+    "/:id",
+    authUserMiddleware,
+    accountValidationMiddleware,
+    admOrOwnerAuthMiddleware,
+    deleteUserController
+  );
   return routes;
 };
 

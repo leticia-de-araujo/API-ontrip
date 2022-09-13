@@ -15,7 +15,7 @@ const accommodationUpdateController = async (req: Request, res: Response) => {
       typeId,
     } = req.body;
 
-    const updateAccommodation = await accommodationUpdateService(id, {
+    const updatedAccommodation = await accommodationUpdateService(id, {
       name,
       description,
       dailyPrice,
@@ -27,7 +27,7 @@ const accommodationUpdateController = async (req: Request, res: Response) => {
 
     return res.json({
       message: "Accommodation updated with success",
-      accommodation: updateAccommodation,
+      accommodation: updatedAccommodation,
     });
   } catch (error) {
     if (error instanceof AppError) {

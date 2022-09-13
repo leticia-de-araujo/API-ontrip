@@ -72,9 +72,9 @@ The Booking object is defined as:
     "id": "f4939be7-3790-4f67-97d0-f2c17739d807",
     "checkIn": "2023/01/12",
     "checkout": "2023/05/12",
-    "accommodationId": "402c85e9-46d9-4471-8e33-46954319261a",
+    "accommodation": "402c85e9-46d9-4471-8e33-46954319261a",
     "status": "booked",
-    "userId": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
+    "user": "17851b8b-a8ea-48ad-98bb-0f2fc86a8459"
   }
 }
 ```

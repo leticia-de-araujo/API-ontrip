@@ -1,6 +1,6 @@
 export interface IBooking {
   checkIn: string;
-  checkout: string;
+  checkOut: string;
   status: string;
   userId: string;
   accommodationId: string;
@@ -8,13 +8,13 @@ export interface IBooking {
 
 export interface IBookingRequest {
   checkIn: string;
-  checkout: string;
+  checkOut: string;
   userId: string;
   accommodationId: string;
 }
 
 export interface IBookingRequestPatch {
   checkIn?: string;
-  checkout?: string;
+  checkOut?: string;
   status?: string;
 }
