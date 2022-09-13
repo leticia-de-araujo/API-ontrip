@@ -20,7 +20,7 @@ import { AppError } from "../../../errors/AppError";
 import { mockedCategory2, mockedType } from "../../mocks/otherMocks";
 import { mockedCapacity } from "../../mocks/capacityMocks";
 
-describe("Testing the type routes", () => {
+describe("Testing photo services", () => {
   let connection: DataSource;
   let genericUser: any;
   let genericToken: any;
