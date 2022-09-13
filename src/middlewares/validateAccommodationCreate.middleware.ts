@@ -6,7 +6,11 @@ import { IAccommodationRequest } from "../interfaces/accommodations";
 export const accommodationCreateSchema: SchemaOf<IAccommodationRequest> = yup
   .object()
   .shape({
-    name: yup.string().required().max(35),
+    name: yup
+      .string()
+      .matches(/^[A-Za-z]+$/)
+      .required()
+      .max(35),
     description: yup.string().required().max(200),
     dailyPrice: yup.number().required(),
     typeId: yup.string().required(),
