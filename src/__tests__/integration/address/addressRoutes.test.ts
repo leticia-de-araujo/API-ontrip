@@ -6,7 +6,6 @@ import AppDataSource from "../../../data-source";
 import {
   mockedAddress,
   mockedAddressInvalidAccommodationId,
-  mockedAddressInvalidZipCode,
   mockedAddressPatch,
 } from "../../mocks/addressMocks";
 
@@ -97,7 +96,7 @@ describe("Testing addresses routes", () => {
 
     expect(response.body).toHaveProperty("message");
     expect(response.body).not.toHaveProperty("address");
-    expect(response.body).toBe(401);
+    expect(response.status).toBe(401);
   });
 
   test("POST /addresses - Should not be able to create an address with invalid authentication", async () => {
@@ -112,7 +111,7 @@ describe("Testing addresses routes", () => {
 
     expect(response.body).toHaveProperty("message");
     expect(response.body).not.toHaveProperty("address");
-    expect(response.body).toBe(401);
+    expect(response.status).toBe(401);
   });
 
   test("POST /addresses - Should not be able to create an address with invalid accommodationId", async () => {
@@ -123,27 +122,9 @@ describe("Testing addresses routes", () => {
       .set("Authorization", `Bearer ${userLogin.body.token}`)
       .send(mockedAddressInvalidAccommodationId);
 
-    expect(response).toHaveProperty("message");
-    expect(response.body).not.toHaveProperty("address");
-    expect(response).toBe(404);
-  });
-
-  test("POST /addresses - Should not be able to create with invalid zipCode", async () => {
-    const accommodation = await request(app).get("/accommodations");
-
-    const userLogin = await request(app).post("/login").send(mockedUser);
-
-    mockedAddressInvalidZipCode.accommodationId =
-      accommodation.body.accommodations[0].id;
-
-    const response = await request(app)
-      .post("/addresses")
-      .set("Authorization", `Bearer ${userLogin.body.token}`)
-      .send(mockedAddressInvalidZipCode);
-
     expect(response.body).toHaveProperty("message");
     expect(response.body).not.toHaveProperty("address");
-    expect(response.body).toBe(400);
+    expect(response.status).toBe(404);
   });
 
   test("PATCH /addresses/:id - Should be able to update a address", async () => {

@@ -23,16 +23,6 @@ export const mockedAddressInvalidAccommodationId: IAddressRequest = {
   accommodationId: "",
 };
 
-export const mockedAddressInvalidZipCode: IAddressRequest = {
-  country: "Brazil",
-  state: "Bahia",
-  city: "Salvador",
-  street: "Rua da praia",
-  complement: "complexo 1 apartamento 33",
-  postalCode: "40020-901420",
-  accommodationId: "",
-};
-
 export const mockedAddressPatch: IAddressRequestPatch = {
   street: "Avenida papagaio paraguaio",
   accommodationId: "",
