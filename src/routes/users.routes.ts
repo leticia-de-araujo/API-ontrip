@@ -17,6 +17,7 @@ import {
   userPatchSchema,
   validateUserUpdate,
 } from "../middlewares/validateUserUpdate.middleware";
+import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
 
 const routes = Router();
 
@@ -30,18 +31,21 @@ const userRoutes = () => {
   routes.get(
     "",
     authUserMiddleware,
+    accountValidationMiddleware,
     admValidationMiddleware,
     listUsersController
   );
   routes.get(
     "/:id",
     authUserMiddleware,
+    accountValidationMiddleware,
     admOrOwnerAuthMiddleware,
     listOneUserController
   );
   routes.patch(
     "/:id",
     authUserMiddleware,
+    accountValidationMiddleware,
     admOrOwnerAuthMiddleware,
     validateUserUpdate(userPatchSchema),
     updateUserController
@@ -49,6 +53,7 @@ const userRoutes = () => {
   routes.delete(
     "/:id",
     authUserMiddleware,
+    accountValidationMiddleware,
     admOrOwnerAuthMiddleware,
     deleteUserController
   );
