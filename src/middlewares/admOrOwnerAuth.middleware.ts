@@ -16,7 +16,7 @@ export const admOrOwnerAuthMiddleware = async (
 ) => {
   const { userId } = req;
   const route = req.originalUrl.split("/");
-
+  
   const { id } = req.params;
   if (!id) {
     throw new AppError(400, "Missing ID param on route");
@@ -174,7 +174,8 @@ export const admOrOwnerAuthMiddleware = async (
     req.isOwner = true;
     return next();
   }
-
+  next();
+  
   //erase the following after development
   throw new AppError(
     420,

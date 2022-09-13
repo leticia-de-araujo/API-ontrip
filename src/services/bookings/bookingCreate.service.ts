@@ -7,7 +7,7 @@ import { IBookingRequest } from "../../interfaces/bookings";
 
 const createBookingService = async ({
   checkIn,
-  checkout,
+  checkOut,
   userId,
   accommodationId,
 }: IBookingRequest): Promise<Booking> => {
@@ -16,18 +16,31 @@ const createBookingService = async ({
   const accommodationRepository = AppDataSource.getRepository(Accommodation);
 
   const user = await userRepository.findOneBy({ id: userId });
+
   if (!user) throw new AppError(404, "User not found");
 
   const accommodation = await accommodationRepository.findOneBy({
     id: accommodationId,
   });
+
   if (!accommodation) throw new AppError(404, "Accommodation not found");
 
+  const findEqualBooking = await bookingRepository.findOneBy({
+      user: user,
+      accommodation: accommodation,
+      checkIn: checkIn,
+      checkOut: checkOut
+  });
+  
+  if(findEqualBooking){
+    throw new AppError(409, "This booking is already registered");
+  }
+
   const newBooking = bookingRepository.create({
-    checkIn,
-    checkOut: checkout,
+    checkIn: checkIn,
+    checkOut: checkOut,
     user: user,
-    accommodation: accommodation,
+    accommodation: accommodation
   });
 
   await bookingRepository.save(newBooking);
