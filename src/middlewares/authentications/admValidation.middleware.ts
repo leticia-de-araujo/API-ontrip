@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import AppDataSource from "../data-source";
-import { User } from "../entities/users.entity";
-import { AppError } from "../errors/AppError";
+import AppDataSource from "../../data-source";
+import { User } from "../../entities/users.entity";
+import { AppError } from "../../errors/AppError";
 
-export const admValidationMiddleware = async (
+const admValidationMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -29,3 +29,5 @@ export const admValidationMiddleware = async (
     }
   }
 };
+
+export default admValidationMiddleware;
