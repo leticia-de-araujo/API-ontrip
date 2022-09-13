@@ -11,7 +11,7 @@ const addressesRoutes = () => {
   routes.patch(
     "/:addressId",
     authUserMiddleware,
-    admOrOwnerAuthMiddleware /* adicionar lógica no middleware para aceitar a rota de address */,
+    admOrOwnerAuthMiddleware,
     updateAddressController
   );
 

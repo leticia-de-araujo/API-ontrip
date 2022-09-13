@@ -54,35 +54,29 @@ describe("Testing addresses routes", () => {
     mockedAccommodation.typeId = type.body.type.id;
     mockedAccommodation.userId = commonUser.body.user.id;
 
-    const accommodation = await request(app)
+    await request(app)
       .post("/accommodations")
       .set("Authorization", `Bearer ${userLogin.body.token}`)
       .send(mockedAccommodation);
-
-    console.log(accommodation.body);
   });
+
   afterAll(async () => {
     await connection.destroy();
   });
 
   test("POST /addresses - Should be able to create an address", async () => {
-    const userAdmin = await request(app).post("/login").send(mockedAdmin);
-    const userId = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${userAdmin.body.token}`);
-
     const accommodation = await request(app).get("/accommodations");
 
     const userLogin = await request(app).post("/login").send(mockedUser);
 
     mockedAddress.accommodationId = accommodation.body.accommodations[0].id;
-    mockedAddress.userId = userId.body.users[1].id;
 
     const response = await request(app)
       .post("/addresses")
       .set("Authorization", `Bearer ${userLogin.body.token}`)
       .send(mockedAddress);
 
+    expect(response.body).toHaveProperty("address");
     expect(response.body.address).toHaveProperty("id");
     expect(response.body.address).toHaveProperty("country");
     expect(response.body.address).toHaveProperty("state");
@@ -95,16 +89,9 @@ describe("Testing addresses routes", () => {
   });
 
   test("POST /addresses - Should not be able to create an address without authentication", async () => {
-    const userAdmin = await request(app).post("/login").send(mockedAdmin);
-
-    const userId = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${userAdmin.body.token}`);
-
     const accommodation = await request(app).get("/accommodations");
 
     mockedAddress.accommodationId = accommodation.body.accommodations[0].id;
-    mockedAddress.userId = userId.body.users[1].id;
 
     const response = await request(app).post("/addresses").send(mockedAddress);
 
@@ -114,16 +101,9 @@ describe("Testing addresses routes", () => {
   });
 
   test("POST /addresses - Should not be able to create an address with invalid authentication", async () => {
-    const userAdmin = await request(app).post("/login").send(mockedAdmin);
-
-    const userId = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${userAdmin.body.token}`);
-
     const accommodation = await request(app).get("/accommodations");
 
     mockedAddress.accommodationId = accommodation.body.accommodations[0].id;
-    mockedAddress.userId = userId.body.users[1].id;
 
     const response = await request(app)
       .post("/addresses")
@@ -136,15 +116,7 @@ describe("Testing addresses routes", () => {
   });
 
   test("POST /addresses - Should not be able to create an address with invalid accommodationId", async () => {
-    const userAdmin = await request(app).post("/login").send(mockedAdmin);
-
-    const userId = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${userAdmin.body.token}`);
-
     const userLogin = await request(app).post("/login").send(mockedUser);
-
-    mockedAddressInvalidAccommodationId.userId = userId.body.users[1].id;
 
     const response = await request(app)
       .post("/addresses")
@@ -157,19 +129,12 @@ describe("Testing addresses routes", () => {
   });
 
   test("POST /addresses - Should not be able to create with invalid zipCode", async () => {
-    const userAdmin = await request(app).post("/login").send(mockedAdmin);
-
-    const userId = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${userAdmin.body.token}`);
-
     const accommodation = await request(app).get("/accommodations");
 
     const userLogin = await request(app).post("/login").send(mockedUser);
 
     mockedAddressInvalidZipCode.accommodationId =
       accommodation.body.accommodations[0].id;
-    mockedAddressInvalidZipCode.userId = userId.body.users[1].id;
 
     const response = await request(app)
       .post("/addresses")
@@ -182,15 +147,13 @@ describe("Testing addresses routes", () => {
   });
 
   test("PATCH /addresses/:id - Should be able to update a address", async () => {
-    const userAdmin = await request(app).post("/login").send(mockedAdmin);
+    const userLogin = await request(app).post("/login").send(mockedUser);
 
     const userId = await request(app)
       .get("/users")
-      .set("Authorization", `Bearer ${userAdmin.body.token}`);
+      .set("Authorization", `Bearer ${userLogin.body.token}`);
 
     const accommodation = await request(app).get("/accommodations");
-
-    const userLogin = await request(app).post("/login").send(mockedUser);
 
     mockedAddressPatch.accommodationId =
       accommodation.body.accommodations[0].id;
@@ -215,8 +178,6 @@ describe("Testing addresses routes", () => {
   });
 
   test("PATCH /addresses/:id - Should not be able to update a nonexistent address", async () => {
-    const userAdmin = await request(app).post("/login").send(mockedAdmin);
-
     const accommodation = await request(app).get("/accommodations");
 
     const userLogin = await request(app).post("/login").send(mockedUser);

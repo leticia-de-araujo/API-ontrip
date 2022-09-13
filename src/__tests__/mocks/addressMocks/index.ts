@@ -11,7 +11,6 @@ export const mockedAddress: IAddressRequest = {
   complement: "complexo 1 apartamento 33",
   postalCode: "40020-901",
   accommodationId: "",
-  userId: "",
 };
 
 export const mockedAddressInvalidAccommodationId: IAddressRequest = {
@@ -22,7 +21,6 @@ export const mockedAddressInvalidAccommodationId: IAddressRequest = {
   complement: "complexo 1 apartamento 33",
   postalCode: "40020-901",
   accommodationId: "",
-  userId: "",
 };
 
 export const mockedAddressInvalidZipCode: IAddressRequest = {
@@ -33,7 +31,6 @@ export const mockedAddressInvalidZipCode: IAddressRequest = {
   complement: "complexo 1 apartamento 33",
   postalCode: "40020-901420",
   accommodationId: "",
-  userId: "",
 };
 
 export const mockedAddressPatch: IAddressRequestPatch = {
