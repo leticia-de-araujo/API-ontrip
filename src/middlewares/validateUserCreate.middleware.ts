@@ -7,11 +7,13 @@ export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
   username: yup.string().required().max(20),
   email: yup.string().email().required().max(30),
   password: yup.string().required().min(4).max(50),
-  dateOfBirth: yup.string().required(),
-  // .matches(
-  //   /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/,
-  //   "Format should be yyyy-mm-dd"
-  // )
+  dateOfBirth: yup
+    .string()
+    .required()
+    .matches(
+      /^\d{4}[\/](0[1-9]|1[0-2])[\/](0[1-9]|[12][0-9]|3[01])$/,
+      "Format should be yyyy-mm-dd"
+    ),
   isAdm: yup.boolean(),
   file: yup.object().shape({
     fieldname: yup.mixed(),
