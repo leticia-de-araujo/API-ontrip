@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../errors/AppError";
 import jwt from "jsonwebtoken";
+import { AppError } from "../../errors/AppError";
 
-export const authUserMiddleware = async (
+const authUserMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -47,3 +47,5 @@ export const authUserMiddleware = async (
     }
   }
 };
+
+export default authUserMiddleware;
