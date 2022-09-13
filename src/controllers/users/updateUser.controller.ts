@@ -7,7 +7,8 @@ import { instanceToPlain } from "class-transformer";
 const updateUserController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
+    const admStatus = req.isAdm;
+    const { isActive } = req.body;
     const {
       username,
       email,
@@ -17,7 +18,7 @@ const updateUserController = async (req: Request, res: Response) => {
       file,
     }: IUserRequestPatch = req.body;
 
-    const user = await updateUserService(id, {
+    const user = await updateUserService(id, admStatus, isActive, {
       username,
       email,
       password,
