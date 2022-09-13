@@ -26,7 +26,7 @@ const accommodationCreateController = async (req: Request, res: Response) => {
 
     return res.status(201).json({
       message: "Accommodation created with success",
-      data: accommodationCreate,
+      accommodation: accommodationCreate,
     });
   } catch (error) {
     if (error instanceof AppError) {

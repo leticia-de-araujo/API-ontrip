@@ -4,34 +4,37 @@ import { Accommodation } from "../../entities/accommodation.entity";
 import { Address } from "../../entities/address.entity";
 import { IAddressRequestPatch } from "../../interfaces/address";
 
-export const updateAddressService = async ({
-  accommodationId,
-  postalCode,
-  street,
-  complement,
-  addressId,
-}: IAddressRequestPatch) => {
+export const updateAddressService = async (
+  id: string,
+  { accommodationId, postalCode, street, complement }: IAddressRequestPatch
+) => {
   const accommodationRepository = AppDataSource.getRepository(Accommodation);
-  const addressRepository = AppDataSource.getRepository(Address);
-
   const accommodation = await accommodationRepository.findOneBy({
     id: accommodationId,
   });
-  const address = await addressRepository.findOneBy({ id: addressId });
-
-  if (!address) {
-    throw new AppError(404, "Address not found!");
-  }
-
   if (!accommodation) {
-    throw new AppError(404, "Accommodation not found!");
+    throw new AppError(404, "Accommodation not found");
   }
 
-  const updatedAddress = await addressRepository.update(address.id, {
-    postalCode: postalCode || address.postalCode,
-    street: street || address.street,
-    complement: complement || address.complement,
-  });
+  const addressRepository = AppDataSource.getRepository(Address);
+  const address = await addressRepository.findOneBy({ id: id });
+  if (!address) {
+    throw new AppError(404, "Address not found");
+  }
 
-  return updatedAddress;
+  const updatedAddress = {
+    country: address.country,
+    state: address.state,
+    city: address.city,
+    accommodationId: accommodationId
+      ? accommodationId
+      : address.accommodationId,
+    postalCode: postalCode ? postalCode : address.postalCode,
+    street: street ? street : address.street,
+    complement: complement ? complement : address.complement,
+  };
+
+  await addressRepository.update(id, updatedAddress);
+
+  return { ...updatedAddress, id: id };
 };
