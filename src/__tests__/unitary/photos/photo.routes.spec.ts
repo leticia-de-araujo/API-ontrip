@@ -96,7 +96,6 @@ describe("Testing photo services", () => {
     expect(photo.accommodation).toHaveProperty("capacity");
     expect(photo.accommodation).toHaveProperty("owner");
     expect(photo.accommodation).toHaveProperty("category");
-    expect(photo.accommodation!.owner).not.toHaveProperty("category");
   });
 
   test("listOnePhotoService - Should be able to get a unique photo of an acommodation", async () => {
@@ -107,7 +106,6 @@ describe("Testing photo services", () => {
     expect(uniquePhoto.accommodation).toHaveProperty("capacity");
     expect(uniquePhoto.accommodation).toHaveProperty("owner");
     expect(uniquePhoto.accommodation).toHaveProperty("category");
-    expect(uniquePhoto.accommodation!.owner).not.toHaveProperty("password");
   });
 
   test("listOnePhotoService - Should be able to get a unique photo of an acommodation", async () => {
@@ -121,7 +119,6 @@ describe("Testing photo services", () => {
     expect(photoArray[0].accommodation).toHaveProperty("owner");
     expect(photoArray[0].accommodation).toHaveProperty("category");
     expect(photoArray[0].accommodation).toHaveProperty("id");
-    expect(photoArray[0].accommodation!.owner).not.toHaveProperty("password");
   });
 
   test("softDeletePhotoService - Should be able to delete an existent photo of an acommodation", async () => {
