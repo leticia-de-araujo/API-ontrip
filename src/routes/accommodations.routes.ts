@@ -9,6 +9,7 @@ import {
   accommodationCreateSchema,
   validateAccommodationCreate,
 } from "../middlewares/validateAccommodationCreate.middleware";
+import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
 
 const routes = Router();
 
@@ -20,9 +21,19 @@ const accommodationsRoutes = () => {
     accommodationCreateController
   );
   routes.get("", accommodationReadAllController);
-  routes.get("/:id", authUserMiddleware, accommodationReadOneController);
-  routes.patch("/:id", authUserMiddleware, accommodationUpdateController);
-  routes.delete("/:id", authUserMiddleware, accommodationDeleteController);
+  routes.get("/:id", accommodationReadOneController);
+  routes.patch(
+    "/:id",
+    authUserMiddleware,
+    admOrOwnerAuthMiddleware,
+    accommodationUpdateController
+  );
+  routes.delete(
+    "/:id",
+    authUserMiddleware,
+    admOrOwnerAuthMiddleware,
+    accommodationDeleteController
+  );
   return routes;
 };
 
