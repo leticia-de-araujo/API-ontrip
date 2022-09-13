@@ -9,10 +9,6 @@ export const createPhotoService = async ({
   file,
   accommodationId,
 }: IPhotoRequest) => {
-  if (!file) {
-    throw new AppError(400, "file is a required field");
-  }
-
   const photoRepository = AppDataSource.getRepository(Photo);
   const accommodationRepository = AppDataSource.getRepository(Accommodation);
   const accommodation = await accommodationRepository.findOneBy({
