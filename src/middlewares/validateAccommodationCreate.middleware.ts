@@ -24,7 +24,6 @@ export const validateAccommodationCreate =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;
-      console.log(data);
 
       try {
         const validatedData = await schema.validate(data, {
