@@ -14,7 +14,7 @@ const createBookingController = async (req: Request, res: Response) => {
     });
 
 
-    return res.status(201).json({ message: "success", booking: createBooking });
+    return res.status(201).json({ message: "Booking created with success", booking: createBooking });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
