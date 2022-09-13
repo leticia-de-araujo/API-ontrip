@@ -6,7 +6,11 @@ import { IAccommodationRequest } from "../interfaces/accommodations";
 export const accommodationCreateSchema: SchemaOf<IAccommodationRequest> = yup
   .object()
   .shape({
-    name: yup.string().required().max(35),
+    name: yup
+      .string()
+      .matches(/^[A-Za-z]+$/)
+      .required()
+      .max(35),
     description: yup.string().required().max(200),
     dailyPrice: yup.number().required(),
     typeId: yup.string().required(),
@@ -20,6 +24,7 @@ export const validateAccommodationCreate =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;
+      console.log(data);
 
       try {
         const validatedData = await schema.validate(data, {

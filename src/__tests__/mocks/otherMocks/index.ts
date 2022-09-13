@@ -27,7 +27,7 @@ export const mockedCategoryTooLarge: ICategoryRequest = {
 };
 
 export const mockedPhoto: IPhotoRequest = {
-  content: "thisIsAStringBase64",
+  file: "urldocloudinary",
   accommodationId: "",
 };
 
