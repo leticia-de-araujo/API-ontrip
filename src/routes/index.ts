@@ -1,7 +1,7 @@
 import { Express } from "express";
 import accommodationsRoutes from "./accommodations.routes";
 import bookingsRoutes from "./bookings.routes";
-import sessionRoutes from "./session.routes";
+import loginRoutes from "./login.routes";
 import capacitiesRoutes from "./capacities.routes";
 import typesRoutes from "./types.routes";
 import userRoutes from "./users.routes";
@@ -13,7 +13,7 @@ const appRoutes = (app: Express) => {
   app.use("/users", userRoutes());
   app.use("/accommodations", accommodationsRoutes());
   app.use("/bookings", bookingsRoutes());
-  app.use("/login", sessionRoutes());
+  app.use("/login", loginRoutes());
   app.use("/capacities", capacitiesRoutes());
   app.use("/types", typesRoutes());
   app.use("/photos", photosRoutes());

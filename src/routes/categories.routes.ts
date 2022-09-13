@@ -1,14 +1,12 @@
 import { Router } from "express";
-
 import categoryCreateController from "../controllers/categories/createCategory.controller";
 import categoryDeleteController from "../controllers/categories/deleteCategory.controller";
 import categoryReadAllController from "../controllers/categories/listCategories.controller";
 import categoryReadOneController from "../controllers/categories/listOneCategory.controller";
 import categoryUpdateController from "../controllers/categories/updateCategory.controller";
-import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
-
-import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
-import { authUserMiddleware } from "../middlewares/authUser.middleware";
+import { accountValidationMiddleware } from "../middlewares/authentications/accountValidation.middleware";
+import admValidationMiddleware from "../middlewares/authentications/admValidation.middleware";
+import authUserMiddleware from "../middlewares/authentications/authUser.middleware";
 
 const routes = Router();
 

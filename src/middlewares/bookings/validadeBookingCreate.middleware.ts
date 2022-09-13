@@ -1,19 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { ICapacityRequestPatch } from "../interfaces/capacities";
+import { IBookingRequest } from "../../interfaces/bookings";
 
-export const capacityUpdateSchema: SchemaOf<ICapacityRequestPatch> = yup
-  .object()
-  .shape({
-    rooms: yup.number().notRequired().max(10).min(1),
-    beds: yup.number().notRequired().max(10).min(1),
-    totalGuests: yup.number().notRequired().max(10).min(1),
-    bathrooms: yup.number().notRequired().max(10).min(1),
-  });
-
-export const validateCapacityUpdate =
-  (schema: SchemaOf<ICapacityRequestPatch>) =>
+const validateBookingCreate =
+  (schema: SchemaOf<IBookingRequest>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;
@@ -24,7 +14,7 @@ export const validateCapacityUpdate =
           stripUnknown: true,
         });
 
-        /* req.newCapacity = validatedData; */
+        req.newBooking = validatedData;
 
         next();
       } catch (err: any) {
@@ -38,3 +28,5 @@ export const validateCapacityUpdate =
       next(err);
     }
   };
+
+export default validateBookingCreate;
