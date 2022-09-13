@@ -1,7 +1,6 @@
+import { mockedBookingWithInvalidDataType, mockedBookingWithLongFieldData } from './../../mocks/bookingMocks/index';
 import { mockedCategory, mockedType } from "../../mocks/otherMocks/index";
 import {
-  mockedBooking2,  
-  mockedBooking3,  
   mockedBooking7,
   mockedBookingWithoutAllFields,
 } from "../../mocks/bookingMocks/index";
@@ -14,7 +13,6 @@ import {
   mockedUserLogin,
   mockedAdminLogin,
   mockedAdmin,
-  mockedUser2,
   mockedUser6,
   mockedUser6Login,
 } from "../../mocks/userMocks/index";
@@ -86,14 +84,14 @@ describe("Testing the booking routes", () => {
       checkIn: "2023/01/01",
       checkOut: "2023/02/02",
       userId: genericUser.body.user.id,
-      accommodationId: genericAccommodation.body.data.id,
+      accommodationId: genericAccommodation.body.accommodation.id,
     };
 
     mockBookingAdm = {
       checkIn: "2023/01/01",
       checkOut: "2023/02/02",
       userId: genericUser.body.user.id,
-      accommodationId: genericAccommodation.body.data.id,
+      accommodationId: genericAccommodation.body.accommodation.id,
     };
   });
 
@@ -159,7 +157,7 @@ describe("Testing the booking routes", () => {
   test("POST /bookings - Should not be able to create one booking  with an invalid data type", async () => {
     const response = await request(app)
       .post(`/bookings`)
-      .send(mockedBooking2)
+      .send(mockedBookingWithInvalidDataType)
       .set("Authorization", `Bearer ${genericAdminToken.body.token}`);
 
     expect(response.status).toBe(400);
@@ -167,10 +165,10 @@ describe("Testing the booking routes", () => {
 
   });
 
-  test("POST /bookings - Should not be able to create one booking  with an invalid data type", async () => {
+  test("POST /bookings - Should not be able to create one booking with data too large", async () => {
     const response = await request(app)
       .post(`/bookings`)
-      .send(mockedBooking3)
+      .send(mockedBookingWithLongFieldData)
       .set("Authorization", `Bearer ${genericAdminToken.body.token}`);
 
     expect(response.status).toBe(400);

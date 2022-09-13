@@ -22,15 +22,15 @@ export const mockedBookingPatch: IBookingRequestPatch = {
   status: "Canceled",
 };
 
-export const mockedBooking2 = {
+export const mockedBookingWithInvalidDataType = {
   checkIn: 420,
   checkOut: "2022/30/12",
   accommodationId: "batata",
   userId: "1"
 }
 
-export const mockedBooking3: IBookingRequest = {
-  checkIn: "2023/25/12",
+export const mockedBookingWithLongFieldData: IBookingRequest = {
+  checkIn: "2023/25/12(any object key) has an invalid type (any object key) has an invalid type",
   checkOut: "2023/30/12",
   accommodationId: "1",
   userId: "1"
