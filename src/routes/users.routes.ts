@@ -10,8 +10,16 @@ import {
 } from "../middlewares/validateUserCreate.middleware";
 import deleteUserController from "../controllers/users/deleteUsers.controller";
 import updateUserController from "../controllers/users/updateUser.controller";
+import { authUserMiddleware } from "../middlewares/authUser.middleware";
+import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
+import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
+import {
+  userPatchSchema,
+  validateUserUpdate,
+} from "../middlewares/validateUserUpdate.middleware";
 
 const routes = Router();
+
 const userRoutes = () => {
   routes.post(
     "",
@@ -19,10 +27,31 @@ const userRoutes = () => {
     validateUserCreate(userCreateSchema),
     userCreateController
   );
-  routes.get("", listUsersController);
-  routes.get("/:id", listOneUserController);
-  routes.delete("/:id", deleteUserController);
-  routes.patch("/userId", updateUserController);
+  routes.get(
+    "",
+    authUserMiddleware,
+    admValidationMiddleware,
+    listUsersController
+  );
+  routes.get(
+    "/:id",
+    authUserMiddleware,
+    admOrOwnerAuthMiddleware,
+    listOneUserController
+  );
+  routes.patch(
+    "/:id",
+    authUserMiddleware,
+    admOrOwnerAuthMiddleware,
+    validateUserUpdate(userPatchSchema),
+    updateUserController
+  );
+  routes.delete(
+    "/:id",
+    authUserMiddleware,
+    admOrOwnerAuthMiddleware,
+    deleteUserController
+  );
   return routes;
 };
 
