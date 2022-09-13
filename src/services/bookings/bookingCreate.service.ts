@@ -1,9 +1,12 @@
+import app from "../../app";
 import AppDataSource from "../../data-source";
 import { Accommodation } from "../../entities/accommodation.entity";
 import { Booking } from "../../entities/booking.entity";
 import { User } from "../../entities/users.entity";
 import { AppError } from "../../errors/AppError";
 import { IBookingRequest } from "../../interfaces/bookings";
+import { IEmailRequest } from "../../interfaces/email/email";
+import { sendEmail } from "../../utils/nodemailer.util";
 
 const createBookingService = async ({
   checkIn,
@@ -26,13 +29,13 @@ const createBookingService = async ({
   if (!accommodation) throw new AppError(404, "Accommodation not found");
 
   const findEqualBooking = await bookingRepository.findOneBy({
-      user: user,
-      accommodation: accommodation,
-      checkIn: checkIn,
-      checkOut: checkOut
+    user: user,
+    accommodation: accommodation,
+    checkIn: checkIn,
+    checkOut: checkOut,
   });
-  
-  if(findEqualBooking){
+
+  if (findEqualBooking) {
     throw new AppError(409, "This booking is already registered");
   }
 
@@ -40,10 +43,21 @@ const createBookingService = async ({
     checkIn: checkIn,
     checkOut: checkOut,
     user: user,
-    accommodation: accommodation
+    accommodation: accommodation,
   });
 
   await bookingRepository.save(newBooking);
+
+  if (newBooking) {
+    const subject = "Booking";
+    const text = `"Congratulations, you have sucessfully booked the accommodation ${accommodation.name}, remember the checkIn will be available on ${checkIn}`;
+    const to = user.email;
+
+    const response = await sendEmail({ subject, text, to });
+    if (!response) {
+      throw new AppError(404, "User not found");
+    }
+  }
 
   return newBooking;
 };
