@@ -31,20 +31,6 @@ const createBookingService = async ({
       checkIn: checkIn,
       checkOut: checkOut
   });
-
-
-  //
-  // const findCheckinBooking = await bookingRepository.findOne({where:{
-  //     user: user,
-  //     accommodation: accommodation,
-  //     checkIn: checkIn,
-  // }});
-
-  // const findCheckoutBooking = await bookingRepository.findOne({where:{
-  //     user: user,
-  //     accommodation: accommodation,
-  //     checkOut: checkOut
-  // }});
   
   if(findEqualBooking){
     throw new AppError(409, "This booking is already registered");

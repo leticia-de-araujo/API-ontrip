@@ -72,24 +72,25 @@ describe("Testing the booking routes", () => {
     mockedAccommodation.typeId = genericType.body.type.id;
     mockedAccommodation.categoryId = genericCategory.body.category.id;
     mockedAccommodation.capacityId = genericCapacity.body.capacity.id;
-    mockedAccommodation.userId = genericUser.body.data.id;
+    mockedAccommodation.userId = genericUser.body.user.id;
 
     genericAccommodation = await request(app)
       .post("/accommodations")
       .set("Authorization", `Bearer ${genericToken.body.token}`)
       .send(mockedAccommodation);
 
+    
     mockBooking = {
       checkIn: "2023/01/01",
       checkOut: "2023/02/02",
-      userId: genericUser.body.data.id,
+      userId: genericUser.body.user.id,
       accommodationId: genericAccommodation.body.data.id,
     };
 
     mockBookingAdm = {
       checkIn: "2023/01/01",
       checkOut: "2023/02/02",
-      userId: genericUser.bodyid,
+      userId: genericUser.body.user.id,
       accommodationId: genericAccommodation.body.data.id,
     };
   });
@@ -163,7 +164,6 @@ describe("Testing the booking routes", () => {
 
   test("GET /bookings/:bookingId - Should be able to list one booking", async () => {
 
-    
     // const response = await request(app)
     //   .get(`/bookings/${newBooking.body.booking.id}`)
     //   .set("Authorization", `Bearer ${genericToken.body.token}`);
@@ -195,21 +195,31 @@ describe("Testing the booking routes", () => {
     const response = await request(app)
       .delete(`/bookings/${genericBooking.body.booking.id}`)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
-
-    console.log(response.body)
+    
+    console.log(response.body);
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(204);
   });
 
-  test("DELETE /bookings/:bookingId - Should no be able to delete a booking without authentication", async () => {
+  test("DELETE /bookings/:bookingId - Should not be able to delete a booking without authentication", async () => {
+    
+    const mock = {
+      checkIn: "2022/09/12",
+      checkOut: "2022/10/12",
+      accommodation: genericAccommodation.body.data.id,
+      user: genericUser.body.user.id
+    }
+    
     const bookinResponse = await request(app)
       .post("/bookings")
-      .send(mockedBooking10);
+      .send(mock)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     const response = await request(app).delete(
-      `/bookings/${bookinResponse.body.data.id}`
+      `/bookings/${bookinResponse.body.booking.id}`
     );
 
+    console.log(response.body);
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(401);
   });
@@ -217,7 +227,7 @@ describe("Testing the booking routes", () => {
   test("DELETE /bookings/:bookingId - Should not be able to delete an inexistent booking", async () => {
     const response = await request(app)
       .delete("/bookings/963")
-      .set("Authorization", `Bearer ${genericUser.body.data.token}`);
+      .set("Authorization", `Bearer ${genericUser.body.user.token}`);
 
     expect(response.body).toHaveProperty("message");
     expect(response.status).toBe(404);

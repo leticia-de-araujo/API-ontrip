@@ -6,12 +6,11 @@ const deleteBookingController = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
 
-    console.log(id)
-
     const deleteBooking = await deleteBookingService(id);
 
     console.log(deleteBooking)
-    return res.status(204).json({ message: deleteBooking });
+
+    return res.status(204).json({ message: "deleteBooking" });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
