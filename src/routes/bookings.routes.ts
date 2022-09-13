@@ -7,14 +7,15 @@ import readBookingController from "../controllers/bookings/readBooking.controlle
 import readBookingsController from "../controllers/bookings/readBookings.controller";
 import { authUserMiddleware } from "../middlewares/authUser.middleware";
 import { bookingCreateSchema, validateBookingCreate } from "../middlewares/validadeBookingCreate.middleware";
+import { accountValidationMiddleware } from '../middlewares/accountValidation. middleware';
 
 const routes = Router();
 
 const bookingsRoutes = () => {
-  routes.post("", authUserMiddleware, validateBookingCreate(bookingCreateSchema),createBookingController);
-  routes.get("", authUserMiddleware, admValidationMiddleware, readBookingsController);
-  routes.get("/:id", authUserMiddleware, admOrOwnerAuthMiddleware, readBookingController);
-  routes.delete("/:id", authUserMiddleware, admOrOwnerAuthMiddleware, deleteBookingController);
+  routes.post("", authUserMiddleware, accountValidationMiddleware, validateBookingCreate(bookingCreateSchema),createBookingController);
+  routes.get("", authUserMiddleware, accountValidationMiddleware, admValidationMiddleware, readBookingsController);
+  routes.get("/:id", authUserMiddleware, accountValidationMiddleware, admOrOwnerAuthMiddleware, readBookingController);
+  routes.delete("/:id", authUserMiddleware, accountValidationMiddleware, admOrOwnerAuthMiddleware, deleteBookingController);
   return routes;
 };
 
