@@ -4,7 +4,6 @@ export interface IType {
   isActive?: boolean;
 }
 
-//id gerado automaticamente e serve pra PATCH
 export interface ITypeRequest {
   name: string;
 }

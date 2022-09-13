@@ -121,8 +121,6 @@ describe("Testing the type routes", () => {
     expect(genericType.body).toHaveProperty("message", "name length too large");
   });
 
-  //
-
   test("POST /types - Should not be able to create a type that already exists (same name)", async () => {
     genericType = await request(app)
       .post("/types")

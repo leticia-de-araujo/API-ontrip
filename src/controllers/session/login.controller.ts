@@ -5,10 +5,8 @@ import { loginService } from "../../services/session/login.service";
 
 export const loginController = async (req: Request, res: Response) => {
   try {
-    // Getting the request information
     const { email, password }: IUserLogin = req.body;
 
-    // Ensuring that they were passed by the client
     if (!email) {
       throw new AppError(400, "email is a required field");
     }
@@ -17,7 +15,6 @@ export const loginController = async (req: Request, res: Response) => {
       throw new AppError(400, "password is a required field");
     }
 
-    // calling the service
     const token = await loginService({ email, password });
 
     return res.status(200).json({

@@ -10,28 +10,22 @@ export const authUserMiddleware = async (
   try {
     const { authorization } = req.headers;
 
-    // Throwing an error if you don't send the token.
     if (!authorization) {
       throw new AppError(401, "Missing authorization token");
     }
 
-    // Splitting the token regardless of whether it comes with the Bearer or not.
     let tokenArray = authorization.split(" ");
     let token: string;
 
-    // Checking if the Token came with the bearer or not.
     if (tokenArray.length > 1) {
-      // If it came, validating if the first name is Bearer to prevent the client from sending any name before the hash.
       if (tokenArray[0].toLowerCase() !== "bearer") {
         throw new AppError(
           400,
           "The authentication token must be of type Bearer."
         );
       }
-      // Assigning the hash to the token variable
       token = tokenArray[1];
     } else {
-      // If the token was sent without the Bearer keyword, assign the hash in the same way to the token variable.
       token = tokenArray[0];
     }
 
@@ -42,7 +36,6 @@ export const authUserMiddleware = async (
         if (err) {
           throw new AppError(401, "Invalid token");
         }
-        // If you want to extract more things from the decoded to add to the request, just assign them in the lines below.
         req.userEmail = decoded.email;
         req.userId = decoded.id;
         next();

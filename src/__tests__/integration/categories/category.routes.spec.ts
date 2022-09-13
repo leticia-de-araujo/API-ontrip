@@ -132,8 +132,6 @@ describe("Testing the category routes", () => {
     );
   });
 
-  //
-
   test("POST /categories - Should not be able to create a category that already exists (same name)", async () => {
     genericCategory = await request(app)
       .post("/categories")

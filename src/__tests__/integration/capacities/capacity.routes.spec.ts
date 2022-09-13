@@ -129,8 +129,6 @@ describe("Testing the capacities routes", () => {
     );
   });
 
-  /// Missing 413 - data length too large(discuss maximum number for key values)
-
   test("POST /capacities - Should not be able to create a capacity that already exists (same values)", async () => {
     genericCapacity = await request(app)
       .post("/capacities")
@@ -270,8 +268,6 @@ describe("Testing the capacities routes", () => {
       "totalGuests must be greater than or equal to 1"
     );
   });
-
-  /// missing test -413 - disccuss maximum values for each key
 
   test("PATCH /capacities/:id - Should not be able to update a capacity that doesn't exist", async () => {
     const patchOne = await request(app)

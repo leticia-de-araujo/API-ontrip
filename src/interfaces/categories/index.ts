@@ -3,7 +3,6 @@ export interface ICategory {
   name: string;
 }
 
-//id e' gerado automaticamente e serve pra PATCH
 export interface ICategoryRequest {
   name: string;
 }
