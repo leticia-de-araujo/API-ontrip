@@ -4,7 +4,11 @@ import { SchemaOf } from "yup";
 import { IUserRequest, IValidateUser } from "../interfaces/users";
 
 export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
-  username: yup.string().required().max(20),
+  username: yup
+    .string()
+    .matches(/^[A-Za-z]+$/)
+    .required()
+    .max(20),
   email: yup.string().email().required().max(30),
   password: yup.string().required().min(4).max(50),
   dateOfBirth: yup
