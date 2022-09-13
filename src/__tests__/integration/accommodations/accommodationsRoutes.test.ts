@@ -138,6 +138,7 @@ describe("/accommodations", () => {
       .send(genericAccommodation)
       .set("Authorization", `Bearer ${genericUserToken}`);
 
+
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty(
       "message",
@@ -164,6 +165,7 @@ describe("/accommodations", () => {
     expect(response.body.accommodation).toHaveProperty("owner");
     expect(response.body.accommodation).toHaveProperty("capacity");
     expect(response.body.accommodation).toHaveProperty("category");
+    expect(response.body.accommodation).not.toHaveProperty("password");
   });
 
   test("POST /accommodations - Should not be able to create an accommodation without authentication", async () => {
