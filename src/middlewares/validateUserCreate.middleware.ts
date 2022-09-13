@@ -6,10 +6,10 @@ import { IUserRequest, IValidateUser } from "../interfaces/users";
 export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
   username: yup
     .string()
-    .matches(/^[A-Za-z\s]*$/)
+    .matches(/^[A-Za-z\s]*$/, '"username" has an invalid type')
     .required()
-    .max(20),
-  email: yup.string().email().required().max(30),
+    .max(20, '"username" length too large'),
+  email: yup.string().email().required().max(30, '"email" length too large'),
   password: yup
     .string()
     .matches(
@@ -18,7 +18,7 @@ export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
     )
     .required()
     .min(4)
-    .max(50),
+    .max(50, '"password" length too large'),
   dateOfBirth: yup
     .string()
     .required()

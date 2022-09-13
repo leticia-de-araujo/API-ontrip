@@ -8,10 +8,13 @@ export const accommodationCreateSchema: SchemaOf<IAccommodationRequest> = yup
   .shape({
     name: yup
       .string()
-      .matches(/^[A-Za-z\s]*$/)
+      .matches(/^[A-Za-z\s]*$/, '"name" has an invalid type')
       .required()
       .max(35),
-    description: yup.string().required().max(200),
+    description: yup
+      .string()
+      .required()
+      .max(200, '"description" length too large'),
     dailyPrice: yup.number().required(),
     typeId: yup.string().required(),
     userId: yup.string().required(),

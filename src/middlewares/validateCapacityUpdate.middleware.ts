@@ -6,10 +6,22 @@ import { ICapacityRequestPatch } from "../interfaces/capacities";
 export const capacityUpdateSchema: SchemaOf<ICapacityRequestPatch> = yup
   .object()
   .shape({
-    rooms: yup.number().notRequired().max(10).min(1),
-    beds: yup.number().notRequired().max(10).min(1),
-    totalGuests: yup.number().notRequired().max(10).min(1),
-    bathrooms: yup.number().notRequired().max(10).min(1),
+    rooms: yup
+      .number()
+      .notRequired()
+      .max(10, '"rooms" length too large')
+      .min(1),
+    beds: yup.number().notRequired().max(10, '"beds" length too large').min(1),
+    totalGuests: yup
+      .number()
+      .notRequired()
+      .max(10, '"totalGuests" length too large')
+      .min(1),
+    bathrooms: yup
+      .number()
+      .notRequired()
+      .max(10, '"bathrooms" length too large')
+      .min(1),
   });
 
 export const validateCapacityUpdate =
