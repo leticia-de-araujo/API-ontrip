@@ -130,7 +130,7 @@ describe("Testing addresses routes", () => {
   test("PATCH /addresses/:id - Should be able to update a address", async () => {
     const userLogin = await request(app).post("/login").send(mockedUser);
 
-    const userId = await request(app)
+    const users = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${userLogin.body.token}`);
 
@@ -140,9 +140,9 @@ describe("Testing addresses routes", () => {
       accommodation.body.accommodations[0].id;
 
     const response = await request(app)
-      .patch(`/addresses/${userId.body.users[0].id}`)
+      .patch(`/addresses/${users.body.users[0].id}`)
       .set("Authorization", `Bearer ${userLogin.body.token}`)
-      .send(mockedAddress);
+      .send(mockedAddressPatch);
 
     expect(response.body).toHaveProperty("message");
     expect(response.body).toHaveProperty("address");

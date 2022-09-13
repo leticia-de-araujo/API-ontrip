@@ -5,7 +5,7 @@ import { updateAddressService } from "../../services/addresses/updateAddress.ser
 
 export const updateAddressController = async (req: Request, res: Response) => {
   try {
-    const { addressId } = req.params;
+    const { id } = req.params;
     const {
       accommodationId,
       postalCode,
@@ -13,9 +13,6 @@ export const updateAddressController = async (req: Request, res: Response) => {
       complement,
     }: IAddressRequestPatch = req.body;
 
-    if (!addressId) {
-      throw new AppError(400, "AddressId is missing");
-    }
     if (!accommodationId) {
       throw new AppError(
         400,
@@ -30,8 +27,7 @@ export const updateAddressController = async (req: Request, res: Response) => {
       );
     }
 
-    const updatedAddress = await updateAddressService({
-      addressId,
+    const updatedAddress = await updateAddressService(id, {
       accommodationId,
       postalCode,
       street,
