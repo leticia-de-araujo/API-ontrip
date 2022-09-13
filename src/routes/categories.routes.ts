@@ -5,6 +5,7 @@ import categoryDeleteController from "../controllers/categories/deleteCategory.c
 import categoryReadAllController from "../controllers/categories/listCategories.controller";
 import categoryReadOneController from "../controllers/categories/listOneCategory.controller";
 import categoryUpdateController from "../controllers/categories/updateCategory.controller";
+import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
 
 import { admValidationMiddleware } from "../middlewares/admValidation.middleware";
 import { authUserMiddleware } from "../middlewares/authUser.middleware";
@@ -15,6 +16,7 @@ const categoriesRouter = () => {
   routes.post(
     "",
     authUserMiddleware,
+    accountValidationMiddleware,
     admValidationMiddleware,
     categoryCreateController
   );
@@ -23,12 +25,14 @@ const categoriesRouter = () => {
   routes.patch(
     "/:id",
     authUserMiddleware,
+    accountValidationMiddleware,
     admValidationMiddleware,
     categoryUpdateController
   );
   routes.delete(
     "/:id",
     authUserMiddleware,
+    accountValidationMiddleware,
     admValidationMiddleware,
     categoryDeleteController
   );

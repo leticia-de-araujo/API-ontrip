@@ -16,6 +16,7 @@ import capacitiesReadAllController from "../controllers/capacities/listCapacitie
 import capacitiesReadOneController from "../controllers/capacities/listOneCapacity.controller";
 import capacitiesUpdateController from "../controllers/capacities/updateCapacity.controller";
 import capacitiesDeleteController from "../controllers/capacities/deleteCapacity.controller";
+import { accountValidationMiddleware } from "../middlewares/accountValidation. middleware";
 
 const routes = Router();
 
@@ -23,6 +24,7 @@ const capacitiesRoutes = () => {
   routes.post(
     "",
     authUserMiddleware,
+    accountValidationMiddleware,
     admValidationMiddleware,
     validateCapacityCreate(capacityCreateSchema),
     capacitiesCreateController
@@ -32,6 +34,7 @@ const capacitiesRoutes = () => {
   routes.patch(
     "/:id",
     authUserMiddleware,
+    accountValidationMiddleware,
     admValidationMiddleware,
     validateCapacityUpdate(capacityUpdateSchema),
     capacitiesUpdateController
@@ -39,6 +42,7 @@ const capacitiesRoutes = () => {
   routes.delete(
     "/:id",
     authUserMiddleware,
+    accountValidationMiddleware,
     admValidationMiddleware,
     capacitiesDeleteController
   );
