@@ -19,6 +19,7 @@ const updateUserService = async (
   }
 
   let hashedPassword;
+
   if (password) {
     hashedPassword = await hash(password, 10);
   }
@@ -40,6 +41,7 @@ const updateUserService = async (
         throw new AppError(500, `Internal server error ${error}`);
       }
     });
+
     photo = cloudinaryFile.url;
   }
 

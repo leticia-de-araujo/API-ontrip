@@ -15,6 +15,7 @@ import { admValidationMiddleware } from "../middlewares/admValidation.middleware
 import { admOrOwnerAuthMiddleware } from "../middlewares/admOrOwnerAuth.middleware";
 
 const routes = Router();
+
 const userRoutes = () => {
   routes.post(
     "",
@@ -34,8 +35,18 @@ const userRoutes = () => {
     admOrOwnerAuthMiddleware,
     listOneUserController
   );
-  routes.delete("/:id", deleteUserController);
-  routes.patch("/id", updateUserController);
+  routes.patch(
+    "/id",
+    authUserMiddleware,
+    admOrOwnerAuthMiddleware,
+    updateUserController
+  );
+  routes.delete(
+    "/:id",
+    authUserMiddleware,
+    admOrOwnerAuthMiddleware,
+    deleteUserController
+  );
   return routes;
 };
 
