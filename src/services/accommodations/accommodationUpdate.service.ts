@@ -32,6 +32,7 @@ const accommodationUpdateService = async (
   if (!accommodation) throw new AppError(404, "Accommodation not found");
 
   const updatedAccommodation = accommodationRepository.create({
+    id: accommodation.id,
     name: name ? name : accommodation.name,
     description: description ? description : accommodation.description,
     dailyPrice: dailyPrice ? dailyPrice : accommodation.dailyPrice,
@@ -61,7 +62,9 @@ const accommodationUpdateService = async (
 
   await accommodationRepository.update(id, updatedAccommodation);
 
-  return updatedAccommodation;
+  const accommodationUp = await accommodationRepository.findOneBy({ id });
+
+  return accommodationUp!;
 };
 
 export default accommodationUpdateService;

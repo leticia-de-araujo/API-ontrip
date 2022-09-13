@@ -7,7 +7,7 @@ export const accommodationPatchSchema: SchemaOf<IAccommodationRequestPatch> =
   yup.object().shape({
     name: yup.string().max(35),
     description: yup.string().max(200),
-    dailyPrice: yup.number(),
+    dailyPrice: yup.number().integer(),
     specialOffer: yup.boolean(),
     typeId: yup.string(),
     verifiedByAdm: yup.boolean(),

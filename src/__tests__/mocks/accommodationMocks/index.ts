@@ -73,7 +73,7 @@ export const mockedAccommodationPatch: IAccommodationRequestPatch = {
 
 export const mockedAccommodationInvalidPatch = {
   description: "text",
-  dailyPrice: "300",
+  dailyPrice: "batata",
 };
 
 export const mockedAccommodationTooLargePatch = {
