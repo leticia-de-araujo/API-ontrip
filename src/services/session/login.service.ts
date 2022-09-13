@@ -6,6 +6,14 @@ import { compareSync } from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const loginService = async ({ email, password }: IUserLogin) => {
+  if (!email) {
+    throw new AppError(400, "email is a required field");
+  }
+
+  if (!password) {
+    throw new AppError(400, "password is a required field");
+  }
+
   const userRepository = AppDataSource.getRepository(User);
   const user = await userRepository.findOneBy({ email });
 

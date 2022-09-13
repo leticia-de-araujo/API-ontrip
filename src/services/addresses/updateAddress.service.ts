@@ -8,6 +8,20 @@ export const updateAddressService = async (
   id: string,
   { accommodationId, postalCode, street, complement }: IAddressRequestPatch
 ) => {
+  if (!accommodationId) {
+    throw new AppError(
+      400,
+      "The following fields are mandatory: accommodationId"
+    );
+  }
+
+  if (!postalCode && !street && !complement) {
+    throw new AppError(
+      400,
+      "Not possible to update an address without having any changes in any field"
+    );
+  }
+
   const accommodationRepository = AppDataSource.getRepository(Accommodation);
   const accommodation = await accommodationRepository.findOneBy({
     id: accommodationId,

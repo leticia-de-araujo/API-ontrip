@@ -13,20 +13,6 @@ export const updateAddressController = async (req: Request, res: Response) => {
       complement,
     }: IAddressRequestPatch = req.body;
 
-    if (!accommodationId) {
-      throw new AppError(
-        400,
-        "The following fields are mandatory: accommodationId"
-      );
-    }
-
-    if (!postalCode && !street && !complement) {
-      throw new AppError(
-        400,
-        "Not possible to update an address without having any changes in any field"
-      );
-    }
-
     const address = await updateAddressService(id, {
       accommodationId,
       postalCode,

@@ -9,10 +9,6 @@ export const softDeletePhotoController = async (
   try {
     const { photoId } = req.params;
 
-    if (!photoId) {
-      throw new AppError(400, "photoId is missing");
-    }
-
     const _ = await softDeletePhotoService(photoId);
 
     return res.status(200).json({ message: "Photo deleted with success" });
