@@ -30,7 +30,7 @@ export const mockedBooking2 = {
 }
 
 export const mockedBooking3: IBookingRequest = {
-  checkIn: "2023/25/12User must be the owner of the accommodation, the guest that booked the booking, or an admin",
+  checkIn: "2023/25/12",
   checkOut: "2023/30/12",
   accommodationId: "1",
   userId: "1"
