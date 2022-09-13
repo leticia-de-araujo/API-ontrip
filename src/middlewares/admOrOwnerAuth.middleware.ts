@@ -26,7 +26,6 @@ export const admOrOwnerAuthMiddleware = async (
   const userRepo = AppDataSource.getRepository(User);
   const userFromToken = await userRepo.findOneBy({ id: userId });
   if (!userFromToken) {
-
     throw new AppError(404, "User not found");
   }
 
@@ -42,7 +41,6 @@ export const admOrOwnerAuthMiddleware = async (
     //finding the user that is suffering changes
     const userAffected = await userRepo.findOneBy({ id: id });
     if (!userAffected) {
-
       throw new AppError(404, "User not found");
     }
 
@@ -123,7 +121,7 @@ export const admOrOwnerAuthMiddleware = async (
     }
 
     //finding the accommodation that is the owner of the address
-    const accommodationId = address.accommodation.id;
+    const accommodationId = address.accommodationId;
     const accommodationRepo = AppDataSource.getRepository(Accommodation);
     const accommodation = await accommodationRepo.findOneBy({
       id: accommodationId,

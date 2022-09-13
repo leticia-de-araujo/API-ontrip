@@ -97,6 +97,7 @@ describe("/accommodations", () => {
       .post("/capacities")
       .send(mockedCapacity)
       .set("Authorization", `Bearer ${adminUserToken}`);
+
     capacityId = createCapacity.body.capacity.id;
 
     const createType = await request(app)
