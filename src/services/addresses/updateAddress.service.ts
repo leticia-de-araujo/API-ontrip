@@ -7,7 +7,7 @@ import { IAddressRequestPatch } from "../../interfaces/address";
 export const updateAddressService = async (
   id: string,
   { accommodationId, postalCode, street, complement }: IAddressRequestPatch
-): Promise<Address> => {
+) => {
   const accommodationRepository = AppDataSource.getRepository(Accommodation);
   const accommodation = await accommodationRepository.findOneBy({
     id: accommodationId,
@@ -22,16 +22,19 @@ export const updateAddressService = async (
     throw new AppError(404, "Address not found");
   }
 
-  const updatedAddress = addressRepository.create({
+  const updatedAddress = {
+    country: address.country,
+    state: address.state,
+    city: address.city,
     accommodationId: accommodationId
       ? accommodationId
       : address.accommodationId,
     postalCode: postalCode ? postalCode : address.postalCode,
     street: street ? street : address.street,
     complement: complement ? complement : address.complement,
-  });
+  };
 
   await addressRepository.update(id, updatedAddress);
 
-  return updatedAddress;
+  return { ...updatedAddress, id: id };
 };

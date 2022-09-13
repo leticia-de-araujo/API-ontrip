@@ -21,6 +21,7 @@ import { mockedCapacity } from "../../mocks/capacityMocks";
 
 describe("Testing addresses routes", () => {
   let connection: DataSource;
+  let genericAddress: any;
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -85,6 +86,7 @@ describe("Testing addresses routes", () => {
     expect(response.body.address).toHaveProperty("complement");
     expect(response.body.address).toHaveProperty("accommodationId");
     expect(response.status).toBe(201);
+    genericAddress = response.body;
   });
 
   test("POST /addresses - Should not be able to create an address without authentication", async () => {
@@ -130,17 +132,13 @@ describe("Testing addresses routes", () => {
   test("PATCH /addresses/:id - Should be able to update a address", async () => {
     const userLogin = await request(app).post("/login").send(mockedUser);
 
-    const users = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${userLogin.body.token}`);
-
     const accommodation = await request(app).get("/accommodations");
 
     mockedAddressPatch.accommodationId =
       accommodation.body.accommodations[0].id;
 
     const response = await request(app)
-      .patch(`/addresses/${users.body.users[0].id}`)
+      .patch(`/addresses/${genericAddress.address.id}`)
       .set("Authorization", `Bearer ${userLogin.body.token}`)
       .send(mockedAddressPatch);
 
@@ -153,8 +151,8 @@ describe("Testing addresses routes", () => {
     expect(response.body.address).toHaveProperty("postalCode");
     expect(response.body.address).toHaveProperty("street");
     expect(response.body.address).toHaveProperty("complement");
-    expect(response.body.address).toHaveProperty("accommodation");
-    expect(response.body.address.country).toEqual("Brasil");
+    expect(response.body.address).toHaveProperty("accommodationId");
+    expect(response.body.address.street).toEqual("Avenida papagaio paraguaio");
     expect(response.status).toBe(200);
   });
 
@@ -169,7 +167,7 @@ describe("Testing addresses routes", () => {
     const response = await request(app)
       .patch(`/addresses/1`)
       .set("Authorization", `Bearer ${userLogin.body.token}`)
-      .send(mockedAddress);
+      .send(mockedAddressPatch);
 
     expect(response.body).toHaveProperty("message");
     expect(response.body).not.toHaveProperty("address");
@@ -179,18 +177,14 @@ describe("Testing addresses routes", () => {
   test("PATCH /addresses/:id - Should not be able to update a address without authentication", async () => {
     const userAdmin = await request(app).post("/login").send(mockedAdmin);
 
-    const userId = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${userAdmin.body.token}`);
-
     const accommodation = await request(app).get("/accommodations");
 
     mockedAddressPatch.accommodationId =
       accommodation.body.accommodations[0].id;
 
     const response = await request(app)
-      .patch(`/addresses/${userId.body.users[0].id}`)
-      .send(mockedAddress);
+      .patch(`/addresses/${genericAddress.address.id}`)
+      .send(mockedAddressPatch);
 
     expect(response.body).toHaveProperty("message");
     expect(response.body).not.toHaveProperty("address");
@@ -212,7 +206,7 @@ describe("Testing addresses routes", () => {
     const response = await request(app)
       .patch(`/addresses/${userId.body.users[0].id}`)
       .set("Authorization", `Bearer 123!Aa`)
-      .send(mockedAddress);
+      .send(mockedAddressPatch);
 
     expect(response.body).toHaveProperty("message");
     expect(response.body).not.toHaveProperty("address");

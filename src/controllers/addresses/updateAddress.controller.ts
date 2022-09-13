@@ -27,7 +27,7 @@ export const updateAddressController = async (req: Request, res: Response) => {
       );
     }
 
-    const updatedAddress = await updateAddressService(id, {
+    const address = await updateAddressService(id, {
       accommodationId,
       postalCode,
       street,
@@ -36,7 +36,7 @@ export const updateAddressController = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       message: "Address updated with success",
-      updatedAddress,
+      address: address,
     });
   } catch (err) {
     if (err instanceof AppError) {

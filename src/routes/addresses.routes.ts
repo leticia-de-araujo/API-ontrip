@@ -9,7 +9,7 @@ const routes = Router();
 const addressesRoutes = () => {
   routes.post("", authUserMiddleware, createAddressController);
   routes.patch(
-    "/:addressId",
+    "/:id",
     authUserMiddleware,
     admOrOwnerAuthMiddleware,
     updateAddressController

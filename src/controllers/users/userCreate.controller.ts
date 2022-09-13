@@ -2,12 +2,7 @@ import { instanceToPlain } from "class-transformer";
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import { IUserRequest } from "../../interfaces/users";
-<<<<<<< HEAD
-import userCreateService from "../../services/users/userCreate.services";
-
-=======
 import userCreateService from "../../services/users/userCreate.service";
->>>>>>> 1e16bd453fa72064a562fd848bb1097667a6a2ce
 const userCreateController = async (req: Request, res: Response) => {
   try {
     const { username, email, password, dateOfBirth, isAdm }: IUserRequest =
