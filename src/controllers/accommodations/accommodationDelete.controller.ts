@@ -8,7 +8,7 @@ const accommodationDeleteController = async (req: Request, res: Response) => {
 
     const accommodationDeleted = await accommodationDeleteService(id);
 
-    return res.status(204).json({ message: accommodationDeleted });
+    return res.status(200).json({ message: accommodationDeleted });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);
