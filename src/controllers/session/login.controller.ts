@@ -9,20 +9,21 @@ export const loginController = async (req: Request, res: Response) => {
     const { email, password }: IUserLogin = req.body;
 
     // Ensuring that they were passed by the client
-    if (!email || !password) {
-      throw new AppError(
-        400,
-        "The following fields are mandatory: email, password"
-      );
+    if (!email) {
+      throw new AppError(400, "email is a required field");
+    }
+
+    if (!password) {
+      throw new AppError(400, "password is a required field");
     }
 
     // calling the service
-    const loggedUser = await loginService({ email, password });
+    const token = await loginService({ email, password });
 
-    // Deconstructing to remove the password key from the returned object
-    const { password: pwd, ...user } = loggedUser;
-
-    return res.status(200).json(user);
+    return res.status(200).json({
+      message: "Login successful",
+      token,
+    });
   } catch (err) {
     if (err instanceof AppError) {
       throw new AppError(err.statusCode, err.message);

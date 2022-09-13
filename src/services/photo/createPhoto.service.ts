@@ -6,7 +6,7 @@ import { IPhotoRequest } from "../../interfaces/photos";
 import { v2 as cloudinary } from "cloudinary";
 
 export const createPhotoService = async ({
-  content,
+  file,
   accommodationId,
 }: IPhotoRequest) => {
   const photoRepository = AppDataSource.getRepository(Photo);
@@ -19,25 +19,14 @@ export const createPhotoService = async ({
     throw new AppError(404, "Accommodation not found");
   }
 
-  // Opcão de já salvar no DB a url da imagem em vez da referência.
-
-  const img = cloudinary.url(content);
+  const img = cloudinary.url(file);
 
   const photo = photoRepository.create({
     content: img,
     accommodation,
   });
 
-  /* const photo = photoRepository.create({
-    content,
-    accommodation,
-  }); */
-
   await photoRepository.save(photo);
-
-  /* const image = cloudinary.url(photo.content);
-
-  photo.content = image; */
 
   return photo;
 };

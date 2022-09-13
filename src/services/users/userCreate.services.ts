@@ -15,9 +15,11 @@ const userCreateService = async ({
   photo,
 }: IUserRequest): Promise<User> => {
   const userRepository = AppDataSource.getRepository(User);
+
   const emailAlreadyExists = await userRepository.findOneBy({
     email: email,
   });
+
   if (emailAlreadyExists) {
     throw new AppError(409, "This email already exists");
   }
@@ -29,16 +31,17 @@ const userCreateService = async ({
         if (error) {
           throw new AppError(500, `Internal server error, ${error}`);
         }
+
         return result;
       }
     );
 
     fs.unlink(photo.path, (error) => {
       if (error) {
-        console.log("erro");
         throw new AppError(500, `Internal server error ${error}`);
       }
     });
+
     photo = cloudinaryFile.url;
   }
 
@@ -56,6 +59,7 @@ const userCreateService = async ({
     photo,
     password: hashedPassword,
   });
+
   await userRepository.save(user);
 
   return user;

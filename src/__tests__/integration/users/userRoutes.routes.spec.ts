@@ -8,16 +8,25 @@ import {
   mockedUser,
   mockedUser2,
   mockedUser3,
+  mockedUserAlternative,
+  mockedUserAlternativeLogin,
   mockedUser3Login,
   mockedUserLogin,
+  mockedUserTooLong,
   mockedUserWithoutAllFields,
   mockedUserWrongType,
 } from "../../mocks/userMocks";
 
 describe("/users", () => {
   let connection: DataSource;
+  let adminUser: any;
+  let adminToken: any;
+  let genericUser: any;
+  let backupGenericUser: any;
+  let backupGenericToken: any;
+  let genericToken: any;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await AppDataSource.initialize()
       .then((res) => {
         connection = res;
@@ -25,317 +34,459 @@ describe("/users", () => {
       .catch((err) => {
         console.error("Error during Data Source initialization", err);
       });
+
+    adminUser = await request(app).post("/users").send(mockedAdmin);
+    adminToken = await request(app).post("/login").send(mockedAdminLogin);
+
+    backupGenericUser = await request(app)
+      .post("/users")
+      .send(mockedUserAlternative);
+
+    console.log(backupGenericUser.body);
+
+    backupGenericToken = await request(app)
+      .post("/login")
+      .send(mockedUserAlternativeLogin);
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await connection.destroy();
   });
 
-  test("POST /users -  Must be able to create a user", async () => {
-    const response = await request(app).post("/users").send(mockedUser);
+  test("POST /users - Should be able to create a user", async () => {
+    genericUser = await request(app).post("/users").send(mockedUser);
+    genericToken = await request(app).post("/login").send(mockedUserLogin);
 
-    expect(response.body).toHaveProperty("message");
-    expect(response.body).toHaveProperty("data");
-    expect(response.body.data).toHaveProperty("id");
-    expect(response.body.data).toHaveProperty("username");
-    expect(response.body.data).toHaveProperty("email");
-    expect(response.body.data).toHaveProperty("dateOfBirth");
-    expect(response.body.data).toHaveProperty("isAdm");
-    expect(response.body.data).toHaveProperty("isActive");
-    expect(response.body.data).toHaveProperty("photo");
-    expect(response.body.data).not.toHaveProperty("password");
-    expect(response.body.data.username).toEqual("Hitalo");
-    expect(response.body.data.email).toEqual("hitalo@mail.com");
-    expect(response.body.data.dateOfBirth).toEqual("2000/02/11");
-    expect(response.body.data.isAdm).toEqual(false);
-    expect(response.status).toBe(201);
+    expect(genericUser.status).toBe(201);
+    expect(genericUser.body).toHaveProperty(
+      "message",
+      "User created with success"
+    );
+    expect(genericUser.body.user).toHaveProperty("id");
+    expect(genericUser.body.user).toHaveProperty(
+      "username",
+      mockedUser.username
+    );
+    expect(genericUser.body.user).toHaveProperty("email", mockedUser.email);
+    expect(genericUser.body.user).toHaveProperty(
+      "dateOfBirth",
+      mockedUser.dateOfBirth
+    );
+    expect(genericUser.body.user).toHaveProperty("isAdm", mockedUser.isAdm);
+    expect(genericUser.body.user).toHaveProperty("isActive", true);
+    expect(genericUser.body.user).toHaveProperty("photo", "Imagem padrão");
+    expect(genericUser.body.user).not.toHaveProperty("password");
   });
 
-  test("POST /users -  should not be able to create a user that already exists", async () => {
-    const response = await request(app).post("/users").send(mockedUser);
-    const response2 = await request(app).post("/users").send(mockedUser);
-
-    expect(response2.body).toHaveProperty("message");
-    expect(response2.body.code).toBe(409);
-  });
-
-  test("POST /users -  should not be able to create a user with an email that already exists", async () => {
-    const response = await request(app).post("/users").send(mockedUser2);
-    const response2 = await request(app).post("/users").send(mockedUser);
-
-    expect(response2.body).toHaveProperty("message");
-    expect(response2.body.code).toBe(409);
-  });
-
-  test("POST /users -  should not be able to create a user without all the information", async () => {
+  test("POST /users - Should not be able to create a user without all the information", async () => {
     const response = await request(app)
       .post("/users")
       .send(mockedUserWithoutAllFields);
 
-    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(400);
+    expect(response.body.status).toBe("Error");
     expect(response.body.code).toBe(400);
-  });
-
-  test("GET /users -  Must be able to list users", async () => {
-    await request(app).post("/users").send(mockedAdmin);
-    const adminLoginResponse = await request(app)
-      .post("/login")
-      .send(mockedAdminLogin);
-    const response = await request(app)
-      .get("/users")
-      .set("Authorization", `Bearer ${adminLoginResponse.body.data.token}`);
-    expect(response.body.data.length).toBeGreaterThan(0);
-    expect(response.body).toHaveProperty("message");
-    expect(response.body).toHaveProperty("data");
-    expect(response.body.data).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          id: response.body.data[0].id,
-          username: response.body.data[0].name,
-          email: response.body.data[0].email,
-          dateOfBirth: response.body.data[0].dateOfBirth,
-          isAdm: response.body.data[0].isAdm,
-          isActive: response.body.data[0].isActive,
-          photo: response.body.data[0].photo,
-        }),
-      ])
+    expect(response.body).toHaveProperty(
+      "message",
+      "dateOfBirth is a required field"
     );
   });
 
-  test("GET /users -  should not be able to list users without authentication", async () => {
+  test("POST /users - Should not be able to create a user with invalid data", async () => {
+    const response = await request(app)
+      .post("/users")
+      .send(mockedUserWrongType);
+
+    expect(response.status).toBe(400);
+    expect(response.body.status).toBe("Error");
+    expect(response.body.code).toBe(400);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("POST /users - Should not be able to create a user with too large data length ", async () => {
+    const response = await request(app).post("/users").send(mockedUserTooLong);
+
+    console.log(response.body);
+
+    expect(response.status).toBe(400);
+    expect(response.body.status).toBe("Error");
+    expect(response.body.code).toBe(400);
+    expect(response.body).toHaveProperty("message");
+  });
+
+  test("POST /users - Should not be able to create a user that already exists", async () => {
+    const response = await request(app).post("/users").send(mockedUser);
+
+    expect(response.status).toBe(409);
+    expect(response.body.status).toBe("Error");
+    expect(response.body.code).toBe(409);
+    expect(response.body).toHaveProperty(
+      "message",
+      "This email already exists"
+    );
+  });
+
+  test("GET /users - Should be able to list users", async () => {
+    const response = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("message", "Successful request");
+    expect(response.body.users[0]).toEqual({
+      id: genericUser.id,
+      username: genericUser.name,
+      email: genericUser.email,
+      dateOfBirth: genericUser.dateOfBirth,
+      isAdm: genericUser.isAdm,
+      isActive: genericUser.isActive,
+      photo: genericUser.photo,
+    });
+  });
+
+  test("GET /users - Should not be able to list users without authentication", async () => {
     const response = await request(app).get("/users");
 
-    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(401);
+    expect(response.body.status).toBe("Error");
     expect(response.body.code).toBe(401);
+    expect(response.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
   });
 
-  test("GET /users -  should not be able to list users not being admin", async () => {
-    const userResponse = await request(app).post("/users").send(mockedUser);
-    const userLoginResponse = await request(app)
-      .post("/login")
-      .send(mockedUserLogin);
+  test("GET /users - Should not be able to list users with invalid token", async () => {
     const response = await request(app)
       .get("/users")
-      .set("Authorization", `Bearer ${userLoginResponse.body.data.token}`);
-    expect(response.body).toHaveProperty("message");
-    expect(response.body.code).toBe(403);
+      .set("Authorization", `Bearer 1234567890987654321`);
+
+    expect(response.status).toBe(401);
+    expect(response.body.status).toBe("Error");
+    expect(response.body.code).toBe(401);
+    expect(response.body).toHaveProperty("message", "Invalid token");
   });
 
-  test("GET /users/:id -  Must be able to list one user being the owner", async () => {
-    const userResponse = await request(app).post("/users").send(mockedUser);
-    const userLoginResponse = await request(app)
-      .post("/login")
-      .send(mockedUserLogin);
+  test("GET /users - Should not be able to list users without being an admin", async () => {
+    const response = await request(app)
+      .get("/users")
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    expect(response.status).toBe(401);
+    expect(response.body.status).toBe("Error");
+    expect(response.body.code).toBe(401);
+    expect(response.body).toHaveProperty("message", "User is not an admin");
+  });
+
+  test("GET /users/:userId - Should be able to list one user being the account owner", async () => {
     const responseOneUser = await request(app)
-      .post(`/users/${userResponse.body.data.id}`)
-      .set("Authorization", `Bearer ${userLoginResponse.body.data.token}`);
-    expect(responseOneUser.body).toHaveProperty("message");
-    expect(responseOneUser.body).toHaveProperty("data");
-    expect(responseOneUser.body.data).toEqual(
-      expect.objectContaining({
-        id: responseOneUser.body.data.id,
-        username: responseOneUser.body.data.name,
-        email: responseOneUser.body.data.email,
-        dateOfBirth: responseOneUser.body.data.dateOfBirth,
-        isAdm: responseOneUser.body.data.isAdm,
-        isActive: responseOneUser.body.data.isActive,
-        photo: responseOneUser.body.data.photo,
-      })
+      .get(`/users/${genericUser.body.user.id}`)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    expect(responseOneUser.status).toBe(200);
+    expect(responseOneUser.body).toHaveProperty(
+      "message",
+      "Successful request"
     );
+    expect(responseOneUser.body.user).toEqual({
+      id: genericUser.body.user.id,
+      username: mockedUser.username,
+      email: mockedUser.email,
+      dateOfBirth: mockedUser.dateOfBirth,
+      isAdm: mockedUser.isAdm,
+      isActive: genericUser.body.user.isActive,
+      photo: genericUser.body.user.photo,
+    });
   });
 
-  test("GET /users/:id -  Must be able to list one user being the admin", async () => {
-    const userResponse = await request(app).post("/users").send(mockedAdmin);
-    const userLoginResponse = await request(app)
-      .post("/login")
-      .send(mockedAdminLogin);
+  test("GET /users/:userId - Should be able to list one user being an admin", async () => {
     const responseOneUser = await request(app)
-      .post(`/users/${userResponse.body.data.id}`)
-      .set("Authorization", `Bearer ${userLoginResponse.body.data.token}`);
-    expect(responseOneUser.body).toHaveProperty("message");
-    expect(responseOneUser.body).toHaveProperty("data");
-    expect(responseOneUser.body.data).toEqual(
-      expect.objectContaining({
-        id: responseOneUser.body.data.id,
-        username: responseOneUser.body.data.name,
-        email: responseOneUser.body.data.email,
-        dateOfBirth: responseOneUser.body.data.dateOfBirth,
-        isAdm: responseOneUser.body.data.isAdm,
-        isActive: responseOneUser.body.data.isActive,
-        photo: responseOneUser.body.data.photo,
-      })
+      .get(`/users/${genericUser.body.user.id}`)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(responseOneUser.status).toBe(200);
+    expect(responseOneUser.body).toHaveProperty(
+      "message",
+      "Successful request"
     );
+    expect(responseOneUser.body.user).toEqual({
+      id: genericUser.body.user.id,
+      username: mockedUser.username,
+      email: mockedUser.email,
+      dateOfBirth: mockedUser.dateOfBirth,
+      isAdm: mockedUser.isAdm,
+      isActive: genericUser.body.user.isActive,
+      photo: genericUser.body.user.photo,
+    });
   });
 
-  test("GET /users/:id -  should not be able to list one without token", async () => {
-    const userResponse = await request(app).post("/users").send(mockedAdmin);
-    const responseOneUser = await request(app).post(
-      `/users/${userResponse.body.data.id}`
+  test("GET /users/:userId - Should not be able to list one user without authorization token", async () => {
+    const responseOneUser = await request(app).get(
+      `/users/${genericUser.body.user.id}`
     );
-    expect(responseOneUser.body).toHaveProperty("message");
+    expect(responseOneUser.status).toBe(401);
+    expect(responseOneUser.body.status).toBe("Error");
     expect(responseOneUser.body.code).toBe(401);
+    expect(responseOneUser.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
   });
 
-  test("GET /users/:id -  should not be able to list one user not being admin or owner", async () => {
-    const userResponse = await request(app).post("/users").send(mockedAdmin);
-    await request(app).post("/users").send(mockedUser);
-    const userLoginResponse = await request(app)
-      .post("/login")
-      .send(mockedUserLogin);
+  test("GET /users/:userId - Should not be able to list one user with invalid token", async () => {
     const responseOneUser = await request(app)
-      .post(`/users/${userResponse.body.data.id}`)
-      .set("Authorization", `Bearer ${userLoginResponse.body.data.token}`);
+      .get(`/users/${genericUser.body.user.id}`)
+      .set("Authorization", `Bearer 12345677909876543`);
 
-    expect(responseOneUser.body).toHaveProperty("message");
+    expect(responseOneUser.status).toBe(401);
+    expect(responseOneUser.body.status).toBe("Error");
     expect(responseOneUser.body.code).toBe(401);
+    expect(responseOneUser.body).toHaveProperty("message", "Invalid token");
   });
 
-  test("PATCH /users/:id -  should be able to update user being owner", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    const userLogin = await request(app).post("/login").send(mockedUserLogin);
-    const userUpdate = await request(app)
-      .patch(`/users/${createUser.body.data.id}`)
-      .send(mockedUser3)
-      .set("Authorization", `Bearer ${userLogin.body.data.token}`);
-    expect(userUpdate.body).toHaveProperty("message");
-    expect(userUpdate.body.code).toBe(200);
-    expect(userUpdate.body.data).toEqual(
-      expect.objectContaining({
-        id: userUpdate.body.data.id,
-        username: userUpdate.body.data.name,
-        email: userUpdate.body.data.email,
-        dateOfBirth: userUpdate.body.data.dateOfBirth,
-        isAdm: userUpdate.body.data.isAdm,
-        isActive: userUpdate.body.data.isActive,
-        photo: userUpdate.body.data.photo,
-      })
+  test("GET /users/:userId - Should not be able to list one user without being an admin or account owner", async () => {
+    const responseOneUser = await request(app)
+      .get(`/users/${adminUser.body.user.id}`)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    expect(responseOneUser.status).toBe(401);
+    expect(responseOneUser.body.status).toBe("Error");
+    expect(responseOneUser.body.code).toBe(401);
+    expect(responseOneUser.body).toHaveProperty(
+      "message",
+      "User must be an admin or the owner of the account"
     );
   });
 
-  test("PATCH /users/:id -  should be able to update user being admin", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    await request(app).post("/users").send(mockedAdmin);
-    const userLogin = await request(app).post("/login").send(mockedAdminLogin);
-    const userUpdate = await request(app)
-      .patch(`/users/${createUser.body.data.id}`)
-      .send(mockedUser3)
-      .set("Authorization", `Bearer ${userLogin.body.data.token}`);
-    expect(userUpdate.body).toHaveProperty("message");
-    expect(userUpdate.body.code).toBe(200);
-    expect(userUpdate.body.data).toEqual(
-      expect.objectContaining({
-        id: userUpdate.body.data.id,
-        username: userUpdate.body.data.name,
-        email: userUpdate.body.data.email,
-        dateOfBirth: userUpdate.body.data.dateOfBirth,
-        isAdm: userUpdate.body.data.isAdm,
-        isActive: userUpdate.body.data.isActive,
-        photo: userUpdate.body.data.photo,
-      })
-    );
+  test("GET /users/:userId - Should not be able to list one user that doesn't exist", async () => {
+    const responseOneUser = await request(app)
+      .get(`/users/ajs7d86sgvdfasgf4r6546653487ysdgv`)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(responseOneUser.status).toBe(404);
+    expect(responseOneUser.body.status).toBe("Error");
+    expect(responseOneUser.body.code).toBe(404);
+    expect(responseOneUser.body).toHaveProperty("message", "User not found");
   });
 
-  test("PATCH /users/:id -  should not be able to update user without being owner or admin", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    await request(app).post("/users").send(mockedUser3);
-    const userLogin = await request(app).post("/login").send(mockedUser3Login);
+  test("PATCH /users/:userId - Should be able to update a user being the account owner", async () => {
     const userUpdate = await request(app)
-      .patch(`/users/${createUser.body.data.id}`)
+      .patch(`/users/${genericUser.body.user.id}`)
+      .send(mockedUser3)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    expect(userUpdate.status).toBe(200);
+    expect(userUpdate.body).toHaveProperty(
+      "message",
+      "User updated with success"
+    );
+    expect(userUpdate.body.user).toEqual({
+      id: genericUser.body.user.id,
+      username: mockedUser3.username,
+      email: mockedUser3.email,
+      dateOfBirth: mockedUser3.dateOfBirth,
+      isAdm: genericUser.body.user.isAdm,
+      isActive: true,
+      photo: genericUser.body.user.photo,
+    });
+  });
+
+  test("PATCH /users/:userId - Should be able to update a user being an admin", async () => {
+    const userUpdate = await request(app)
+      .patch(`/users/${genericUser.body.user.id}`)
       .send(mockedUser2)
-      .set("Authorization", `Bearer ${userLogin.body.data.token}`);
-    expect(userUpdate.body).toHaveProperty("message");
-    expect(userUpdate.body.code).toBe(401);
-  });
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
 
-  test("PATCH /users/:id -  should not be able to update user with existing email", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    await request(app).post("/users").send(mockedUser3);
-    const userLogin = await request(app).post("/login").send(mockedUserLogin);
-    const userUpdate = await request(app)
-      .patch(`/users/${createUser.body.data.id}`)
-      .send(mockedUser3)
-      .set("Authorization", `Bearer ${userLogin.body.data.token}`);
-    expect(userUpdate.body).toHaveProperty("message");
-    expect(userUpdate.body.code).toBe(403);
-  });
-
-  test("PATCH /users/:id -  should not be able to update inexistent user", async () => {
-    await request(app).post("/users").send(mockedAdmin);
-    const userLogin = await request(app).post("/login").send(mockedAdminLogin);
-    const userUpdate = await request(app)
-      .patch(`/users/100`)
-      .send(mockedUser3)
-      .set("Authorization", `Bearer ${userLogin.body.data.token}`);
-    expect(userUpdate.body).toHaveProperty("message");
-    expect(userUpdate.body.code).toBe(404);
-  });
-
-  test("PATCH /users/:id -  should not be able to update user without authentication", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    const userUpdate = await request(app)
-      .patch(`/users/${createUser.body.data.id}`)
-      .send(mockedUser3);
-    expect(userUpdate.body).toHaveProperty("message");
-    expect(userUpdate.body.code).toBe(401);
-  });
-
-  test("PATCH /users/:id -  should not be able to update with incorrect type", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    await request(app).post("/users").send(mockedAdmin);
-    const userLogin = await request(app).post("/login").send(mockedAdminLogin);
-    const userUpdate = await request(app)
-      .patch(`/users/${createUser.body.data.id}`)
-      .send(mockedUserWrongType)
-      .set("Authorization", `Bearer ${userLogin.body.data.token}`);
-    expect(userUpdate.body).toHaveProperty("message");
-    expect(userUpdate.body.code).toBe(400);
-  });
-
-  test("DELETE /users/:id -  should be able to soft-delete user as owner", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    const loginUser = await request(app).post("/login").send(mockedUserLogin);
-    const UserTobeDeleted = await request(app)
-      .delete(`/users/${createUser.body.data.id}`)
-      .set("Authorization", `Bearer ${loginUser.body.data.token}`);
-    expect(UserTobeDeleted.body).toHaveProperty("message");
-    expect(UserTobeDeleted.body.code).toBe(200);
-    const UserDeleted = await request(app)
-      .get(`/users/${createUser.body.data.id}`)
-      .set("Authorization", `Bearer ${loginUser.body.data.token}`);
-    expect(UserDeleted.body.data.isActive).toBe(false);
-  });
-
-  test("DELETE /users/:id -  should be able to soft-delete user as admin", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    await request(app).post("/users").send(mockedAdmin);
-    const loginUser = await request(app).post("/login").send(mockedAdminLogin);
-    const UserTobeDeleted = await request(app)
-      .delete(`/users/${createUser.body.data.id}`)
-      .set("Authorization", `Bearer ${loginUser.body.data.token}`);
-    expect(UserTobeDeleted.body).toHaveProperty("message");
-    expect(UserTobeDeleted.body.code).toBe(200);
-    const UserDeleted = await request(app)
-      .get(`/users/${createUser.body.data.id}`)
-      .set("Authorization", `Bearer ${loginUser.body.data.token}`);
-    expect(UserDeleted.body.data.isActive).toBe(false);
-  });
-
-  test("DELETE /users/:id -  should not be able to delete user without authentication", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    const UserTobeDeleted = await request(app).delete(
-      `/users/${createUser.body.data.id}`
+    expect(userUpdate.status).toBe(200);
+    expect(userUpdate.body).toHaveProperty(
+      "message",
+      "User updated with success"
     );
-    expect(UserTobeDeleted.body).toHaveProperty("message");
-    expect(UserTobeDeleted.body.code).toBe(401);
+    expect(userUpdate.body.user).toEqual({
+      id: genericUser.body.user.id,
+      username: mockedUser2.username,
+      email: mockedUser2.email,
+      dateOfBirth: mockedUser2.dateOfBirth,
+      isAdm: genericUser.body.user.isAdm,
+      isActive: genericUser.body.user.isActive,
+      photo: genericUser.body.user.photo,
+    });
   });
 
-  test("DELETE /users/:id -  should not be able to delete inexistent user", async () => {
-    const createUser = await request(app).post("/users").send(mockedUser);
-    const loginUser = await request(app).post("/login").send(mockedUserLogin);
+  test("PATCH /users/:userId - Should not be able to update a user without an authorization token", async () => {
+    const userUpdate = await request(app)
+      .patch(`/users/${genericUser.body.user.id}`)
+      .send(mockedUser3);
+
+    expect(userUpdate.status).toBe(401);
+    expect(userUpdate.body.status).toBe("Error");
+    expect(userUpdate.body.code).toBe(401);
+    expect(userUpdate.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
+  });
+
+  test("PATCH /users/:userId - Should not be able to update a user with an invalid token", async () => {
+    const userUpdate = await request(app)
+      .patch(`/users/${genericUser.body.user.id}`)
+      .send(mockedUser3)
+      .set("Authorization", `Bearer 123456789876544`);
+
+    expect(userUpdate.status).toBe(401);
+    expect(userUpdate.body.status).toBe("Error");
+    expect(userUpdate.body.code).toBe(401);
+    expect(userUpdate.body).toHaveProperty("message", "Invalid token");
+  });
+
+  test("PATCH /users/:userId - Should not be able to update a user without being an admin or account owner", async () => {
+    const userUpdate = await request(app)
+      .patch(`/users/${genericUser.body.user.id}`)
+      .send(mockedUser2)
+      .set("Authorization", `Bearer ${backupGenericToken.body.token}`);
+
+    expect(userUpdate.status).toBe(401);
+    expect(userUpdate.body.status).toBe("Error");
+    expect(userUpdate.body.code).toBe(401);
+    expect(userUpdate.body).toHaveProperty(
+      "message",
+      "User must be an admin or the owner of the account"
+    );
+  });
+
+  test("PATCH /users/:userId - Should not be able to update a user with existing email", async () => {
+    const userUpdate = await request(app)
+      .patch(`/users/${backupGenericUser.body.user.id}`)
+      .send({ email: "hitalo@mail.com" })
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(userUpdate.status).toBe(409);
+    expect(userUpdate.body.status).toBe("Error");
+    expect(userUpdate.body.code).toBe(409);
+    expect(userUpdate.body).toHaveProperty("message", "Email already exists");
+  });
+
+  test("PATCH /users/:userId - Should not be able to update a user with invalid data", async () => {
+    const userUpdate = await request(app)
+      .patch(`/users/${backupGenericUser.body.user.id}`)
+      .send({ email: 123 })
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(userUpdate.status).toBe(400);
+    expect(userUpdate.body.status).toBe("Error");
+    expect(userUpdate.body.code).toBe(400);
+    expect(userUpdate.body).toHaveProperty("message");
+  });
+
+  test("PATCH /users/:userId - Should not be able to update a user with data that is too large", async () => {
+    const userUpdate = await request(app)
+      .patch(`/users/${backupGenericUser.body.user.id}`)
+      .send(mockedUserTooLong)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(userUpdate.status).toBe(400);
+    expect(userUpdate.body.status).toBe("Error");
+    expect(userUpdate.body.code).toBe(400);
+    expect(userUpdate.body).toHaveProperty("message");
+  });
+
+  test("PATCH /users/:userId - Should not be able to update a user that does not exist", async () => {
+    const userUpdate = await request(app)
+      .patch(`/users/42235353csgfd0`)
+      .send(mockedUser3)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(userUpdate.status).toBe(404);
+    expect(userUpdate.body.status).toBe("Error");
+    expect(userUpdate.body.code).toBe(404);
+    expect(userUpdate.body).toHaveProperty("message", "User not found");
+  });
+
+  test("DELETE /users/:userId - Should not be able to soft-delete a user without authorization token", async () => {
+    const UserTobeDeleted = await request(app).delete(
+      `/users/${backupGenericUser.body.user.id}`
+    );
+
+    expect(UserTobeDeleted.status).toBe(401);
+    expect(UserTobeDeleted.body.status).toBe("Error");
+    expect(UserTobeDeleted.body.code).toBe(401);
+    expect(UserTobeDeleted.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
+  });
+
+  test("DELETE /users/:userId - Should not be able to soft-delete a user with invalid token", async () => {
     const UserTobeDeleted = await request(app)
-      .delete(`/users/300`)
-      .set("Authorization", `Bearer ${loginUser.body.data.token}`);
-    expect(UserTobeDeleted.body).toHaveProperty("message");
+      .delete(`/users/${backupGenericUser.body.user.id}`)
+      .set("Authorization", `Bearer 12345678909876554`);
+
+    expect(UserTobeDeleted.status).toBe(401);
+    expect(UserTobeDeleted.body.status).toBe("Error");
+    expect(UserTobeDeleted.body.code).toBe(401);
+    expect(UserTobeDeleted.body).toHaveProperty("message", "Invalid token");
+  });
+
+  test("DELETE /users/:userId - Should not be able to soft-delete a user without being an admin or account owner", async () => {
+    const UserTobeDeleted = await request(app)
+      .delete(`/users/${backupGenericUser.body.user.id}`)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    expect(UserTobeDeleted.status).toBe(401);
+    expect(UserTobeDeleted.body.status).toBe("Error");
+    expect(UserTobeDeleted.body.code).toBe(401);
+    expect(UserTobeDeleted.body).toHaveProperty(
+      "message",
+      "User must be an admin or the owner of the account"
+    );
+  });
+
+  test("DELETE /users/:userId - Should not be able to soft-delete a user that does not exist", async () => {
+    const UserTobeDeleted = await request(app)
+      .delete(`/users/ah76as7sgafsgy56r8vgi`)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(UserTobeDeleted.status).toBe(404);
+    expect(UserTobeDeleted.body.status).toBe("Error");
     expect(UserTobeDeleted.body.code).toBe(404);
+    expect(UserTobeDeleted.body).toHaveProperty("message", "User not found");
+  });
+
+  test("DELETE /users/:userId - Should be able to soft-delete a user as the account owner", async () => {
+    const UserTobeDeleted = await request(app)
+      .delete(`/users/${genericUser.body.user.id}`)
+      .set("Authorization", `Bearer ${genericUser.body.token}`);
+
+    expect(UserTobeDeleted.status).toBe(200);
+    expect(UserTobeDeleted.body).toHaveProperty(
+      "message",
+      "User deleted with success"
+    );
+  });
+
+  test("DELETE /users/:userId - Should be able to soft-delete a user as an admin", async () => {
+    const UserTobeDeleted = await request(app)
+      .delete(`/users/${backupGenericUser.body.user.id}`)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(UserTobeDeleted.status).toBe(200);
+    expect(UserTobeDeleted.body).toHaveProperty(
+      "message",
+      "User deleted with success"
+    );
+  });
+
+  test("DELETE /users/:userId - Should not be able to soft-delete a user that is already deleted", async () => {
+    const UserTobeDeleted = await request(app)
+      .delete(`/users/${genericUser.body.user.id}`)
+      .set("Authorization", `Bearer ${adminUser.body.token}`);
+
+    expect(UserTobeDeleted.status).toBe(400);
+    expect(UserTobeDeleted.body.status).toBe("Error");
+    expect(UserTobeDeleted.body.code).toBe(400);
+    expect(UserTobeDeleted.body).toHaveProperty(
+      "message",
+      "User already deleted"
+    );
   });
 });

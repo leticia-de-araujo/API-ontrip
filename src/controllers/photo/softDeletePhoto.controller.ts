@@ -15,7 +15,7 @@ export const softDeletePhotoController = async (
 
     const _ = await softDeletePhotoService(photoId);
 
-    return res.status(204);
+    return res.status(200).json({ message: "Photo deleted with success" });
   } catch (err) {
     if (err instanceof AppError) {
       throw new AppError(err.statusCode, err.message);

@@ -11,6 +11,10 @@ export const softDeletePhotoService = async (photoId: string) => {
     throw new AppError(404, "Photo not found");
   }
 
+  if (photo.accommodation === null) {
+    throw new AppError(400, "Photo already deleted");
+  }
+
   await photoRepository.update(photoId, { accommodation: null });
 
   return true;

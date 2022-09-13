@@ -12,7 +12,6 @@ import deleteUserController from "../controllers/users/deleteUsers.controller";
 import updateUserController from "../controllers/users/updateUser.controller";
 
 const routes = Router();
-//validateUserCreate(userCreateSchema),
 const userRoutes = () => {
   routes.post(
     "",
