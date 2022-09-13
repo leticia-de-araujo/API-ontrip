@@ -7,10 +7,6 @@ export const createPhotoController = async (req: Request, res: Response) => {
     const file = req.file;
     const { accommodationId } = req.params;
 
-    if (!file) {
-      throw new AppError(400, "file is a required field");
-    }
-
     const photo = await createPhotoService({ file, accommodationId });
 
     return res.status(201).json({
