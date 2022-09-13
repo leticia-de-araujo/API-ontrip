@@ -26,7 +26,6 @@ export const createPhotoService = async ({
     img = cloudinary.url(file);
   }
 
-  // Opcão de já salvar no DB a url da imagem em vez da referência.
 
   const photo = photoRepository.create({
     content: img,

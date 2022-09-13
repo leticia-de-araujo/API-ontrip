@@ -10,7 +10,7 @@ const AppDataSource = new DataSource(
         synchronize: true,
         entities: ["src/entities/*.ts"],
       }
-    : // Pequena condicional para poder rodar as migrations direto do meu local e não precisar ficar entrando no container
+    : 
     process.env.NODE_ENV === "migration"
     ? {
         type: "postgres",

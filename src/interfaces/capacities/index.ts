@@ -6,7 +6,6 @@ export interface ICapacity {
   bathrooms: number;
 }
 
-//id e' gerado automaticamente e serve pra PATCH
 export interface ICapacityRequest {
   rooms: number;
   beds: number;

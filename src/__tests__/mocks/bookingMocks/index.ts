@@ -10,7 +10,6 @@ export const mockedBooking: IBookingRequest = {
   accommodationId: "1",
 };
 
-//checkout antes do checkin
 export const mockedBookingInvalidDate: IBookingRequest = {
   checkIn: "2023/01/01",
   checkOut: "2022/07/01",

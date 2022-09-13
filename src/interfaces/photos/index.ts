@@ -4,7 +4,6 @@ export interface IPhoto {
   accommodationid: string;
 }
 
-//id gerado automaticamente
 export interface IPhotoRequest {
   file?: any;
   accommodationId: string;
