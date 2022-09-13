@@ -5,7 +5,10 @@ import { IAccommodationRequestPatch } from "../interfaces/accommodations";
 
 export const accommodationPatchSchema: SchemaOf<IAccommodationRequestPatch> =
   yup.object().shape({
-    name: yup.string().max(35),
+    name: yup
+      .string()
+      .matches(/^[A-Za-z]+$/)
+      .max(35),
     description: yup.string().max(200),
     dailyPrice: yup.number(),
     specialOffer: yup.boolean(),
