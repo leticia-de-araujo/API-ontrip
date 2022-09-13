@@ -10,7 +10,7 @@ export const accommodationPatchSchema: SchemaOf<IAccommodationRequestPatch> =
       .matches(/^[A-Za-z]+$/)
       .max(35),
     description: yup.string().max(200),
-    dailyPrice: yup.number(),
+    dailyPrice: yup.number().integer(),
     specialOffer: yup.boolean(),
     typeId: yup.string(),
     verifiedByAdm: yup.boolean(),

@@ -28,9 +28,11 @@ const accommodationUpdateService = async (
   if (!type) throw new AppError(404, "Type not found");
 
   const accommodation = await accommodationRepository.findOneBy({ id: id });
+
   if (!accommodation) throw new AppError(404, "Accommodation not found");
 
   const updatedAccommodation = accommodationRepository.create({
+    id: accommodation.id,
     name: name ? name : accommodation.name,
     description: description ? description : accommodation.description,
     dailyPrice: dailyPrice ? dailyPrice : accommodation.dailyPrice,
@@ -52,12 +54,17 @@ const accommodationUpdateService = async (
     },
   });
   if (accommodationCheck) {
-    throw new AppError(403, "Accommodation already exists");
+    throw new AppError(
+      400,
+      "Not possible to update an accommodation without having any changes in any field"
+    );
   }
 
   await accommodationRepository.update(id, updatedAccommodation);
 
-  return updatedAccommodation;
+  const accommodationUp = await accommodationRepository.findOneBy({ id });
+
+  return accommodationUp!;
 };
 
 export default accommodationUpdateService;
