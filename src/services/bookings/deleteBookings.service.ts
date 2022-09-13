@@ -11,7 +11,7 @@ const deleteBookingService = async (id: string): Promise<String> => {
   if (!booking) throw new AppError(404, "Booking not found");
 
   if (booking.status === "cancelled")
-    throw new AppError(400, "Booking already cancelled");
+    throw new AppError(400, "Booking already deleted");
 
   await bookingRepository.update(id, {
     status: "cancelled",

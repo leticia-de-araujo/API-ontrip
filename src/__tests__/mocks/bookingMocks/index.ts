@@ -22,15 +22,15 @@ export const mockedBookingPatch: IBookingRequestPatch = {
   status: "Canceled",
 };
 
-export const mockedBooking2: IBookingRequest = {
-  checkIn: "2022/25/12",
+export const mockedBooking2 = {
+  checkIn: 420,
   checkOut: "2022/30/12",
-  accommodationId: "1",
+  accommodationId: "batata",
   userId: "1"
 }
 
 export const mockedBooking3: IBookingRequest = {
-  checkIn: "2023/25/12",
+  checkIn: "2023/25/12User must be the owner of the accommodation, the guest that booked the booking, or an admin",
   checkOut: "2023/30/12",
   accommodationId: "1",
   userId: "1"

@@ -36,6 +36,14 @@ export const mockedUser4: IUserRequest = {
   isAdm: false,
 };
 
+export const mockedUser6: IUserRequest = {
+  username: "Passos",
+  email: "passos@mail.com",
+  password: "123456",
+  dateOfBirth: "1995/08/07",
+  isAdm: false,
+};
+
 export const mockedUserPatch: IUserRequestPatch = {
   email: "hitalo333@mail.com",
   password: "333333",
@@ -86,6 +94,11 @@ export const mockedUser3Login: IUserLogin = {
 
 export const mockedUser4Login: IUserLogin = {
   email: "paulosilva@mail.com",
+  password: "123456",
+};
+
+export const mockedUser6Login: IUserLogin = {
+  email: "passos@mail.com",
   password: "123456",
 };
 
