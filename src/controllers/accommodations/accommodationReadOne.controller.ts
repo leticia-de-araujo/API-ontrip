@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import accommodationReadOneService from "../../services/accommodations/accommodationReadOne.service";
+import { instanceToPlain } from "class-transformer";
 
 const accommodationReadOneController = async (req: Request, res: Response) => {
   try {
@@ -10,7 +11,7 @@ const accommodationReadOneController = async (req: Request, res: Response) => {
 
     return res.json({
       message: "Successful request",
-      accommodation: accommodation,
+      accommodation: instanceToPlain(accommodation),
     });
   } catch (error) {
     if (error instanceof AppError) {

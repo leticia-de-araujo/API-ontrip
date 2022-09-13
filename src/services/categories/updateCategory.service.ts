@@ -1,5 +1,4 @@
 import AppDataSource from "../../data-source";
-
 import { Category } from "../../entities/category.entity";
 import { AppError } from "../../errors/AppError";
 import { ICategoryRequestPatch } from "../../interfaces/categories";
