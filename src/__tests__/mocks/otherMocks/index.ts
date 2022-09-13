@@ -26,10 +26,10 @@ export const mockedCategoryTooLarge: ICategoryRequest = {
   name: "conectitur conetur confectum conferebamus confidam i",
 };
 
-// export const mockedPhoto: IPhotoRequest = {
-//   content: "thisIsAStringBase64",
-//   accommodationId: "",
-// };
+export const mockedPhoto: IPhotoRequest = {
+  file: "urldocloudinary",
+  accommodationId: "",
+};
 
 export const mockedPhotoPatch: IPhotoRequestPatch = {
   content: "thisIsAStringBase64, Mas essa mudou agora",

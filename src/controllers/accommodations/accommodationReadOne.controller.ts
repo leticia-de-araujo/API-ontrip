@@ -8,7 +8,10 @@ const accommodationReadOneController = async (req: Request, res: Response) => {
 
     const accommodationList = await accommodationReadOneService(id);
 
-    return res.json({ message: "Successful request", data: accommodationList });
+    return res.json({
+      message: "Successful request",
+      accommodation: accommodationList,
+    });
   } catch (error) {
     if (error instanceof AppError) {
       throw new AppError(error.statusCode, error.message);

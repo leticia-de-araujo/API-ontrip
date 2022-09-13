@@ -49,10 +49,10 @@ const accommodationCreateService = async ({
       name,
       description,
       dailyPrice,
-      type,
+      type: type,
       owner: user,
-      capacity,
-      category,
+      capacity: capacity,
+      category: category,
     },
   });
   

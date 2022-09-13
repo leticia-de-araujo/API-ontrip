@@ -17,7 +17,6 @@ export interface IAddressRequest {
   street: string;
   complement?: string;
   accommodationId: string;
-  userId: string;
 }
 
 export interface IAddressRequestPatch {
@@ -25,5 +24,4 @@ export interface IAddressRequestPatch {
   street?: string;
   complement?: string;
   accommodationId: string;
-  addressId?: string;
 }

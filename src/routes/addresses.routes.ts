@@ -9,9 +9,9 @@ const routes = Router();
 const addressesRoutes = () => {
   routes.post("", authUserMiddleware, createAddressController);
   routes.patch(
-    "/:addressId",
+    "/:id",
     authUserMiddleware,
-    admOrOwnerAuthMiddleware /* adicionar lógica no middleware para aceitar a rota de address */,
+    admOrOwnerAuthMiddleware,
     updateAddressController
   );
 

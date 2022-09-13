@@ -23,6 +23,7 @@ import {
   mockedAccommodation3,
   mockedAccommodationInvalid,
   mockedAccommodationInvalidPatch,
+  mockedAccommodationInvalidType,
   mockedAccommodationPatch,
   mockedAccommodationTooLarge,
   mockedAccommodationTooLargePatch,
@@ -97,7 +98,7 @@ describe("/accommodations", () => {
       .send(mockedCapacity)
       .set("Authorization", `Bearer ${adminUserToken}`);
 
-    capacityId = createCapacity.body.category.id;
+    capacityId = createCapacity.body.capacity.id;
 
     const createType = await request(app)
       .post("/types")
@@ -138,7 +139,10 @@ describe("/accommodations", () => {
       .set("Authorization", `Bearer ${genericUserToken}`);
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("message", "Accommodation created with success");
+    expect(response.body).toHaveProperty(
+      "message",
+      "Accommodation created with success"
+    );
     expect(response.body).toHaveProperty("accommodation");
     expect(response.body.accommodation).toHaveProperty("id");
     expect(response.body.accommodation).toHaveProperty(
@@ -157,7 +161,7 @@ describe("/accommodations", () => {
     expect(response.body.accommodation).toHaveProperty("verifiedByAdm", false);
     expect(response.body.accommodation).toHaveProperty("specialOffer", false);
     expect(response.body.accommodation).toHaveProperty("type");
-    expect(response.body.accommodation).toHaveProperty("user");
+    expect(response.body.accommodation).toHaveProperty("owner");
     expect(response.body.accommodation).toHaveProperty("capacity");
     expect(response.body.accommodation).toHaveProperty("category");
   });
@@ -206,15 +210,14 @@ describe("/accommodations", () => {
 
   test("POST /accommodations - Should not be able to create an accommodation with a required field with invalid type", async () => {
     const invalidAccommodation = {
-      name: mockedAccommodationInvalid.name,
-      description: mockedAccommodationInvalid.description,
-      dailyPrice: mockedAccommodationInvalid.dailyPrice,
+      name: mockedAccommodationInvalidType.name,
+      description: mockedAccommodationInvalidType.description,
+      dailyPrice: mockedAccommodationInvalidType.dailyPrice,
       userId: genericUserId,
       categoryId,
       capacityId,
       typeId,
     };
-
     const response = await request(app)
       .post("/accommodations")
       .send(invalidAccommodation)
@@ -240,7 +243,7 @@ describe("/accommodations", () => {
       .send(invalidAccommodation)
       .set("Authorization", `Bearer ${genericUserToken}`);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("status", "Error");
   });
 
@@ -260,7 +263,7 @@ describe("/accommodations", () => {
       .send(invalidAccommodation)
       .set("Authorization", `Bearer ${genericUserToken}`);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("status", "Error");
   });
 
@@ -280,7 +283,7 @@ describe("/accommodations", () => {
       .send(invalidAccommodation)
       .set("Authorization", `Bearer ${genericUserToken}`);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(404);
     expect(response.body).toHaveProperty("status", "Error");
   });
 
@@ -300,7 +303,7 @@ describe("/accommodations", () => {
       .send(invalidAccommodation)
       .set("Authorization", `Bearer ${genericUserToken}`);
 
-    expect(response.status).toBe(413);
+    expect(response.status).toBe(400);
     expect(response.body).toHaveProperty("status", "Error");
   });
 
@@ -377,7 +380,10 @@ describe("/accommodations", () => {
       .set("Authorization", `Bearer ${genericUserToken}`);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("message", "Accommodation updated with success");
+    expect(response.body).toHaveProperty(
+      "message",
+      "Accommodation updated with success"
+    );
     expect(response.body).toHaveProperty("accommodation");
     expect(response.body.accommodation).toHaveProperty("id", accommodationId);
     expect(response.body.accommodation).toHaveProperty("name");
@@ -438,7 +444,7 @@ describe("/accommodations", () => {
     expect(response.body).toHaveProperty("status", "Error");
     expect(response.body).toHaveProperty(
       "message",
-     "User must be an admin or the owner of the accommodation"
+      "User must be an admin or the owner of the accommodation"
     );
   });
 
@@ -564,7 +570,7 @@ describe("/accommodations", () => {
     expect(response.body).toHaveProperty("status", "Error");
     expect(response.body).toHaveProperty(
       "message",
-    "User must be an admin or the owner of the accommodation"
+      "User must be an admin or the owner of the accommodation"
     );
   });
 

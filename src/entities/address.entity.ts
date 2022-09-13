@@ -1,6 +1,5 @@
 import { Column, Entity, PrimaryColumn, JoinColumn, OneToOne } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { Accommodation } from "./accommodation.entity";
 
 @Entity("addresses")
 export class Address {
@@ -25,9 +24,8 @@ export class Address {
   @Column({ length: 50, nullable: true })
   complement: string;
 
-  @OneToOne(() => Accommodation)
-  @JoinColumn()
-  accommodation: Accommodation;
+  @Column({ length: 36 })
+  accommodationId: string;
 
   constructor() {
     if (!this.id) {
