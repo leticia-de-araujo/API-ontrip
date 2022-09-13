@@ -32,7 +32,7 @@ describe("Testing the type routes", () => {
       });
 
     genericUser = await request(app).post("/users").send(mockedUser);
-    genericUser = genericUser.body.data;
+    genericUser = genericUser.body.user;
     genericToken = await request(app).post("/login").send(mockedUserLogin);
     genericToken = genericToken.body.token;
 
