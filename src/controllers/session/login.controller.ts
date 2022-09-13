@@ -7,14 +7,6 @@ export const loginController = async (req: Request, res: Response) => {
   try {
     const { email, password }: IUserLogin = req.body;
 
-    if (!email) {
-      throw new AppError(400, "email is a required field");
-    }
-
-    if (!password) {
-      throw new AppError(400, "password is a required field");
-    }
-
     const token = await loginService({ email, password });
 
     return res.status(200).json({
