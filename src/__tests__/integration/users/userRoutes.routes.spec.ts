@@ -90,10 +90,7 @@ describe("/users", () => {
     expect(response.status).toBe(400);
     expect(response.body.status).toBe("Error");
     expect(response.body.code).toBe(400);
-    expect(response.body).toHaveProperty(
-      "message",
-      "dateOfBirth is a required field"
-    );
+    expect(response.body).toHaveProperty("message");
   });
 
   test("POST /users - Should not be able to create a user with invalid data", async () => {

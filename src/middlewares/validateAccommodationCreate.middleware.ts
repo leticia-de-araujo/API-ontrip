@@ -8,7 +8,7 @@ export const accommodationCreateSchema: SchemaOf<IAccommodationRequest> = yup
   .shape({
     name: yup
       .string()
-      .matches(/^[A-Za-z]+$/)
+      .matches(/^[A-Za-z\s]*$/)
       .required()
       .max(35),
     description: yup.string().required().max(200),

@@ -7,7 +7,7 @@ export const accommodationPatchSchema: SchemaOf<IAccommodationRequestPatch> =
   yup.object().shape({
     name: yup
       .string()
-      .matches(/^[A-Za-z]+$/)
+      .matches(/^[A-Za-z\s]*$/)
       .max(35),
     description: yup.string().max(200),
     dailyPrice: yup.number().integer(),

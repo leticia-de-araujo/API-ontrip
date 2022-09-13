@@ -6,7 +6,7 @@ import { IUserRequest, IValidateUser } from "../interfaces/users";
 export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
   username: yup
     .string()
-    .matches(/^[A-Za-z]+$/)
+    .matches(/^[A-Za-z\s]*$/)
     .required()
     .max(20),
   email: yup.string().email().required().max(30),
@@ -16,7 +16,7 @@ export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
     .required()
     .matches(
       /^\d{4}[\/](0[1-9]|1[0-2])[\/](0[1-9]|[12][0-9]|3[01])$/,
-      "Format should be yyyy-mm-dd"
+      "Format should be yyyy/mm/dd"
     ),
   isAdm: yup.boolean(),
   file: yup.object().shape({

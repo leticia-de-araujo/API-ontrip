@@ -49,7 +49,7 @@ export const mockedAccommodationInvalid = {
 export const mockedAccommodationInvalidType = {
   name: 123456,
   description: "text",
-  dailyPrice: "300",
+  dailyPrice: 300,
   categoryId: "",
   capacityId: "",
   userId: "",
