@@ -1,3 +1,4 @@
+import { accountValidationMiddleware } from './../middlewares/accountValidation. middleware';
 import { Router } from "express";
 import accommodationDeleteController from "../controllers/accommodations/accommodationDelete.controller";
 import accommodationCreateController from "../controllers/accommodations/accommodationCreate.controller";
@@ -21,21 +22,21 @@ const accommodationsRoutes = () => {
   routes.post(
     "",
     validateAccommodationCreate(accommodationCreateSchema),
-    authUserMiddleware,
+    authUserMiddleware, accountValidationMiddleware,
     accommodationCreateController
   );
   routes.get("", accommodationReadAllController);
   routes.get("/:id", accommodationReadOneController);
   routes.patch(
     "/:id",
-    authUserMiddleware,
+    authUserMiddleware, accountValidationMiddleware,
     admOrOwnerAuthMiddleware,
     validateAccommodationPatch(accommodationPatchSchema),
     accommodationUpdateController
   );
   routes.delete(
     "/:id",
-    authUserMiddleware,
+    authUserMiddleware, accountValidationMiddleware,
     admOrOwnerAuthMiddleware,
     accommodationDeleteController
   );
