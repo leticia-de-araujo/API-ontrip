@@ -486,7 +486,6 @@ describe("/accommodations", () => {
 
     const accommodationId = createAccommodResponse.body.accommodation.id;
 
-    console.log(genericAccommodation);
     const response = await request(app)
       .patch(`/accommodations/${accommodationId}`)
       .send(createAccommodResponse.body.data)
