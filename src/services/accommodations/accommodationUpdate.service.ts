@@ -28,6 +28,7 @@ const accommodationUpdateService = async (
   if (!type) throw new AppError(404, "Type not found");
 
   const accommodation = await accommodationRepository.findOneBy({ id: id });
+
   if (!accommodation) throw new AppError(404, "Accommodation not found");
 
   const updatedAccommodation = accommodationRepository.create({
@@ -52,7 +53,10 @@ const accommodationUpdateService = async (
     },
   });
   if (accommodationCheck) {
-    throw new AppError(403, "Accommodation already exists");
+    throw new AppError(
+      400,
+      "Not possible to update an accommodation without having any changes in any field"
+    );
   }
 
   await accommodationRepository.update(id, updatedAccommodation);
