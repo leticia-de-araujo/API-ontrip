@@ -1,4 +1,8 @@
-import { IUserLogin, IUserRequest } from "../../../interfaces/users/index";
+import {
+  IUserLogin,
+  IUserRequest,
+  IUserRequestPatch,
+} from "../../../interfaces/users/index";
 
 export const mockedUser: IUserRequest = {
   username: "Hitalo",
@@ -22,6 +26,24 @@ export const mockedUser3: IUserRequest = {
   password: "123456",
   dateOfBirth: "1999/02/11",
   isAdm: false,
+};
+
+export const mockedUser4: IUserRequest = {
+  username: "Paulo Silva",
+  email: "paulosilva@mail.com",
+  password: "123456",
+  dateOfBirth: "1995/08/07",
+  isAdm: false,
+};
+
+export const mockedUserPatch: IUserRequestPatch = {
+  email: "hitalo333@mail.com",
+  password: "333333",
+};
+
+export const mockedUserPatch2: IUserRequestPatch = {
+  email: "hitalo444@mail.com",
+  password: "444444",
 };
 
 export const mockedUserAlternative: IUserRequest = {
@@ -59,6 +81,11 @@ export const mockedAdminLogin: IUserLogin = {
 
 export const mockedUser3Login: IUserLogin = {
   email: "marquinhos@mail.com",
+  password: "123456",
+};
+
+export const mockedUser4Login: IUserLogin = {
+  email: "paulosilva@mail.com",
   password: "123456",
 };
 

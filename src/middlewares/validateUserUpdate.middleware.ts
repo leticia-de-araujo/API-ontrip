@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IUserRequest, IValidateUser } from "../interfaces/users";
+import { IUserRequestPatch } from "../interfaces/users";
 
-export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
-  username: yup.string().required().max(20),
-  email: yup.string().email().required().max(30),
-  password: yup.string().required().min(4).max(50),
+export const userPatchSchema: SchemaOf<IUserRequestPatch> = yup.object().shape({
+  username: yup.string().notRequired().max(20),
+  email: yup.string().email().notRequired().max(30),
+  password: yup.string().notRequired().min(4).max(50),
   dateOfBirth: yup
     .string()
-    .required()
+    .notRequired()
     .matches(
       /^\d{4}[\/](0[1-9]|1[0-2])[\/](0[1-9]|[12][0-9]|3[01])$/,
       "Format should be yyyy-mm-dd"
@@ -27,8 +27,8 @@ export const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
   }),
 });
 
-export const validateUserCreate =
-  (schema: SchemaOf<IValidateUser>) =>
+export const validateUserUpdate =
+  (schema: SchemaOf<IUserRequestPatch>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const body = req.body;
