@@ -1,21 +1,22 @@
 import { Request, Response, NextFunction } from "express";
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { IAccommodationRequestPatch } from "../interfaces/accommodations";
+import { IAccommodationRequest } from "../interfaces/accommodations";
 
-export const accommodationPatchSchema: SchemaOf<IAccommodationRequestPatch> =
-  yup.object().shape({
-    name: yup.string().max(35),
-    description: yup.string().max(200),
-    dailyPrice: yup.number(),
-    specialOffer: yup.boolean(),
-    typeId: yup.string(),
-    verifiedByAdm: yup.boolean(),
-    capacityId: yup.string(),
+export const accommodationCreateSchema: SchemaOf<IAccommodationRequest> = yup
+  .object()
+  .shape({
+    name: yup.string().required().max(35),
+    description: yup.string().required().max(200),
+    dailyPrice: yup.number().required(),
+    typeId: yup.string().required(),
+    userId: yup.string().required(),
+    capacityId: yup.string().required(),
+    categoryId: yup.string().required(),
   });
 
-export const validateAccommodationPatch =
-  (schema: SchemaOf<IAccommodationRequestPatch>) =>
+export const validateAccommodationCreate =
+  (schema: SchemaOf<IAccommodationRequest>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;
