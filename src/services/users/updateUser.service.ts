@@ -8,6 +8,8 @@ import fs from "fs";
 
 const updateUserService = async (
   id: string,
+  admStatus: boolean,
+  isActive: boolean,
   { username, email, password, dateOfBirth, isAdm, file }: IUserRequestPatch
 ): Promise<User> => {
   const userRepository = AppDataSource.getRepository(User);
@@ -66,6 +68,7 @@ const updateUserService = async (
     dateOfBirth: dateOfBirth ? dateOfBirth : user.dateOfBirth,
     password: password ? hashedPassword : user.password,
     isAdm: isAdm ? isAdm : user.isAdm,
+    isActive: admStatus ? isActive : user.isActive,
     photo: file ? photo : user.photo,
   };
 
@@ -76,6 +79,7 @@ const updateUserService = async (
       dateOfBirth: userToUpdate.dateOfBirth,
       password: userToUpdate.password,
       isAdm: userToUpdate.isAdm,
+      isActive: userToUpdate.isActive,
       photo: userToUpdate.photo,
     },
   });
