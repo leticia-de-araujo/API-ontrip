@@ -5,10 +5,14 @@ import { IValidateUser } from "../../interfaces/users";
 const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
   username: yup
     .string()
-    .matches(/^[A-Za-z\s]*$/)
+    .matches(/^[A-Za-z\s]*$/, "UserName field can have only letters and spaces")
     .required()
-    .max(20),
-  email: yup.string().email().required().max(30),
+    .max(20, "UserName field should have up to 20 characters"),
+  email: yup
+    .string()
+    .email()
+    .required()
+    .max(30, "Email field should have up to 30 characters"),
   password: yup
     .string()
     .matches(
@@ -16,8 +20,8 @@ const userCreateSchema: SchemaOf<IValidateUser> = yup.object().shape({
       "Password field must have at least 1 capital letter, 1 lower case letter, 1 number and 1 special character"
     )
     .required()
-    .min(4)
-    .max(50),
+    .min(4, "Password field should have at least 4 characters")
+    .max(50, "Password field should have up to 50 characters"),
   dateOfBirth: yup
     .string()
     .required()
