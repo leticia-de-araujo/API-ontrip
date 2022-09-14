@@ -9,7 +9,6 @@ export interface IUser {
   photo: string;
 }
 
-//a interface seguinte pode nao ser necessaria se usarmos return {...user, password:undefined} no service de criacao de Usuario
 export interface IUserNoPassword {
   id: string;
   username: string;
@@ -20,14 +19,13 @@ export interface IUserNoPassword {
   photo: string;
 }
 
-//id gerado automaticamente
 export interface IUserRequest {
   username: string;
   email: string;
   password: string;
   dateOfBirth: string;
   isAdm?: boolean;
-  photo: string;
+  photo?: any;
 }
 
 export interface IUserLogin {
@@ -47,10 +45,19 @@ export interface IUserRequestPatch {
   password?: string;
   dateOfBirth?: string;
   isAdm?: boolean;
-  photo?: string;
+  file?: any;
 }
 
 export interface IUserLogin {
   email: string;
   password: string;
+}
+
+export interface IValidateUser {
+  username: string;
+  email: string;
+  password: string;
+  dateOfBirth: string;
+  isAdm?: boolean;
+  file?: any;
 }

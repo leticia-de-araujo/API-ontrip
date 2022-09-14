@@ -9,6 +9,9 @@ export class Type {
   @Column({ length: 50 })
   name: string;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   constructor() {
     if (!this.id) {
       this.id = uuid();

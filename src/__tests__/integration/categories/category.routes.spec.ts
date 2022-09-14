@@ -13,6 +13,7 @@ import {
   mockedCategory,
   mockedCategory2,
   mockedCategory3,
+  mockedCategoryTooLarge,
 } from "../../mocks/otherMocks";
 
 describe("Testing the category routes", () => {
@@ -41,8 +42,6 @@ describe("Testing the category routes", () => {
     await connection.destroy();
   });
 
-  //se os testes falharem, pode haver a necessidade de alterar a referenciacao de response.body.data... para response.body.data.data...
-
   test("POST /categories - Should be able to create a new category", async () => {
     genericCategory = await request(app)
       .post("/categories")
@@ -50,19 +49,42 @@ describe("Testing the category routes", () => {
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(genericCategory.status).toBe(201);
-    expect(genericCategory.body.data).toHaveProperty("id");
-    expect(genericCategory.body.data).toHaveProperty("name");
-    expect(genericCategory.body.data).toHaveProperty("message");
+    expect(genericCategory.body).toHaveProperty(
+      "message",
+      "Category created with success"
+    );
+    expect(genericCategory.body).toHaveProperty("category");
+    expect(genericCategory.body.category).toHaveProperty("id");
+    expect(genericCategory.body.category).toHaveProperty(
+      "name",
+      mockedCategory.name
+    );
   });
 
-  test("POST /categories - Should not be able to create a category that already exists (same name)", async () => {
+  test("POST /categories - Should not be able to create a category without a token", async () => {
     genericCategory = await request(app)
       .post("/categories")
-      .send(mockedCategory)
-      .set("Authorization", `Bearer ${adminToken.body.token}`);
+      .send(mockedCategory2);
 
-    expect(genericCategory.status).toBe(403);
-    expect(genericCategory.body.data).toHaveProperty("message");
+    expect(genericCategory.status).toBe(401);
+    expect(genericCategory.body).toHaveProperty("status", "Error");
+    expect(genericCategory.body).toHaveProperty("code", 401);
+    expect(genericCategory.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
+  });
+
+  test("POST /categories - Should not be able to create a category with invalid token", async () => {
+    genericCategory = await request(app)
+      .post("/categories")
+      .send(mockedCategory3)
+      .set("Authorization", `Bearer 1d5d4858-c119-4fff-bfb5-9d5d7`);
+
+    expect(genericCategory.status).toBe(401);
+    expect(genericCategory.body).toHaveProperty("status", "Error");
+    expect(genericCategory.body).toHaveProperty("code", 401);
+    expect(genericCategory.body).toHaveProperty("message", "Invalid token");
   });
 
   test("POST /categories - Should not be able to create a category without being an Admin", async () => {
@@ -72,21 +94,75 @@ describe("Testing the category routes", () => {
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(genericCategory.status).toBe(401);
-    expect(genericCategory.body.data).toHaveProperty("message");
+    expect(genericCategory.body).toHaveProperty("status", "Error");
+    expect(genericCategory.body).toHaveProperty("code", 401);
+    expect(genericCategory.body).toHaveProperty(
+      "message",
+      "User is not an admin"
+    );
+  });
+
+  test("POST /categories - Should not be able to create a category with invalid key values", async () => {
+    genericCategory = await request(app)
+      .post("/categories")
+      .send({ name: 1 })
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(genericCategory.status).toBe(400);
+    expect(genericCategory.body).toHaveProperty("status", "Error");
+    expect(genericCategory.body).toHaveProperty("code", 400);
+    expect(genericCategory.body).toHaveProperty(
+      "message",
+      "name has an invalid type"
+    );
+  });
+
+  test("POST /categories - Should not be able to create a category with invalid key length", async () => {
+    genericCategory = await request(app)
+      .post("/categories")
+      .send(mockedCategoryTooLarge)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(genericCategory.status).toBe(413);
+    expect(genericCategory.body).toHaveProperty("status", "Error");
+    expect(genericCategory.body).toHaveProperty("code", 413);
+    expect(genericCategory.body).toHaveProperty(
+      "message",
+      "name length too large"
+    );
+  });
+
+  test("POST /categories - Should not be able to create a category that already exists (same name)", async () => {
+    genericCategory = await request(app)
+      .post("/categories")
+      .send(mockedCategory)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(genericCategory.status).toBe(409);
+    expect(genericCategory.body).toHaveProperty("status", "Error");
+    expect(genericCategory.body).toHaveProperty("code", 409);
+    expect(genericCategory.body).toHaveProperty(
+      "message",
+      "This category already exists"
+    );
   });
 
   test("GET /categories - Should be able to list categories", async () => {
     genericCategory = await request(app).get("/categories");
 
     expect(genericCategory.status).toBe(200);
-    expect(genericCategory.body.data).toHaveProperty("message");
-    expect(genericCategory.body.data).toHaveProperty("data");
-    expect(genericCategory.body.data.length).toBeGreaterThanOrEqual(1);
-    expect(genericCategory.body.data).toEqual(
+    expect(genericCategory.body).toHaveProperty(
+      "message",
+      "Successful request"
+    );
+    expect(genericCategory.body).toHaveProperty("categories");
+    expect(genericCategory.body.categories.length).toBeGreaterThanOrEqual(1);
+    expect(genericCategory.body.categories).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: genericCategory.body.data[0].id,
+          id: genericCategory.body.categories[0].id,
           name: mockedCategory.name,
+          isActive: true,
         }),
       ])
     );
@@ -95,20 +171,20 @@ describe("Testing the category routes", () => {
   test("GET /categories/:id -  Must be able to list one category", async () => {
     genericCategory = await request(app)
       .post("/categories")
-      .send(mockedCategory2);
+      .send(mockedCategory2)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
     const listOne = await request(app).get(
-      `/categories/${
-        genericCategory.body.data[genericCategory.body.data.length - 1].id
-      }`
+      `/categories/${genericCategory.body.category.id}`
     );
 
     expect(listOne.status).toBe(200);
-    expect(listOne.body.data).toHaveProperty("message");
-    expect(listOne.body.data).toHaveProperty("data");
-    expect(listOne.body.data).toEqual(
+    expect(listOne.body).toHaveProperty("message", "Successful request");
+    expect(listOne.body).toHaveProperty("category");
+    expect(listOne.body.category).toEqual(
       expect.objectContaining({
-        id: genericCategory.body.data.id,
+        id: genericCategory.body.category.id,
         name: mockedCategory2.name,
+        isActive: true,
       })
     );
   });
@@ -116,50 +192,172 @@ describe("Testing the category routes", () => {
   test("GET /categories/:id -  Must not be able to list a category that doesn't exist", async () => {
     const listOne = await request(app).get("/categories/this7is7an7invalid7id");
 
-    expect(listOne.status).toBe(400);
-    expect(listOne.body.data).toHaveProperty("message");
-    //se o teste der erro pode ser a logica do not.toHaveProperty abaixo, seria so' apagar a linha (reports de 2019 na net que nao funciona, pode ja' nao ser o caso).
-    expect(listOne.body.data).not.toHaveProperty("data");
+    expect(listOne.status).toBe(404);
+    expect(listOne.body).toHaveProperty("status", "Error");
+    expect(listOne.body).toHaveProperty("code", 404);
+    expect(listOne.body).toHaveProperty("message", "Category not found");
   });
 
   test("PATCH /categories/:id - Must be able to update a category", async () => {
     const patchOne = await request(app)
-      .post(`/categories/${genericCategory.body.data.id}`)
+      .patch(`/categories/${genericCategory.body.category.id}`)
       .send(mockedCategory3)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
     expect(patchOne.status).toBe(200);
-    expect(patchOne.body.data).toHaveProperty("message");
-    expect(patchOne.body.data).toHaveProperty("data");
-    expect(patchOne.body.data).toEqual(
-      expect.objectContaining({
-        id: genericCategory.body.data.id,
-        name: mockedCategory3.name,
-      })
+    expect(patchOne.body).toHaveProperty(
+      "message",
+      "Category updated with success"
     );
+    expect(patchOne.body).toHaveProperty("category");
+    expect(patchOne.body.category).toHaveProperty("name", mockedCategory3.name);
   });
 
-  test("PATCH /categories/:id - Must not be able to update a category without being and admin", async () => {
+  test("PATCH /categories/:id - Must not be able to update a category without a token", async () => {
     const patchOne = await request(app)
-      .post(`/categories/${genericCategory.body.data.id}`)
-      .send(mockedCategory2)
+      .patch(`/categories/${genericCategory.body.category.id}`)
+      .send(mockedCategory3);
+
+    expect(patchOne.status).toBe(401);
+    expect(patchOne.body).toHaveProperty("status", "Error");
+    expect(patchOne.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
+    expect(patchOne.body).toHaveProperty("code", 401);
+  });
+
+  test("PATCH /categories/:id - Must not be able to update a category with an invalid token", async () => {
+    const patchOne = await request(app)
+      .patch(`/categories/${genericCategory.body.category.id}`)
+      .send(mockedCategory3)
+      .set("Authorization", `Bearer 1234567890`);
+
+    expect(patchOne.status).toBe(401);
+    expect(patchOne.body).toHaveProperty("status", "Error");
+    expect(patchOne.body).toHaveProperty("message", "Invalid token");
+    expect(patchOne.body).toHaveProperty("code", 401);
+  });
+
+  test("PATCH /categories/:id - Must not be able to update a category without an Admin token", async () => {
+    const patchOne = await request(app)
+      .patch(`/categories/${genericCategory.body.category.id}`)
+      .send(mockedCategory3)
       .set("Authorization", `Bearer ${genericToken.body.token}`);
 
     expect(patchOne.status).toBe(401);
-    expect(patchOne.body.data).toHaveProperty("message");
-    //se o teste der erro pode ser a logica do not.toHaveProperty abaixo, seria so' apagar a linha (reports de 2019 na net que nao funciona, pode ja' nao ser o caso).
-    expect(patchOne.body.data).not.toHaveProperty("data");
+    expect(patchOne.body).toHaveProperty("status", "Error");
+    expect(patchOne.body).toHaveProperty("message", "User is not an admin");
+    expect(patchOne.body).toHaveProperty("code", 401);
+  });
+
+  test("PATCH /categories/:id - Must not be able to update a category with a key of invalid value", async () => {
+    const patchOne = await request(app)
+      .patch(`/categories/${genericCategory.body.category.id}`)
+      .send({ name: 1 })
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(patchOne.status).toBe(400);
+    expect(patchOne.body).toHaveProperty("status", "Error");
+    expect(patchOne.body).toHaveProperty("message", "name has an invalid type");
+    expect(patchOne.body).toHaveProperty("code", 400);
+  });
+
+  test("PATCH /categories/:id - Must not be able to update a category with a key of invalid value length", async () => {
+    const patchOne = await request(app)
+      .patch(`/categories/${genericCategory.body.category.id}`)
+      .send(mockedCategoryTooLarge)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(patchOne.status).toBe(413);
+    expect(patchOne.body).toHaveProperty("status", "Error");
+    expect(patchOne.body).toHaveProperty("message", "name length too large");
+    expect(patchOne.body).toHaveProperty("code", 413);
   });
 
   test("PATCH /categories/:id - Must not be able to update a category that doesn't exist", async () => {
     const patchOne = await request(app)
-      .post(`/categories/this7is7an7invalid7token`)
+      .patch(`/categories/1d5d4858-c119-4fff-bfb5-9d5d7ea002f2`)
       .send(mockedCategory)
       .set("Authorization", `Bearer ${adminToken.body.token}`);
 
+    expect(patchOne.status).toBe(404);
+    expect(patchOne.body).toHaveProperty("code", 404);
+    expect(patchOne.body).toHaveProperty("status", "Error");
+    expect(patchOne.body).toHaveProperty("message", "Category not found");
+  });
+
+  test("PATCH /categories/:id - Must not be able to update a category if not making any changes", async () => {
+    const patchOne = await request(app)
+      .patch(`/categories/${genericCategory.body.category.id}`)
+      .send(mockedCategory3)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
     expect(patchOne.status).toBe(400);
-    expect(patchOne.body.data).toHaveProperty("message");
-    //se o teste der erro pode ser a logica do not.toHaveProperty abaixo, seria so' apagar a linha (reports de 2019 na net que nao funciona, pode ja' nao ser o caso).
-    expect(patchOne.body.data).not.toHaveProperty("data");
+    expect(patchOne.body).toHaveProperty("status", "Error");
+    expect(patchOne.body).toHaveProperty(
+      "message",
+      "Not possible to update a category without having any changes in any field"
+    );
+    expect(patchOne.body).toHaveProperty("code", 400);
+  });
+
+  test("DELETE /categories/:id - Must be able to soft-delete a category", async () => {
+    const deleteOne = await request(app)
+      .delete(`/categories/${genericCategory.body.category.id}`)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(deleteOne.status).toBe(200);
+    expect(deleteOne.body).toHaveProperty(
+      "message",
+      "Category deleted with success"
+    );
+  });
+
+  test("DELETE /categories/:id - Must not be able to soft-delete a category without a token", async () => {
+    const deleteOne = await request(app).delete(
+      `/categories/${genericCategory.body.category.id}`
+    );
+
+    expect(deleteOne.status).toBe(401);
+    expect(deleteOne.body).toHaveProperty("status", "Error");
+    expect(deleteOne.body).toHaveProperty("code", 401);
+    expect(deleteOne.body).toHaveProperty(
+      "message",
+      "Missing authorization token"
+    );
+  });
+
+  test("DELETE /categories/:id - Must not be able to soft-delete a category without a valid token", async () => {
+    const deleteOne = await request(app)
+      .delete(`/categories/${genericCategory.body.category.id}`)
+      .set("Authorization", `Bearer 1234567890`);
+
+    expect(deleteOne.status).toBe(401);
+    expect(deleteOne.body).toHaveProperty("code", 401);
+    expect(deleteOne.body).toHaveProperty("status", "Error");
+    expect(deleteOne.body).toHaveProperty("message", "Invalid token");
+  });
+
+  test("DELETE /categories/:id - Must not be able to soft-delete a category without being an admin", async () => {
+    const deleteOne = await request(app)
+      .delete(`/categories/${genericCategory.body.category.id}`)
+      .set("Authorization", `Bearer ${genericToken.body.token}`);
+
+    expect(deleteOne.status).toBe(401);
+    expect(deleteOne.body).toHaveProperty("code", 401);
+    expect(deleteOne.body).toHaveProperty("status", "Error");
+    expect(deleteOne.body).toHaveProperty("message", "User is not an admin");
+  });
+
+  test("DELETE /categories/:id - Must not be able to soft-delete a category that does not exists", async () => {
+    const deleteOne = await request(app)
+      .delete(`/categories/this7is7invalid7id`)
+      .set("Authorization", `Bearer ${adminToken.body.token}`);
+
+    expect(deleteOne.status).toBe(404);
+    expect(deleteOne.body).toHaveProperty("code", 404);
+    expect(deleteOne.body).toHaveProperty("status", "Error");
+    expect(deleteOne.body).toHaveProperty("message", "Category not found");
   });
 });

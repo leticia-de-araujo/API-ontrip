@@ -12,7 +12,6 @@ export interface IAccommodation {
   categoryId: string;
 }
 
-//id e' gerado automaticamente, isActive, verifiedByAdm e specialoffer tem valores default
 export interface IAccommodationRequest {
   name: string;
   description: string;
@@ -57,9 +56,8 @@ export interface IAccommodationRequestPatch {
   name?: string;
   description?: string;
   dailyPrice?: number;
-  isActive?: boolean;
+  specialOffer?: boolean;
   verifiedByAdm?: boolean;
-  specialOffer?: string;
-  capacityId?: string;
   typeId?: string;
+  capacityId?: string;
 }

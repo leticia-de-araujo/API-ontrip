@@ -3,5 +3,4 @@ node_modules/
 dist/
 yarn.lock
 .yarn
-jest.config.ts
 .dockerignore
