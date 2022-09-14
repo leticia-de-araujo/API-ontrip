@@ -123,10 +123,7 @@ describe("Testing the capacities routes", () => {
 
     expect(genericCapacity.status).toBe(400);
     expect(genericCapacity.body).toHaveProperty("code", 400);
-    expect(genericCapacity.body).toHaveProperty(
-      "message",
-      "rooms must be greater than or equal to 1"
-    );
+    expect(genericCapacity.body).toHaveProperty("message");
   });
 
   test("POST /capacities - Should not be able to create a capacity that already exists (same values)", async () => {
@@ -263,10 +260,7 @@ describe("Testing the capacities routes", () => {
     expect(patchOne.status).toBe(400);
     expect(patchOne.body).toHaveProperty("code", 400);
     expect(patchOne.body).toHaveProperty("status", "Error");
-    expect(patchOne.body).toHaveProperty(
-      "message",
-      "totalGuests must be greater than or equal to 1"
-    );
+    expect(patchOne.body).toHaveProperty("message");
   });
 
   test("PATCH /capacities/:id - Should not be able to update a capacity that doesn't exist", async () => {
