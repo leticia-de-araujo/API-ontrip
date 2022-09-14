@@ -16,9 +16,12 @@ const sendEmail = async ({
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
 
-  await transporter
+  const transp = await transporter
     .sendMail({
       from: process.env.SMTP_USER,
       to: to,
@@ -26,14 +29,16 @@ const sendEmail = async ({
       html: text,
     })
     .then(() => {
-      return "Email send with success";
+      console.log("Email send with success");
     })
-    .catch((err) => {
+    .catch(() => {
       throw new AppError(
         500,
         "Internal server error sending email, try again later"
       );
     });
+
+  console.log(transp);
   return true;
 };
 

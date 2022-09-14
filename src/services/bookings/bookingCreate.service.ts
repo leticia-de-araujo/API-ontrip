@@ -50,13 +50,10 @@ const createBookingService = async ({
 
   if (newBooking) {
     const subject = "Booking";
-    const text = `"Congratulations, you have sucessfully booked the accommodation ${accommodation.name}, remember the checkIn will be available on ${checkIn}`;
+    const text = `Congratulations, you have sucessfully booked the accommodation ${accommodation.name}, remember the checkIn will be available on ${checkIn} at 12:00 am!`;
     const to = user.email;
 
-    const response = await sendEmail({ subject, text, to });
-    if (!response) {
-      throw new AppError(404, "User not found");
-    }
+    await sendEmail({ subject, text, to });
   }
 
   return newBooking;
