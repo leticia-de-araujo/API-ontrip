@@ -6,6 +6,10 @@ import { AppError } from "../../errors/AppError";
 export const listAllPhotoAccommodationService = async (
   accommodationId: string
 ) => {
+  if (!accommodationId) {
+    throw new AppError(400, "accommodationId is missing");
+  }
+
   const accommodationRepository = AppDataSource.getRepository(Accommodation);
   const photoRepository = AppDataSource.getRepository(Photo);
   const accommodation = await accommodationRepository.findOneBy({

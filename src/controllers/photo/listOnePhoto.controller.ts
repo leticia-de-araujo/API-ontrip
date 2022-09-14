@@ -6,10 +6,6 @@ export const lisOnePhotoController = async (req: Request, res: Response) => {
   try {
     const { photoId } = req.params;
 
-    if (!photoId) {
-      throw new AppError(400, "photoId is missing");
-    }
-
     const photo = await listOnePhotoService(photoId);
 
     return res.status(200).json({

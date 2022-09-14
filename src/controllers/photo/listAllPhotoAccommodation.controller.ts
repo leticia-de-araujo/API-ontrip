@@ -9,10 +9,6 @@ export const listAllPhotoAccommodationController = async (
   try {
     const { accommodationId } = req.params;
 
-    if (!accommodationId) {
-      throw new AppError(400, "accommodationId is missing");
-    }
-
     const accommodationPhotos = await listAllPhotoAccommodationService(
       accommodationId
     );
