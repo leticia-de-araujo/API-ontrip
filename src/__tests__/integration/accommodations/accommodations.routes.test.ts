@@ -28,6 +28,7 @@ import {
   mockedAccommodationTooLarge,
   mockedAccommodationTooLargePatch,
 } from "../../mocks/accommodationMocks";
+import { mockedAddress } from "../../mocks/addressMocks";
 
 describe("/accommodations", () => {
   let connection: DataSource;
@@ -137,7 +138,6 @@ describe("/accommodations", () => {
       .post("/accommodations")
       .send(genericAccommodation)
       .set("Authorization", `Bearer ${genericUserToken}`);
-
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty(
@@ -335,8 +335,13 @@ describe("/accommodations", () => {
 
   test("GET /accommodations/:id - Should be able to list an accommodation", async () => {
     const accommodations = await request(app).get("/accommodations");
-
     const accommodationId = accommodations.body.accommodations[0].id;
+
+    mockedAddress.accommodationId = accommodationId;
+    const address = await request(app)
+      .post("/addresses")
+      .send(mockedAddress)
+      .set("Authorization", `Bearer ${genericUserToken}`);
 
     const response = await request(app)
       .get(`/accommodations/${accommodationId}`)
