@@ -58,13 +58,13 @@ const createBookingService = async ({
 
   await bookingRepository.save(newBooking);
 
-  // if (newBooking) {
-  //   const subject = "Booking";
-  //   const text = `Congratulations, you have sucessfully booked the accommodation ${accommodation.name}, remember the checkIn will be available on ${checkIn} at 12:00 am!`;
-  //   const to = user.email;
+  if (newBooking) {
+    const subject = "Booking";
+    const text = `Congratulations, you have sucessfully booked the accommodation ${accommodation.name}, remember the checkIn will be available on ${checkIn} at 12:00 am!`;
+    const to = user.email;
 
-  //   await sendEmail({ subject, text, to });
-  // }
+    await sendEmail({ subject, text, to });
+  }
 
   return newBooking;
 };

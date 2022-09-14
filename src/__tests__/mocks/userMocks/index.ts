@@ -6,7 +6,7 @@ import {
 
 export const mockedUser: IUserRequest = {
   username: "Hitalo",
-  email: "hitalo@mail.com",
+  email: "ontripm4@gmail.com",
   password: "123!Aa",
   dateOfBirth: "2000/02/11",
   isAdm: false,
@@ -14,7 +14,7 @@ export const mockedUser: IUserRequest = {
 
 export const mockedUser2: IUserRequest = {
   username: "hitalo Atalaia",
-  email: "hitalo@mail.com",
+  email: "ontripm4@gmail.com",
   password: "123!Aa",
   dateOfBirth: "1998/02/11",
   isAdm: false,
@@ -78,7 +78,7 @@ export const mockedAdmin: IUserRequest = {
 };
 
 export const mockedUserLogin: IUserLogin = {
-  email: "hitalo@mail.com",
+  email: "ontripm4@gmail.com",
   password: "123!Aa",
 };
 
