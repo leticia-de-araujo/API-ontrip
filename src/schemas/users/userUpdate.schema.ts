@@ -5,11 +5,23 @@ import { IUserRequestPatch } from "../../interfaces/users";
 const userPatchSchema: SchemaOf<IUserRequestPatch> = yup.object().shape({
   username: yup
     .string()
-    .matches(/^[A-Za-z\s]*$/)
+    .matches(/^[A-Za-z\s]*$/, "UserName field can have only letters and spaces")
     .notRequired()
-    .max(20),
-  email: yup.string().email().notRequired().max(30),
-  password: yup.string().notRequired().min(4).max(50),
+    .max(20, "UserName field should have up to 20 characters"),
+  email: yup
+    .string()
+    .email()
+    .notRequired()
+    .max(30, "Email field should have up to 30 characters"),
+  password: yup
+    .string()
+    .matches(
+      /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/,
+      "Password field must have at least 1 capital letter, 1 lower case letter, 1 number and 1 special character"
+    )
+    .notRequired()
+    .min(4, "Password field should have at least 4 characters")
+    .max(50, "Password field should have up to 50 characters"),
   dateOfBirth: yup
     .string()
     .notRequired()
