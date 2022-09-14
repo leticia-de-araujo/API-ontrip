@@ -10,15 +10,17 @@ export const bookingAvailability = (
 
   let result = false;
   array.forEach((booking) => {
-    const oCheckIn = Number(booking.checkIn.split("/").join(""));
-    const oCheckOut = Number(booking.checkOut.split("/").join(""));
+    if (booking.status != "cancelled") {
+      const oCheckIn = Number(booking.checkIn.split("/").join(""));
+      const oCheckOut = Number(booking.checkOut.split("/").join(""));
 
-    const case1 = nCheckIn > oCheckIn && nCheckIn < oCheckOut;
-    const case2 = nCheckOut > oCheckIn && nCheckOut < oCheckOut;
-    const case3 = nCheckIn < oCheckIn && nCheckOut > oCheckOut;
+      const case1 = nCheckIn > oCheckIn && nCheckIn < oCheckOut;
+      const case2 = nCheckOut > oCheckIn && nCheckOut < oCheckOut;
+      const case3 = nCheckIn < oCheckIn && nCheckOut > oCheckOut;
 
-    if (case1 || case2 || case3) {
-      result = true;
+      if (case1 || case2 || case3) {
+        result = true;
+      }
     }
   });
   return result;

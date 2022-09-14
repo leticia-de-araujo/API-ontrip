@@ -32,6 +32,7 @@ const createBookingService = async ({
   const findEqualBooking = await bookingRepository.findOneBy({
     user: user,
     accommodation: accommodation,
+    status: "booked",
     checkIn: checkIn,
     checkOut: checkOut,
   });
@@ -58,13 +59,13 @@ const createBookingService = async ({
 
   await bookingRepository.save(newBooking);
 
-  if (newBooking) {
+  /*   if (newBooking) {
     const subject = "Booking";
     const text = `Congratulations, you have sucessfully booked the accommodation ${accommodation.name}, remember the checkIn will be available on ${checkIn} at 12:00 am!`;
     const to = user.email;
 
     await sendEmail({ subject, text, to });
-  }
+  } */
 
   return newBooking;
 };
