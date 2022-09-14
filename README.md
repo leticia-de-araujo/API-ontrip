@@ -794,7 +794,7 @@ The Accommodation object is defined as:
 | isActive      | boolean  | Defines whether the accommodation is active or not                       |
 | verifiedByAdm | boolean  | Defines whether the accommodation is verified by an administrator or not |
 | specialOffer  | boolean  | Defines whether the accommodation has a special offer or not             |
-| owner          | object   | User who owns the accommodation                                          |
+| owner         | object   | User who owns the accommodation                                          |
 | type          | object   | Accommodation type                                                       |
 | capacity      | object   | Accommodation capacity                                                   |
 | category      | object   | Accommodation category                                                   |
@@ -1594,6 +1594,18 @@ The Booking object is defined as:
   "status": "Error",
   "code": 400,
   "message": "yup error message"
+}
+```
+
+<br>
+
+**Status 400 - Unavailable booking dates**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "These dates are unavailable"
 }
 ```
 
