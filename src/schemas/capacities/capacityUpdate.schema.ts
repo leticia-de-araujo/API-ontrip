@@ -8,23 +8,23 @@ const capacityUpdateSchema: SchemaOf<ICapacityRequestPatch> = yup
     rooms: yup
       .number()
       .notRequired()
-      .max(10, "Rooms field should have up to 10 characters")
-      .min(1, "Rooms field should have at least 1 character"),
+      .max(10, "The maximum number of rooms is 10")
+      .min(1, "The minimum number of rooms is 1"),
     beds: yup
       .number()
       .notRequired()
-      .max(10, "Beds field should have up to 10 characters")
-      .min(1, "Beds field should have at least 1 character"),
+      .max(10, "The maximum number of beds is 10")
+      .min(1, "The minimum number of beds is 1"),
     totalGuests: yup
       .number()
       .notRequired()
-      .max(10, "TotalGuests field should have up to 10 characters")
-      .min(1, "TotalGuests field should have at least 1 character"),
+      .max(10, "The maximum number of totalGuests is 10")
+      .min(1, "The minimum number of totalGuests is 1"),
     bathrooms: yup
       .number()
       .notRequired()
-      .max(10, "Bathrooms field should have up to 10 characters")
-      .min(1, "Bathrooms field should have at least 1 character"),
+      .max(10, "The maximum number of bathrooms is 10")
+      .min(1, "The minimum number of bathrooms is 1"),
   });
 
 export default capacityUpdateSchema;
