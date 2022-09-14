@@ -339,6 +339,18 @@ The User object is defined as:
 
 <br>
 
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
+
 #
 
 ## GET /users/:userId
@@ -439,6 +451,20 @@ The User object is defined as:
   "message": "User not found"
 }
 ```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
 
 #
 
@@ -580,6 +606,18 @@ The User object is defined as:
 
 <br>
 
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
+
 #
 
 ## DELETE /users/:userId
@@ -679,6 +717,18 @@ The User object is defined as:
   "status": "Error",
   "code": 400,
   "message": "User already deleted"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -794,7 +844,7 @@ The Accommodation object is defined as:
 | isActive      | boolean  | Defines whether the accommodation is active or not                       |
 | verifiedByAdm | boolean  | Defines whether the accommodation is verified by an administrator or not |
 | specialOffer  | boolean  | Defines whether the accommodation has a special offer or not             |
-| owner          | object   | User who owns the accommodation                                          |
+| owner         | object   | User who owns the accommodation                                          |
 | type          | object   | Accommodation type                                                       |
 | capacity      | object   | Accommodation capacity                                                   |
 | category      | object   | Accommodation category                                                   |
@@ -1006,6 +1056,18 @@ The Accommodation object is defined as:
   "status": "Error",
   "code": 404,
   "message": "Category not found"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -1348,6 +1410,18 @@ The Accommodation object is defined as:
 
 <br>
 
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
+
 #
 
 ## DELETE /accommodations/:accommodationId
@@ -1449,6 +1523,18 @@ The Accommodation object is defined as:
   "status": "Error",
   "code": 404,
   "message": "Accommodation not found"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -1599,6 +1685,18 @@ The Booking object is defined as:
 
 <br>
 
+**Status 400 - Unavailable booking dates**
+
+```json
+{
+  "status": "Error",
+  "code": 400,
+  "message": "These dates are unavailable"
+}
+```
+
+<br>
+
 **Status 409 - Booking already registered**
 
 ```json
@@ -1606,6 +1704,18 @@ The Booking object is defined as:
   "status": "Error",
   "code": 409,
   "message": "This booking is already registered"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -1699,6 +1809,18 @@ The Booking object is defined as:
   "status": "Error",
   "code": 401,
   "message": "User is not an admin"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -1806,6 +1928,18 @@ The Booking object is defined as:
 
 <br>
 
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
+
 #
 
 ## DELETE /bookings/:bookingId
@@ -1907,6 +2041,18 @@ The Booking object is defined as:
   "status": "Error",
   "code": 404,
   "message": "Booking not found"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -2098,6 +2244,18 @@ The Address object is defined as:
 
 <br>
 
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
+
 #
 
 ## PATCH /addresses/:addressId
@@ -2251,6 +2409,18 @@ The Address object is defined as:
   "status": "Error",
   "code": 404,
   "message": "Accommodation not found"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -2413,6 +2583,18 @@ The Category object is defined as:
   "status": "Error",
   "code": 409,
   "message": "This category already exists"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -2646,6 +2828,18 @@ The Category object is defined as:
 
 <br>
 
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
+
 #
 
 ## DELETE /categories/:categoryId
@@ -2745,6 +2939,18 @@ The Category object is defined as:
   "status": "Error",
   "code": 400,
   "message": "Category already deleted"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -2916,6 +3122,18 @@ The Capacity object is defined as:
   "status": "Error",
   "code": 409,
   "message": "This capacity already exists"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -3165,6 +3383,18 @@ The Capacity object is defined as:
 
 <br>
 
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
+
 #
 
 ## DELETE /capacities/:capacityId
@@ -3266,6 +3496,18 @@ The Capacity object is defined as:
   "status": "Error",
   "code": 400,
   "message": "Capacity already deleted"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -3426,6 +3668,18 @@ The Type object is defined as:
   "status": "Error",
   "code": 409,
   "message": "This type already exists"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -3659,6 +3913,18 @@ The Type object is defined as:
 
 <br>
 
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
+}
+```
+
+<br>
+
 #
 
 ## DELETE /types/:typeId
@@ -3758,6 +4024,18 @@ The Type object is defined as:
   "status": "Error",
   "code": 400,
   "message": "Type already deleted"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -3928,6 +4206,18 @@ The Photo object is defined as:
   "status": "Error",
   "code": 409,
   "message": "Photo already registered in this accommodation"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
@@ -4163,6 +4453,18 @@ The Photo object is defined as:
   "status": "Error",
   "code": 400,
   "message": "Photo already deleted"
+}
+```
+
+<br>
+
+**Status 400 - Account is deactivated**
+
+```json
+{
+  "status": "Error",
+  "code": 401,
+  "message": "Account deactivated, please contact our customer services for more information"
 }
 ```
 
