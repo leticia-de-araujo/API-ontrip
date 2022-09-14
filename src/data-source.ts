@@ -10,8 +10,7 @@ const AppDataSource = new DataSource(
         synchronize: true,
         entities: ["src/entities/*.ts"],
       }
-    : 
-    process.env.NODE_ENV === "migration"
+    : process.env.NODE_ENV === "migration"
     ? {
         type: "postgres",
         host: "localhost",
@@ -31,15 +30,15 @@ const AppDataSource = new DataSource(
           process.env.NODE_ENV === "production"
             ? { rejectUnauthorized: false }
             : false,
-        synchronize: true,
+        synchronize: false,
         logging: true,
         entities:
           process.env.NODE_ENV === "production"
-            ? ["dist/entities/*.js"]
+            ? ["dist/src/entities/*.js"]
             : ["src/entities/*.ts"],
         migrations:
           process.env.NODE_ENV === "production"
-            ? ["dist/migrations/*.js"]
+            ? ["dist/src/migrations/*.js"]
             : ["src/migrations/*.ts"],
       }
 );
