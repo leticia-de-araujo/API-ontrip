@@ -794,7 +794,7 @@ The Accommodation object is defined as:
 | isActive      | boolean  | Defines whether the accommodation is active or not                       |
 | verifiedByAdm | boolean  | Defines whether the accommodation is verified by an administrator or not |
 | specialOffer  | boolean  | Defines whether the accommodation has a special offer or not             |
-| user          | object   | User who owns the accommodation                                          |
+| owner          | object   | User who owns the accommodation                                          |
 | type          | object   | Accommodation type                                                       |
 | capacity      | object   | Accommodation capacity                                                   |
 | category      | object   | Accommodation category                                                   |
@@ -875,7 +875,7 @@ The Accommodation object is defined as:
     "type": {
       "name": "A whole place"
     },
-    "user": {
+    "owner": {
       "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
       "username": "Bob Spencer",
       "email": "bobspencer@email.com",
@@ -1049,7 +1049,7 @@ The Accommodation object is defined as:
       "type": {
         "name": "A whole place"
       },
-      "user": {
+      "owner": {
         "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
         "username": "Bob Spencer",
         "email": "bobspencer@email.com",
@@ -1118,7 +1118,7 @@ The Accommodation object is defined as:
     "type": {
       "name": "A whole place"
     },
-    "user": {
+    "owner": {
       "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
       "username": "Bob Spencer",
       "email": "bobspencer@email.com",
@@ -1224,7 +1224,7 @@ The Accommodation object is defined as:
     "type": {
       "name": "A whole place"
     },
-    "user": {
+    "owner": {
       "id": "f1719800-2e5a-4270-88de-64380f73dd3d",
       "username": "Bob Spencer",
       "email": "bobspencer@email.com",
@@ -3784,12 +3784,12 @@ The Photo object is defined as:
 
 ### **Endpoints**
 
-| **Method** | **Route**                         | **Description**                                                                                |
-| ---------- | --------------------------------- | ---------------------------------------------------------------------------------------------- |
-| POST       | /photos/:accommodationId          | Creates a new photo of an accommodation using the accommodation ID as a parameter              |
-| GET        | /photos/:accommodationId          | Lists all photos of an accommodation using the accommodation ID as a parameter                 |
-| GET        | /photos/:accommodationId/:photoId | Lists a photo of an accommodation using the accommodation ID and photo ID as parameters        |
-| DELETE     | /photos/:accommodationId/:photoId | Soft-deletes a photo of an accommodation using the accommodation ID and photo ID as parameters |
+| **Method** | **Route**                | **Description**                                                                                |
+| ---------- | ------------------------ | ---------------------------------------------------------------------------------------------- |
+| POST       | /photos/:accommodationId | Creates a new photo of an accommodation using the accommodation ID as a parameter              |
+| GET        | /photos/:accommodationId | Lists all photos of an accommodation using the accommodation ID as a parameter                 |
+| GET        | /photos/:photoId         | Lists a photo of an accommodation using the accommodation ID and photo ID as parameters        |
+| DELETE     | /photos/:photoId         | Soft-deletes a photo of an accommodation using the accommodation ID and photo ID as parameters |
 
 <br>
 
@@ -3990,7 +3990,7 @@ The Photo object is defined as:
 
 #
 
-## GET /photos/:accommodationId/:photoId
+## GET /photos/:photoId
 
 [ Back to endpoints index ](#index)
 
@@ -4054,7 +4054,7 @@ The Photo object is defined as:
 
 #
 
-## DELETE /photos/:accommodationId/:photoId
+## DELETE /photos/:photoId
 
 [ Back to endpoints index ](#index)
 

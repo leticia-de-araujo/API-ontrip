@@ -7,13 +7,13 @@ const accommodationCreateSchema: SchemaOf<IAccommodationRequest> = yup
   .shape({
     name: yup
       .string()
-      .matches(/^[A-Za-z\s]*$/, "Name field can have only letters and spaces")
+      .matches(/^[A-Za-z\s]*$/, "name field can have only letters and spaces")
       .required()
-      .max(35, "Name field should have up to 35 characters"),
+      .max(35, "name field should have up to 35 characters"),
     description: yup
       .string()
       .required()
-      .max(200, "Description field should have up to 200 characters"),
+      .max(200, "description field should have up to 200 characters"),
     dailyPrice: yup.number().required(),
     typeId: yup.string().required(),
     userId: yup.string().required(),
