@@ -6,6 +6,7 @@ import { User } from "../../entities/users.entity";
 import { AppError } from "../../errors/AppError";
 import { IBookingRequest } from "../../interfaces/bookings";
 import { IEmailRequest } from "../../interfaces/email/email";
+import { bookingAvailability } from "../../utils/bookingAvailability";
 import { sendEmail } from "../../utils/nodemailer.util";
 
 const createBookingService = async ({
@@ -37,6 +38,15 @@ const createBookingService = async ({
 
   if (findEqualBooking) {
     throw new AppError(409, "This booking is already registered");
+  }
+
+  const allBookings = await bookingRepository.find({
+    where: { accommodation: accommodation },
+  });
+
+  const checkAvailability = bookingAvailability(checkIn, checkOut, allBookings);
+  if (checkAvailability) {
+    throw new AppError(400, "These dates are unavailable");
   }
 
   const newBooking = bookingRepository.create({
