@@ -32,6 +32,7 @@ const createBookingService = async ({
   const findEqualBooking = await bookingRepository.findOneBy({
     user: user,
     accommodation: accommodation,
+    status: "booked",
     checkIn: checkIn,
     checkOut: checkOut,
   });
